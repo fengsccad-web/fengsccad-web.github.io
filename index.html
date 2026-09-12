@@ -1,0 +1,1154 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>云南大学2026级研究生自用手册</title>
+<style>:root{
+  --ink:#111111; --red:#c0201c; --muted:#666666;
+  --line:#d6d6d6; --soft:#f5f5f5; --side:#fafafa;
+  --sidew:292px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:#fff; color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC",-apple-system,"Helvetica Neue",sans-serif;
+  font-size:15px; line-height:1.72;
+  -webkit-text-size-adjust:100%;
+}
+
+/* ---------- sidebar ---------- */
+.side{
+  position:fixed; top:0; left:0; width:var(--sidew); height:100vh; height:100dvh;
+  overflow-y:auto; overscroll-behavior:contain;
+  background:var(--side); border-right:1px solid var(--line); z-index:40;
+}
+.side-head{
+  position:sticky; top:0; z-index:2; background:var(--side);
+  padding:15px 18px 11px; border-bottom:1px solid var(--line);
+}
+.side-head b{display:block; font-size:15px; letter-spacing:.5px}
+.side-head i{display:block; font-style:normal; font-size:12px; color:var(--muted); margin-top:2px}
+.tree{padding:6px 0 60px}
+.tree ul{list-style:none; margin:0; padding:0}
+.tree li{margin:0}
+.row{display:flex; align-items:flex-start; border-left:3px solid transparent}
+.row:hover{background:#f0f0f0}
+.row.on{background:#f0eeea; border-left-color:var(--red)}
+.row.on a{color:var(--red); font-weight:700}
+.tree a{
+  flex:1; min-width:0; color:var(--ink); text-decoration:none;
+  padding:5px 14px 5px 0; display:block;
+}
+.tw{
+  flex:0 0 26px; width:26px; border:0; background:none; cursor:pointer;
+  color:#888; font-size:12px; line-height:1; padding:9px 0 9px 6px; text-align:center;
+  transition:transform .18s ease;
+}
+.tw:hover{color:var(--red)}
+li.closed > .row .tw{transform:rotate(-90deg)}
+li.closed > ul{display:none}
+
+.lv1row{margin-top:9px; border-top:1px solid #e6e6e6}
+.lv1row a{font-size:14.5px; font-weight:700; letter-spacing:.3px; padding-top:7px; padding-bottom:7px}
+/* rows with and without a toggle must start their text at the same x */
+.lv2row a{padding-left:26px; font-size:13.5px}
+.lv2row .tw + a{padding-left:0}
+.lv3row a{padding-left:44px; font-size:13px; color:var(--muted); padding-top:4px; padding-bottom:4px}
+.lv3row.on a{color:var(--red)}
+
+/* ---------- main ---------- */
+.main{margin-left:var(--sidew)}
+.wrap{max-width:880px; margin:0 auto; padding:0 34px 100px}
+.topbar{
+  display:none; position:sticky; top:0; z-index:30;
+  background:rgba(255,255,255,.96); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line); padding:9px 14px; align-items:center; gap:11px;
+}
+.topbar button{
+  border:1px solid var(--line); background:#fff; border-radius:5px;
+  padding:6px 12px; font-size:14px; color:var(--ink); cursor:pointer; font-family:inherit;
+}
+.topbar span{font-size:13px; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.backdrop{
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.42); z-index:35;
+}
+body.nav-open .backdrop{display:block}
+
+/* ---------- content ---------- */
+h1,h2,h3,h4{page-break-after:avoid; break-after:avoid}
+h1{font-size:23px; margin:0 0 16px; padding-bottom:9px; border-bottom:2px solid #000; scroll-margin-top:22px}
+h1 + *{margin-top:0}
+.chapter{margin-top:58px}
+.chapter:first-of-type{margin-top:30px}
+h2{
+  font-size:18.5px; margin:34px 0 11px; padding-left:11px;
+  border-left:4px solid var(--red); scroll-margin-top:22px;
+}
+h3{font-size:15.5px; margin:23px 0 8px; scroll-margin-top:22px}
+h4{font-size:14.5px; margin:18px 0 6px; color:#333}
+p{margin:9px 0}
+strong{color:var(--red); font-weight:700}
+em{font-style:normal; color:var(--red)}
+ul,ol{margin:9px 0; padding-left:22px}
+li{margin:3px 0}
+hr{border:0; border-top:1px solid var(--line); margin:22px 0}
+a{color:var(--ink); text-decoration:none; word-break:break-all}
+a:hover{color:var(--red)}
+code{background:var(--soft); padding:2px 5px; border-radius:3px; font-family:Consolas,monospace; font-size:13px}
+
+.tblwrap{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:12px 0}
+table{border-collapse:collapse; width:100%; font-size:14px; background:#fff}
+th{background:#111; color:#fff; font-weight:600}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+tbody tr:nth-child(even){background:var(--soft)}
+tbody tr:hover{background:#f0eeea}
+
+.callout{
+  margin:12px 0; padding:10px 14px; border-left:3px solid var(--line);
+  background:var(--soft); font-size:14.5px;
+}
+
+.intro{
+  margin:26px 0 0; padding:16px 18px; background:var(--soft);
+  border-left:4px solid var(--red); border-radius:0 4px 4px 0;
+}
+.intro h1{font-size:16px; border:0; margin:0 0 8px; padding:0; color:#000}
+.intro p{font-size:14px; margin:6px 0; color:#333}
+
+/* ---------- mobile ---------- */
+@media (max-width:900px){
+  .side{
+    width:min(84vw,320px); transform:translateX(-100%);
+    transition:transform .24s ease; box-shadow:0 0 24px rgba(0,0,0,.22);
+  }
+  body.nav-open .side{transform:none}
+  .main{margin-left:0}
+  .topbar{display:flex}
+  .wrap{padding:0 16px 90px}
+  body{font-size:15.5px}
+  h1{font-size:20px; scroll-margin-top:62px}
+  h2{font-size:17px; margin-top:28px; scroll-margin-top:62px}
+  h3{font-size:15px; scroll-margin-top:62px}
+  table{font-size:13.5px}
+  th,td{padding:6px 9px}
+  .chapter{margin-top:40px}
+}
+
+/* ---------- print: no sidebar, same look as the PDF ---------- */
+@media print{
+  .side,.topbar,.backdrop{display:none !important}
+  .main{margin-left:0}
+  .wrap{max-width:none; padding:0}
+  body{font-size:10.5pt; line-height:1.5}
+  .chapter{margin-top:0}
+  h1{font-size:15.5pt; page-break-before:always; margin:0 0 10px; padding-bottom:4px}
+  h2{font-size:12pt; margin:13px 0 5px; padding-left:8px; border-left:3px solid var(--red)}
+  h3{font-size:11pt; margin:10px 0 4px}
+  p{margin:4px 0}
+  table{font-size:9.5pt; page-break-inside:auto}
+  th,td{padding:4px 7px}
+  thead{display:table-header-group}
+  tr{page-break-inside:avoid}
+  .tblwrap{overflow:visible; margin:7px 0}
+  .intro{page-break-inside:avoid}
+  @page{size:A4; margin:15mm 15mm 13mm 15mm}
+}
+</style>
+</head><body>
+
+<aside class="side">
+  <div class="side-head"><b>云南大学</b><i>2026级研究生自用手册</i></div>
+  <nav class="tree"><ul><li><div class="row lv1row"><a href="#sec1">一、奖助学金</a></div><ul><li><div class="row lv2row"><a href="#sec2">1.1 我能拿到多少钱</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec3">1.2 学业奖学金</a></div><ul><li><div class="row lv3row"><a href="#sec4">等级、标准及覆盖面</a></div></li><li><div class="row lv3row"><a href="#sec5">新生直接定级</a></div></li><li><div class="row lv3row"><a href="#sec6">二、三年级评定</a></div></li><li><div class="row lv3row"><a href="#sec7">发放的三种特殊状态</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec8">1.3 国家奖学金、省政府奖学金与优秀研究生干部</a></div><ul><li><div class="row lv3row"><a href="#sec9">取消荣誉与追回</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec10">1.4 国家助学金</a></div></li><li><div class="row lv2row"><a href="#sec11">1.5 奖学金一览表</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec12">1.6 各奖学金申请条件一览表</a></div><ul><li><div class="row lv3row"><a href="#sec13">兼得规则</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec14">1.7 身份认定与无申请资格情形</a></div><ul><li><div class="row lv3row"><a href="#sec15">身份认定</a></div></li><li><div class="row lv3row"><a href="#sec16">无申请资格的九种情况</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec17">1.8 综合素质测评办法</a></div><ul><li><div class="row lv3row"><a href="#sec18">成绩构成</a></div></li><li><div class="row lv3row"><a href="#sec19">思想道德素质</a></div></li><li><div class="row lv3row"><a href="#sec20">学业水平与专业素质</a></div></li><li><div class="row lv3row"><a href="#sec21">综合素质拓展</a></div></li><li><div class="row lv3row"><a href="#sec22">组织实施与公示</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec23">1.9 评审程序与申诉</a></div><ul><li><div class="row lv3row"><a href="#sec24">评审组织</a></div></li><li><div class="row lv3row"><a href="#sec25">评审原则</a></div></li><li><div class="row lv3row"><a href="#sec26">评审程序</a></div></li><li><div class="row lv3row"><a href="#sec27">异议与申诉</a></div></li><li><div class="row lv3row"><a href="#sec28">发放时间</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec29">1.10 其他资助与荣誉</a></div></li><li><div class="row lv2row"><a href="#sec30">1.11 竞赛与创新实践资助</a></div></li><li><div class="row lv2row"><a href="#sec31">1.12 原文位置</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec32">二、党团发展</a></div><ul><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec33">2.1 组织关系转接</a></div><ul><li><div class="row lv3row"><a href="#sec34">党员</a></div></li><li><div class="row lv3row"><a href="#sec35">团员</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec36">2.2 发展党员全流程</a></div><ul><li><div class="row lv3row"><a href="#sec37">时间轴</a></div></li><li><div class="row lv3row"><a href="#sec38">指导方针</a></div></li><li><div class="row lv3row"><a href="#sec39">分阶段操作要点</a></div></li><li><div class="row lv3row"><a href="#sec40">责任追究</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec41">2.3 推优入党</a></div><ul><li><div class="row lv3row"><a href="#sec42">对象及条件</a></div></li><li><div class="row lv3row"><a href="#sec43">程序</a></div></li><li><div class="row lv3row"><a href="#sec44">培养与纪律</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec45">2.4 三会两制一课</a></div><ul><li><div class="row lv3row"><a href="#sec46">三会</a></div></li><li><div class="row lv3row"><a href="#sec47">团员教育评议制度</a></div></li><li><div class="row lv3row"><a href="#sec48">团员年度团籍注册制度</a></div></li><li><div class="row lv3row"><a href="#sec49">团课</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec50">2.5 其他党团文件</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec51">三、学籍与课程</a></div><ul><li><div class="row lv2row"><a href="#sec52">3.1 学习年限</a></div></li><li><div class="row lv2row"><a href="#sec53">3.2 注册</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec54">3.3 纪律与考勤</a></div><ul><li><div class="row lv3row"><a href="#sec55">旷课处分阶梯</a></div></li><li><div class="row lv3row"><a href="#sec56">请假审批层级</a></div></li><li><div class="row lv3row"><a href="#sec57">请假类型与销假</a></div></li><li><div class="row lv3row"><a href="#sec58">出国与出境</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec59">3.4 课程考核与成绩记载</a></div><ul><li><div class="row lv3row"><a href="#sec60">成绩管理</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec61">3.5 选课与课程请假</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec62">3.6 缓考、补考与重修</a></div><ul><li><div class="row lv3row"><a href="#sec63">可以申请缓考的三种情形</a></div></li><li><div class="row lv3row"><a href="#sec64">缓考申请与规则</a></div></li><li><div class="row lv3row"><a href="#sec65">补考与重修</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec66">3.7 英语免修</a></div></li><li><div class="row lv2row"><a href="#sec67">3.8 学分绩点换算</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec68">3.9 转专业、转学、转导师</a></div><ul><li><div class="row lv3row"><a href="#sec69">转专业</a></div></li><li><div class="row lv3row"><a href="#sec70">转导师</a></div></li><li><div class="row lv3row"><a href="#sec71">转学</a></div></li><li><div class="row lv3row"><a href="#sec72">硕博连读生、直博生转硕</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec73">3.10 休学与复学</a></div><ul><li><div class="row lv3row"><a href="#sec74">应予休学的五种情形</a></div></li><li><div class="row lv3row"><a href="#sec75">休学手续与期间待遇</a></div></li><li><div class="row lv3row"><a href="#sec76">复学</a></div></li><li><div class="row lv3row"><a href="#sec77">应征入伍</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec78">3.11 退学</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec79">3.12 奖励与处分</a></div><ul><li><div class="row lv3row"><a href="#sec80">开除学籍的八种情形</a></div></li><li><div class="row lv3row"><a href="#sec81">程序保障</a></div></li><li><div class="row lv3row"><a href="#sec82">处分期限与解除</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec83">3.13 申诉</a></div></li><li><div class="row lv2row"><a href="#sec84">3.14 毕业、结业与肄业</a></div></li><li><div class="row lv2row"><a href="#sec85">3.15 原文位置</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec86">四、培养与学术考核</a></div><ul><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec87">4.1 学位论文开题</a></div><ul><li><div class="row lv3row"><a href="#sec88">时间要求</a></div></li><li><div class="row lv3row"><a href="#sec89">基本要求</a></div></li><li><div class="row lv3row"><a href="#sec90">开题报告应包含的八项内容</a></div></li><li><div class="row lv3row"><a href="#sec91">开题答辩评审成员</a></div></li><li><div class="row lv3row"><a href="#sec92">评审结果</a></div></li><li><div class="row lv3row"><a href="#sec93">结果上报</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec94">4.2 中期考核与分流</a></div><ul><li><div class="row lv3row"><a href="#sec95">基本规则</a></div></li><li><div class="row lv3row"><a href="#sec96">组织</a></div></li><li><div class="row lv3row"><a href="#sec97">考核内容</a></div></li><li><div class="row lv3row"><a href="#sec98">考核程序</a></div></li><li><div class="row lv3row"><a href="#sec99">考核结果等级</a></div></li><li><div class="row lv3row"><a href="#sec100">考核不合格的七种情况</a></div></li><li><div class="row lv3row"><a href="#sec101">分流处理</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec102">4.3 学术道德规范及违规处理</a></div><ul><li><div class="row lv3row"><a href="#sec103">适用范围</a></div></li><li><div class="row lv3row"><a href="#sec104">学术道德基本规范</a></div></li><li><div class="row lv3row"><a href="#sec105">违反学术道德规范的八类行为</a></div></li><li><div class="row lv3row"><a href="#sec106">调查与处理程序</a></div></li><li><div class="row lv3row"><a href="#sec107">惩处</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec108">4.4 学位论文作假与评阅</a></div></li><li><div class="row lv2row"><a href="#sec109">4.5 其他培养相关规定</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec110">五、医疗保障</a></div><ul><li><div class="row lv2row"><a href="#sec111">5.1 基本规则</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec112">5.2 参保与缴费</a></div><ul><li><div class="row lv3row"><a href="#sec113">时间与渠道</a></div></li><li><div class="row lv3row"><a href="#sec114">参保范围</a></div></li><li><div class="row lv3row"><a href="#sec115">特殊身份学生</a></div></li><li><div class="row lv3row"><a href="#sec116">待遇等待期</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec117">5.3 医保待遇</a></div><ul><li><div class="row lv3row"><a href="#sec118">待遇享受期</a></div></li><li><div class="row lv3row"><a href="#sec119">待遇项目</a></div></li><li><div class="row lv3row"><a href="#sec120">大病保险待遇标准</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec121">5.4 社会保障卡</a></div></li><li><div class="row lv2row"><a href="#sec122">5.5 联系方式与原文位置</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec123">六、纪律红线与权益救济</a></div><ul><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec124">6.1 处分种类与期限</a></div><ul><li><div class="row lv3row"><a href="#sec125">可以从轻或减轻处分的三种情形</a></div></li><li><div class="row lv3row"><a href="#sec126">从重或加重处分的八种情形</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec127">6.2 违纪行为红线</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec128">6.3 申诉</a></div><ul><li><div class="row lv3row"><a href="#sec129">时间表</a></div></li><li><div class="row lv3row"><a href="#sec130">申诉书要求</a></div></li><li><div class="row lv3row"><a href="#sec131">复查</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec132">6.4 处分解除</a></div><ul><li><div class="row lv3row"><a href="#sec133">不予解除处分的三种情形</a></div></li><li><div class="row lv3row"><a href="#sec134">申请条件</a></div></li><li><div class="row lv3row"><a href="#sec135">工作程序</a></div></li><li><div class="row lv3row"><a href="#sec136">归口部门</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec137">6.5 住宿管理</a></div><ul><li><div class="row lv3row"><a href="#sec138">寝室内严禁的行为</a></div></li><li><div class="row lv3row"><a href="#sec139">违纪记分</a></div></li><li><div class="row lv3row"><a href="#sec140">卫生检查与综合测评挂钩</a></div></li><li><div class="row lv3row"><a href="#sec141">公寓文化建设加分</a></div></li><li><div class="row lv3row"><a href="#sec142">住退宿要点</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec143">6.6 权益速查</a></div></li><li><div class="row lv2row"><a href="#sec144">6.7 原文位置</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec145">附录</a></div><ul><li><div class="row lv2row"><a href="#sec146">附录一 重要时间节点</a></div></li><li><div class="row lv2row"><a href="#sec147">附录二 常用电话</a></div></li><li><div class="row lv2row"><a href="#sec148">附录三 常用网址</a></div></li><li><div class="row lv2row"><a href="#sec149">附录四 未收入本手册的其他文件</a></div></li><li><div class="row lv2row"><a href="#sec150">附录五 说明</a></div></li></ul></li></ul></nav>
+</aside>
+
+<div class="backdrop" id="backdrop"></div>
+
+<div class="main">
+  <div class="topbar">
+    <button id="navbtn" type="button">☰ 目录</button>
+    <span>云南大学2026级研究生自用手册</span>
+  </div>
+  <div class="wrap">
+    <section class="intro"><h1>使用说明</h1><p>本手册只收录在读期间长期有效的规则：奖助学金、党团发展、学籍与课程、培养考核、医疗保障、纪律与权益救济。报到、选宿、户口、体检等一次性入学事务不在收录范围。</p>
+<p>所有数字、时限、比例均照学校原文抄录，未作近似。条款解释权归各归口部门，与官方文件冲突时以官方文件为准。</p>
+<p>每章末列出该章内容的原文位置，需要查证时按印刷页到研究生教育数字服务平台对照。</p></section>
+    <h1 id="sec1">一、奖助学金</h1>
+<h2 id="sec2">1.1 我能拿到多少钱</h2>
+<div class="tblwrap"><table><thead><tr><th>项目</th><th>硕士</th><th>博士</th><th>申报时间</th></tr></thead><tbody>
+<tr><td>国家助学金</td><td>0.6万元/年</td><td>1.3万元/年</td><td>入学即享</td></tr>
+<tr><td>学业奖学金 一年级</td><td>一等0.8万，二等0.3万</td><td>一等1.5万，二等1.0万</td><td>每年9、10月</td></tr>
+<tr><td>学业奖学金 二、三年级</td><td>一等0.8万（10%）、二等0.5万（20%）、三等0.3万（70%）</td><td>一等1.5万（20%）、二等1.0万（80%）</td><td>每年9、10月</td></tr>
+<tr><td>国家奖学金</td><td>2万元</td><td>3万元</td><td>按教育厅通知</td></tr>
+<tr><td>省政府奖学金</td><td>1万元</td><td>2万元</td><td>按教育厅通知</td></tr>
+<tr><td>优秀研究生干部</td><td>500元</td><td>500元</td><td>—</td></tr>
+</tbody></table></div>
+<p>国家助学金为普惠性质，除有固定工资收入者外人人有份。奖学金的参评前提是人事档案已转入学校，档案未寄达者没有参评资格。</p>
+<h2 id="sec3">1.2 学业奖学金</h2>
+<h3 id="sec4">等级、标准及覆盖面</h3>
+<div class="tblwrap"><table><thead><tr><th>研究生类别</th><th>年级</th><th>等级</th><th>金额（万元/生·年）</th><th>获奖比例</th></tr></thead><tbody>
+<tr><td>博士</td><td>一年级</td><td>一等</td><td>1.5</td><td>约30%</td></tr>
+<tr><td>博士</td><td>一年级</td><td>二等</td><td>1.0</td><td>约70%</td></tr>
+<tr><td>博士</td><td>二、三、四年级</td><td>一等</td><td>1.5</td><td>20%</td></tr>
+<tr><td>博士</td><td>二、三、四年级</td><td>二等</td><td>1.0</td><td>80%</td></tr>
+<tr><td>硕士</td><td>一年级</td><td>一等</td><td>0.8</td><td>约5%</td></tr>
+<tr><td>硕士</td><td>一年级</td><td>二等</td><td>0.3</td><td>约95%</td></tr>
+<tr><td>硕士</td><td>二、三年级</td><td>一等</td><td>0.8</td><td>10%</td></tr>
+<tr><td>硕士</td><td>二、三年级</td><td>二等</td><td>0.5</td><td>20%</td></tr>
+<tr><td>硕士</td><td>二、三年级</td><td>三等</td><td>0.3</td><td>70%</td></tr>
+</tbody></table></div>
+<h3 id="sec5">新生直接定级</h3>
+<ul><li>博士一年级：硕博连读及直博生直接获一等，其他研究生获二等</li><li>硕士一年级：高校免试推荐硕士研究生即推免生直接获一等，其他研究生获二等</li></ul>
+<p>统考录取的硕士新生入学第一年直接拿二等，无需竞争。真正的竞争从二年级开始，一等仅10%，二等20%，三等70%。</p>
+<h3 id="sec6">二、三年级评定</h3>
+<p>由各培养单位按学校调控的评选名额，根据专业、学科特点在本单位内组织评审。学校可根据收费标准、学业成绩、科研成果、社会服务等因素动态调整等级、标准及覆盖面。</p>
+<h3 id="sec7">发放的三种特殊状态</h3>
+<ol><li>保留入学资格期间不发放</li><li>退学者，从审批获准后下一个月起停止发放</li><li>休学期间不发放，复学后按正常学制发放</li></ol>
+<h2 id="sec8">1.3 国家奖学金、省政府奖学金与优秀研究生干部</h2>
+<p>国家奖学金由中央财政出资，博士3万元/生·年，硕士2万元/生·年。省政府奖学金由云南省政府出资，博士2万元/生·年，硕士1万元/生·年。两者名额和奖金严格按省财政厅、省教育厅当年下达指标及额度执行。</p>
+<p>优秀研究生干部奖学金由云南大学出资，金额500元/人，同时授予云南大学优秀研究生干部称号。申报条件与兼得规则见 1.6。</p>
+<h3 id="sec9">取消荣誉与追回</h3>
+<p>一经查实，学校将取消获奖荣誉、追回所发证书及奖学金，并视情况予以教育处理：</p>
+<ol><li>获奖者在申报中有弄虚作假行为</li><li>将学业奖学金用于与学习科研及基本生活无关的奢侈浪费行为</li></ol>
+<h2 id="sec10">1.4 国家助学金</h2>
+<p>对象为具有中华人民共和国国籍，且纳入国家研究生招生计划的所有全日制云南大学研究生，有固定工资收入的除外。博士1.3万元/生·年，硕士0.6万元/生·年。</p>
+<h2 id="sec11">1.5 奖学金一览表</h2>
+<div class="tblwrap"><table><thead><tr><th>奖学金名称</th><th>等级</th><th>获奖人数</th><th>申报时间</th><th>奖金（万元）</th></tr></thead><tbody>
+<tr><td>研究生国家奖学金</td><td>博士</td><td>按教育厅通知</td><td>按教育厅通知</td><td>3</td></tr>
+<tr><td>研究生国家奖学金</td><td>硕士</td><td>按教育厅通知</td><td>按教育厅通知</td><td>2</td></tr>
+<tr><td>研究生省政府奖学金</td><td>博士</td><td>按教育厅通知</td><td>按教育厅通知</td><td>2</td></tr>
+<tr><td>研究生省政府奖学金</td><td>硕士</td><td>按教育厅通知</td><td>按教育厅通知</td><td>1</td></tr>
+<tr><td>研究生学业奖学金</td><td>博士一等</td><td>按比例测算</td><td>9、10月</td><td>1.5</td></tr>
+<tr><td>研究生学业奖学金</td><td>博士二等</td><td>按比例测算</td><td>9、10月</td><td>1</td></tr>
+<tr><td>研究生学业奖学金</td><td>硕士一等</td><td>按比例测算</td><td>9、10月</td><td>0.8</td></tr>
+<tr><td>研究生学业奖学金</td><td>硕士二等</td><td>按比例测算</td><td>9、10月</td><td>一年级0.3，二三年级0.5</td></tr>
+<tr><td>研究生学业奖学金</td><td>硕士三等</td><td>按比例测算</td><td>9、10月</td><td>0.3</td></tr>
+<tr><td>优秀研究生干部</td><td>—</td><td>—</td><td>—</td><td>0.05</td></tr>
+<tr><td>岳虹研究生奖学金</td><td>—</td><td>100</td><td>11月</td><td>0.6</td></tr>
+<tr><td>富滇银行奖学金</td><td>优秀学生</td><td>40</td><td>11月</td><td>0.5</td></tr>
+<tr><td>熊庆来奖学金</td><td>—</td><td>10</td><td>10月</td><td>0.6</td></tr>
+<tr><td>方国瑜奖学金</td><td>—</td><td>10</td><td>10月</td><td>0.6</td></tr>
+<tr><td>张文勋奖学金</td><td>一等</td><td>2</td><td>4月</td><td>1</td></tr>
+<tr><td>张文勋奖学金</td><td>二等</td><td>4</td><td>4月</td><td>0.5</td></tr>
+<tr><td>校友励志银杏奖学金</td><td>—</td><td>20</td><td>5月</td><td>0.3</td></tr>
+<tr><td>宝钢奖学金</td><td>优秀学生特等奖</td><td>1</td><td>6月</td><td>2</td></tr>
+<tr><td>宝钢奖学金</td><td>优秀学生</td><td>5</td><td>6月</td><td>1</td></tr>
+<tr><td>比亚迪奖学金</td><td>优秀学生</td><td>19</td><td>11月</td><td>2</td></tr>
+</tbody></table></div>
+<p>奖学金奖励人数、金额根据教育部、云南省教育厅、学校最新文件调整，以最新文件及实际发放为准。</p>
+<p>按月份速查见附录一。</p>
+<h2 id="sec12">1.6 各奖学金申请条件一览表</h2>
+<p>所有奖学金都须先满足三条基本条件：热爱社会主义祖国，拥护中国共产党的领导；遵守国家法律法规和学校规章制度；诚实守信，品德优良。</p>
+<p>还须处在共同参评范围内：我校基本学制年限内在读；具有中华人民共和国国籍；入学时将人事档案转入学校，享受少数民族照顾政策学生除外；全日制且无固定收入。</p>
+<p>下表列出各奖项在此之上的额外条件。</p>
+<div class="tblwrap"><table><thead><tr><th>奖学金名称</th><th>额外条件</th></tr></thead><tbody>
+<tr><td>研究生国家奖学金</td><td>学习成绩优异，科研能力显著，发展潜力突出；当年毕业的研究生不具备申报资格</td></tr>
+<tr><td>研究生省政府奖学金</td><td>学习成绩优异，科研能力显著，发展潜力突出；当年毕业的研究生不具备申报资格</td></tr>
+<tr><td>研究生学业奖学金</td><td>达到综合素质测评成绩门槛：博士一等、硕士一等和二等不低于75分，且思想道德素质分不低于8分；博士二等、硕士三等不低于70分，且思想道德素质分不低于7分</td></tr>
+<tr><td>优秀研究生干部</td><td>任职期满一年以上的研究生学生干部；范围为党团支部、班委成员，以及由学校或学院选举产生或任命的团委、学生会成员；各培养单位研究生干部不超过本单位研究生总数的20%，获奖名额不超过参评研究生干部数的10%</td></tr>
+<tr><td>岳虹研究生奖学金</td><td>无额外条件</td></tr>
+<tr><td>富滇银行奖学金</td><td>无额外条件</td></tr>
+<tr><td>熊庆来奖学金</td><td>在校学习期满一年的理科学院和文理兼收学院理科专业全日制研究生</td></tr>
+<tr><td>方国瑜奖学金</td><td>在校学习期满一年的文科学院和文理兼收学院文科专业全日制研究生</td></tr>
+<tr><td>张文勋奖学金</td><td>在读的文科及相关专业全日制硕士、博士研究生，文科科研取得优秀成果</td></tr>
+<tr><td>校友励志银杏奖学金</td><td>哲学、法学、历史学、民族学类、管理学、教育学、经济学、新闻传播类非毕业班全日制研究生，定向、在职、委培及带薪者除外；优秀贫困研究生优先考虑</td></tr>
+<tr><td>宝钢奖学金</td><td>全日制在校本科学生和研究生，含本科生名额</td></tr>
+<tr><td>比亚迪奖学金</td><td>学习期满一年的全日制优秀学生，德智体美劳全面发展，限13个学院的二、三年级硕士</td></tr>
+</tbody></table></div>
+<p>比亚迪奖学金面向的13个学院为：信息学院、生命科学学院、软件学院、数学与统计学院、地球科学学院、化学科学与工程学院、生态与环境学院、建筑与规划学院、物理与天文学院、材料与能源学院、国际河流与生态安全研究所、工商管理与旅游管理学院、外国语学院。</p>
+<p>有三处学校文件本身只作定性表述，没有可依据的量化标准，实际把握在各培养单位：国家奖学金、省政府奖学金的学习成绩、科研能力、发展潜力三项；综合素质测评成绩在国家奖学金、省政府奖学金、学业奖学金评定中的占比。此外，熊庆来、方国瑜、张文勋、岳虹、富滇银行、校友励志银杏、宝钢、比亚迪八个奖项不在《云南大学研究生奖学金管理办法》的适用范围内，其条件以各自的评定办法为准。</p>
+<h3 id="sec13">兼得规则</h3>
+<p>同一学年度内可以申报多种奖学金，但不是任意两项都能同时拿到。</p>
+<div class="tblwrap"><table><thead><tr><th>组合</th><th>能否兼得</th></tr></thead><tbody>
+<tr><td>国家奖学金 ＋ 学业奖学金</td><td>可以</td></tr>
+<tr><td>省政府奖学金 ＋ 学业奖学金</td><td>可以</td></tr>
+<tr><td>国家奖学金 ＋ 省政府奖学金</td><td>不可以，同一学年度只能获得其中一项</td></tr>
+<tr><td>国家奖学金、省政府奖学金或学业奖学金 ＋ 校内其他类别奖学金</td><td>可以，可同时申报并获得，奖金累计发放</td></tr>
+<tr><td>优秀研究生干部奖学金 ＋ 其他奖学金</td><td>文件未设排斥性条款</td></tr>
+</tbody></table></div>
+<p>上表依据《云南大学研究生奖学金管理办法》第二十四、二十五条。校内其他类别奖学金指熊庆来、方国瑜、张文勋、岳虹、富滇银行、校友励志银杏、宝钢、比亚迪八个奖项，它们各由自己的评定办法管理，手册所收文件未列出这八个奖项彼此之间以及与上述奖项的兼得限制。</p>
+<p>获奖人数、金额与申报时间见 1.5 一览表；九种无申请资格的情形见 1.7。</p>
+<h2 id="sec14">1.7 身份认定与无申请资格情形</h2>
+<h3 id="sec15">身份认定</h3>
+<p>直博生和招生简章中注明不授予中间学位的本硕博、硕博连读学生，按当年所修课程层次阶段确定身份参评。选修硕士课程阶段按硕士身份，进入博士课程阶段按博士身份。</p>
+<h3 id="sec16">无申请资格的九种情况</h3>
+<p>在参评学年内有下列任一情况者，均无申请资格：</p>
+<ol><li>违反国家法律、校纪校规受到纪律处分</li><li>有抄袭剽窃、弄虚作假等学术不端行为经查证属实</li><li>违反社会公德造成不良影响</li><li>参评学年学习科目有不及格</li><li>未参加校纪校规考试，或校纪校规考试不及格</li><li>无故不按期缴纳学费、住宿费</li><li>学籍处于休学、保留学籍状态</li><li>新生未按规定完成注册手续</li><li>延期毕业</li></ol>
+<h2 id="sec17">1.8 综合素质测评办法</h2>
+<p>综合素质测评是评优评奖的依据，也是奖学金排名的底层算法。参评范围为云南大学学习期满一年的在读全日制硕士、博士研究生，每学年测评一次，在每年9月底以前完成。</p>
+<h3 id="sec18">成绩构成</h3>
+<p>学年综合素质测评成绩满分100分，由三部分构成：</p>
+<div class="tblwrap"><table><thead><tr><th>构成</th><th>满分</th></tr></thead><tbody>
+<tr><td>思想道德素质</td><td>10分</td></tr>
+<tr><td>学业水平与专业素质</td><td>80分</td></tr>
+<tr><td>综合素质拓展</td><td>10分</td></tr>
+</tbody></table></div>
+<h3 id="sec19">思想道德素质</h3>
+<p>满分10分，由基础分和加分两部分构成。每名学生基础分初始分为6分，没有违纪违规行为的，基础分即6分。</p>
+<p>有违纪违规行为、受到通报批评或纪律处分的，按下表扣减初始分：</p>
+<div class="tblwrap"><table><thead><tr><th>减分</th><th>对应情形</th></tr></thead><tbody>
+<tr><td>−0.5</td><td>通报批评；团纪警告</td></tr>
+<tr><td>−1</td><td>党内警告、行政警告；团纪严重警告</td></tr>
+<tr><td>−1.5</td><td>党内严重警告、行政严重警告；撤销团内职务</td></tr>
+<tr><td>−2.5</td><td>撤销党内职务；行政记过；留团察看</td></tr>
+<tr><td>−3.5</td><td>行政留校察看</td></tr>
+<tr><td>−5.5</td><td>留党察看；开除团籍</td></tr>
+<tr><td>−6</td><td>开除党籍</td></tr>
+</tbody></table></div>
+<p>违反法律法规受到司法机关处罚的，或在本测评过程中弄虚作假的，思想道德素质分计为零分。</p>
+<p>加分上限为4分，细则由各培养单位制定，考察六个方面：</p>
+<div class="tblwrap"><table><thead><tr><th>方面</th><th>考察点</th></tr></thead><tbody>
+<tr><td>政治素质</td><td>学习习近平新时代中国特色社会主义思想，坚定四个自信，把爱国与爱党、爱社会主义相统一；党员和团员踊跃参加党团活动且有模范表现</td></tr>
+<tr><td>思想素质</td><td>对国家、对筑牢中华民族共同体有较强责任意识，有集体荣誉感和大局意识，志向高远，有奉献精神</td></tr>
+<tr><td>品德素质</td><td>有正确的道德认知，践行社会主义核心价值观，自觉抵制拜金主义、享乐主义和极端个人主义</td></tr>
+<tr><td>法纪素质</td><td>模范遵守国家法律法规和学校规章制度，维护校园、课堂、宿舍等公共区域秩序</td></tr>
+<tr><td>劳动素质</td><td>有正确的劳动价值观念和劳动精神，积极参加社会实践和勤工助学</td></tr>
+<tr><td>心理素质</td><td>正确认识自我、接纳自我，情绪积极稳定，人际关系和谐，能适应环境、应对挫折</td></tr>
+</tbody></table></div>
+<p>这里有一个直接的换算关系需要注意。硕士一等学业奖学金要求思想道德素质分不低于8分，而基础分只有6分，意味着需要拿到接近满分的加分。一次警告扣0.5分，一次严重警告扣1分，一次记过扣2.5分。也就是说，一个记过处分足以让当年的一等学业奖学金彻底出局。</p>
+<h3 id="sec20">学业水平与专业素质</h3>
+<p>满分80分，由学业水平分、科研水平分和奖励分三部分构成。</p>
+<p><strong>学业水平分</strong>按课程成绩测算：</p>
+<p>学业水平分 = 课程加权平均分 × 相应的学业水平系数 + 减分</p>
+<p>课程加权平均分 = ∑（课程成绩 × 课程学分）÷ ∑课程学分</p>
+<p>相应的学业水平系数、减分细则、分值等由各测评单位自行制定。</p>
+<p><strong>科研水平分</strong>指取得的各类科研成果、学术型奖励，或专业训练、实践、专业类竞赛等成绩。测评单位应对学术型学位研究生和专业学位研究生的评分标准进行区分，使之符合不同学位性质的培养目标与过程。</p>
+<p><strong>奖励分</strong>指在挑战杯和互联网+两个创业大赛中表现优异、获省级以上奖励，分值直接加到总分中：</p>
+<div class="tblwrap"><table><thead><tr><th>获奖级别</th><th>铜奖</th><th>银奖</th><th>金奖</th></tr></thead><tbody>
+<tr><td>校级</td><td>1分</td><td>2分</td><td>3分</td></tr>
+<tr><td>省级</td><td>4分</td><td>5分</td><td>6分</td></tr>
+<tr><td>国家级</td><td>7分</td><td>8分</td><td>9分</td></tr>
+</tbody></table></div>
+<p>同一参赛作品参加同一大赛，同时获省级和国家级奖励的，不重复加分，按就高不就低原则。获奖团队成员均可以加分，排名第一的团队成员可在此基础上再加1分。</p>
+<p>学业水平分和科研水平分两项相加最高为80分。学业水平与专业素质分超过80分的，按80分计。其构成比例、评定标准及加减分设置由培养单位依不同年级、专业特点、培养方式制定实施细则。</p>
+<h3 id="sec21">综合素质拓展</h3>
+<p>满分10分，主要考察在专业学习、训练之外进行的社会工作和实践活动，具体细则由各培养单位制定。</p>
+<ol><li>社会工作。在校院团学组织、党团支部、班级、学生社团中担任学生干部，在职能部门担任学生助理，时间在一学期（含）以上并积极履行工作职责。</li><li>实践活动。积极参加社会实践、志愿服务、公益活动、文体比赛、创新创业、非专业竞赛及考证等活动，并表现突出、取得成绩、获得表彰或产生良好社会影响。</li></ol>
+<h3 id="sec22">组织实施与公示</h3>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>规则</th></tr></thead><tbody>
+<tr><td>组织实施</td><td>各培养单位学生工作领导小组负责，领导小组须包括主管学生工作、研究生培养的单位领导；原则上以班级或专业为单位，人数少的可按年级为单位；各班成立由班主任或辅导员、班干部和学生代表组成的测评小组</td></tr>
+<tr><td>成果认定</td><td>科研成果的等级、水平，培养单位可设学科专家工作组统一认定</td></tr>
+<tr><td>实施细则</td><td>培养单位制订后报学生工作部审查，通过审查备案后向师生公示，无异议后形成单位文件</td></tr>
+<tr><td>公示</td><td>测评结果须向本单位研究生公布并听取意见，在本单位内公示5个工作日；原始表格及测评结果由培养单位妥善保存，结果报学生工作部备案</td></tr>
+<tr><td>作假</td><td>研究生弄虚作假、徇私舞弊的，不论何时发现，查实即取消当年评优评奖资格、取消所授荣誉称号并追缴奖金；教师作假的，培养单位予以相应处分</td></tr>
+<tr><td>时效</td><td>参与测评的学习成绩、成果和表现，必须是参评学年中取得、体现的</td></tr>
+</tbody></table></div>
+<h2 id="sec23">1.9 评审程序与申诉</h2>
+<h3 id="sec24">评审组织</h3>
+<div class="tblwrap"><table><thead><tr><th>层级</th><th>组成</th><th>职责</th></tr></thead><tbody>
+<tr><td>学校研究生奖学金评审委员会</td><td>组长由分管学生工作及分管研究生培养工作的校领导担任；成员包括学生工作部、研究生院、财务管理处等部门负责人和研究生导师代表</td><td>领导、协调、监督全校评审，裁决申诉事项，日常工作由学生工作部组织实施</td></tr>
+<tr><td>培养单位研究生奖学金评审委员会</td><td>主任由书记、院长担任，副主任由分管学生工作副书记、研究生培养工作副院长担任；委员包括导师代表、辅导员、学生代表</td><td>组织本单位初评</td></tr>
+</tbody></table></div>
+<h3 id="sec25">评审原则</h3>
+<p>严格按评定条件，坚持标准，保证质量，宁缺勿滥，遵循自愿、公开、公平、公正原则。各培养单位须制定本单位实施细则，并在单位内公示不少于3个工作日，公示无异议后报学生工作部审核，审核通过后以正式文件印发并报学生工作部备案。</p>
+<h3 id="sec26">评审程序</h3>
+<ol><li>个人申请。符合条件者如实填表，备齐支撑材料，按时上报培养单位。</li><li>单位初评。按综合测评成绩及科研成果等材料初评，结果在本单位范围内公示5个工作日，无异议后报学生工作部。</li><li>学生工作部审核后，上报学校研究生奖学金评审委员会审定。</li><li>学校审定后，结果在全校范围内公示5个工作日，无异议后按要求发文。</li></ol>
+<h3 id="sec27">异议与申诉</h3>
+<p>培养单位公示阶段有异议的，向所在培养单位研究生奖助学金初评委员会提出，初评委应及时研究并答复。对初评委答复仍有异议的，在学校公示阶段向学校研究生奖学金评审委员会提请裁决。</p>
+<h3 id="sec28">发放时间</h3>
+<div class="tblwrap"><table><thead><tr><th>奖项</th><th>发放时间</th><th>备注</th></tr></thead><tbody>
+<tr><td>国家奖学金、省政府奖学金</td><td>12月31日前一次性发放</td><td>颁发国家或省政府统一印制的荣誉证书</td></tr>
+<tr><td>学业奖学金、优秀研究生干部奖学金</td><td>每年12月底前一次性发放</td><td>新生须已取得学籍，颁发学校统一印制的荣誉证书</td></tr>
+</tbody></table></div>
+<p>获奖情况均记入学籍档案。研究生获得奖学金后，应优先用于缴纳学费和住宿费。</p>
+<h2 id="sec29">1.10 其他资助与荣誉</h2>
+<div class="tblwrap"><table><thead><tr><th>名称</th><th>位置</th></tr></thead><tbody>
+<tr><td>高等学校学生勤工助学管理办法</td><td>下册印刷页97</td></tr>
+<tr><td>云南大学学生应征入伍、直招士官和退役士兵国家资助管理暂行办法</td><td>下册印刷页102</td></tr>
+<tr><td>云南大学毕业生学费和国家助学贷款代偿管理暂行办法</td><td>下册印刷页105</td></tr>
+<tr><td>云南大学生源地信用助学贷款管理暂行办法</td><td>下册印刷页107</td></tr>
+<tr><td>云南大学研究生先进班集体评选办法（试行）</td><td>下册印刷页72</td></tr>
+<tr><td>云南大学大学生年度人物评选办法</td><td>下册印刷页90</td></tr>
+</tbody></table></div>
+<h2 id="sec30">1.11 竞赛与创新实践资助</h2>
+<div class="tblwrap"><table><thead><tr><th>项目</th><th>内容</th></tr></thead><tbody>
+<tr><td>赛事性质</td><td>中国研究生创新实践系列大赛，教育部学位管理与研究生教育司指导，中国学位与研究生教育学会和中国科协青少年科技中心共同主办，是目前我国唯一被政府认可和指导、专门面向研究生群体的全国性赛事；创立于2013年，每年设置20余项赛事</td></tr>
+<tr><td>官网</td><td><a href="https://cpipc.acge.org.cn">https://cpipc.acge.org.cn</a> ，另见创新实践大赛微信公众号</td></tr>
+<tr><td>学校组织</td><td>每年委托相关学院负责各主题赛事的组织、报名、参赛，提供赛前训练及参赛所需的必要仪器设备、材料和场地，安排指导教师</td></tr>
+<tr><td>报销</td><td>参加且完赛的研究生，学校报销参赛报名费</td></tr>
+<tr><td>奖励</td><td>获得国家级奖项的，学校按相关文件予以奖励</td></tr>
+<tr><td>优先资助</td><td>同等条件下优先资助获奖研究生申报研究生科研创新基金项目、专业学位研究生实践创新基金项目，以及资助参加各类出国访学项目、高水平学术会议等</td></tr>
+</tbody></table></div>
+<p>2026年学校对数学建模竞赛、金融科技竞赛、人工智能创新大赛等13项主题赛事进行立项支持。</p>
+<h2 id="sec31">1.12 原文位置</h2>
+<div class="tblwrap"><table><thead><tr><th>内容</th><th>位置</th></tr></thead><tbody>
+<tr><td>云南大学研究生奖学金管理办法</td><td>下册印刷页65</td></tr>
+<tr><td>云南大学研究生奖学金一览表</td><td>下册印刷页63–64</td></tr>
+<tr><td>云南大学全日制研究生综合素质测评办法</td><td>下册印刷页57–62</td></tr>
+<tr><td>云南大学研究生国家助学金管理办法</td><td>下册印刷页95</td></tr>
+</tbody></table></div>
+<p>奖学金咨询电话 0871-65033981，助学金咨询电话 0871-65033853。</p>
+<h1 id="sec32">二、党团发展</h1>
+<h2 id="sec33">2.1 组织关系转接</h2>
+<h3 id="sec34">党员</h3>
+<p>新生党员应主动向录取学院报告党员身份，并在开学时将组织关系转到我校。</p>
+<p>原组织关系所在省份或单位已实现全国党员管理信息系统联网的，通过系统将组织关系网上转到中共云南大学 XX 学院委员会。</p>
+<p>尚未实现联网的，开学时由党员本人将纸质党组织关系介绍信交录取学院办理。介绍信由原单位具有预备党员审批权限的基层党委开具，抬头填写中共云南大学 XX 学院委员会，去处填写云南大学 XX 学院。</p>
+<h3 id="sec35">团员</h3>
+<p>具有我校学籍的研究生新生团员，入学后一个月内完成线上转接团组织关系。由团员本人登录智慧团建系统，或由就读学校的团组织从系统线上发起转出申请，经原就读学校团组织审批同意后即可转入。智慧团建网址为 <a href="https://zhtj.youth.cn/zhtj">https://zhtj.youth.cn/zhtj</a> 。</p>
+<p>线下转接需向所在院级团组织递交团员证，可附团组织关系介绍信，由所在院级团组织在团员证组织关系转接栏盖章办理。</p>
+<h2 id="sec36">2.2 发展党员全流程</h2>
+<h3 id="sec37">时间轴</h3>
+<div class="tblwrap"><table><thead><tr><th>阶段</th><th>关键时限</th></tr></thead><tbody>
+<tr><td>递交入党申请书</td><td>起点</td></tr>
+<tr><td>支部派人谈话</td><td>收到申请书后一个月内</td></tr>
+<tr><td>思想汇报</td><td>每季度至少一篇</td></tr>
+<tr><td>确定为入党积极分子</td><td>支部委员会研究决定，报学院党委备案</td></tr>
+<tr><td>培养联系人</td><td>一至两名正式党员，每三个月填写一次考察记录</td></tr>
+<tr><td>支部考察积极分子</td><td>每半年一次</td></tr>
+<tr><td>列为发展对象</td><td>需一年以上培养教育和考察</td></tr>
+<tr><td>短期集中培训</td><td>发展对象必须参加，未经培训不能发展入党</td></tr>
+<tr><td>公示</td><td>不少于7天</td></tr>
+<tr><td>支部大会表决</td><td>赞成人数超过应到会有表决权正式党员的半数</td></tr>
+<tr><td>学院党委审批</td><td>支部大会后报批</td></tr>
+<tr><td>预备期</td><td>一年，从支部大会通过之日算起</td></tr>
+<tr><td>转正申请</td><td>预备期满一周内本人书面提出</td></tr>
+<tr><td>延长预备期</td><td>延长一次，不少于半年，最长不超过一年</td></tr>
+<tr><td>党龄起算</td><td>预备期满转为正式党员之日</td></tr>
+</tbody></table></div>
+<h3 id="sec38">指导方针</h3>
+<p>按控制总量、优化结构、提高质量、发挥作用的总要求，始终把政治标准放在首位，坚持慎重发展、均衡发展，入党自愿、个别吸收，成熟一个，发展一个。</p>
+<h3 id="sec39">分阶段操作要点</h3>
+<div class="tblwrap"><table><thead><tr><th>阶段</th><th>经办</th><th>关键要求</th></tr></thead><tbody>
+<tr><td>收到申请书后1个月内</td><td>党支部派人谈话，了解基本情况</td><td>申请人每季度至少一篇书面思想汇报</td></tr>
+<tr><td>确定入党积极分子</td><td>党员推荐、群团组织推优提出人选，支部委员会研究决定，报学院党委备案</td><td>—</td></tr>
+<tr><td>培养教育</td><td>党支部指定1至2名正式党员作培养联系人；吸收入党积极分子听党课、参加党内活动、分配社会工作、集中培训</td><td>联系人每3个月填一次考察记录；支部每半年考察一次</td></tr>
+<tr><td>列为发展对象</td><td>听取党小组、培养联系人、党员和群众意见后，支部委员会讨论同意并报上级党委备案</td><td>须经1年以上培养教育和考察；须有2名入党介绍人，一般由培养联系人担任</td></tr>
+<tr><td>政治审查</td><td>同本人谈话、查阅档案、找有关单位和人员了解、必要的函调或外调，形成综合性结论性材料</td><td>未经政审或政审不合格不能发展入党</td></tr>
+<tr><td>短期集中培训</td><td>由上级党组织安排</td><td>未经培训的，除个别特殊情况外不能发展入党</td></tr>
+<tr><td>公示</td><td>公示发展对象基本情况、培养情况、政审情况、培养人意见，一般用公开栏、宣传栏</td><td>不少于7天；有群众举报的，问题查清后处理</td></tr>
+<tr><td>学院党委预审</td><td>审查是否列入当年发展计划、手续是否完备、问题有无正式结论、是否经集中培训、培养是否满一年</td><td>发展对象未来三个月内将离开工作单位的，一般不办理接收手续</td></tr>
+<tr><td>支部大会表决</td><td>发展对象汇报→介绍人介绍并表态→支委会报告审查情况→党员讨论、无记名投票</td><td>有表决权的到会人数须超过应到会有表决权人数的半数，赞成须超过应到会有表决权的正式党员的半数；两个以上发展对象逐个讨论表决</td></tr>
+<tr><td>党委审批</td><td>支部大会决议写入入党志愿书，连同申请书、政审材料、培养考察材料报学院党委审批</td><td>决议含主要表现、应到与实到有表决权人数、表决结果、日期、支书签名</td></tr>
+<tr><td>预备期</td><td>编入党支部，通过组织生活、听取汇报、个别谈心、集中培训、实践锻炼教育考察</td><td>一年，从支部大会通过之日算起；转正前须组织党员和群众民主评议</td></tr>
+<tr><td>转正</td><td>预备期满一周内本人书面申请→支部征求党员群众意见→支委会审查→支部大会讨论表决→报学院党委审批</td><td>到会与赞成人数要求同接收预备党员；结果由支书同本人谈话并在党员大会上宣布</td></tr>
+<tr><td>党龄与归档</td><td>党龄自预备期满转为正式党员之日起算</td><td>转正后将入党志愿书、申请书、政审材料、转正申请书、培养考察材料交学院党委存入本人人事档案</td></tr>
+</tbody></table></div>
+<p>政治审查的四项内容：对党的理论和路线方针政策的态度；政治历史和在重大政治斗争中的表现；遵纪守法和遵守社会公德情况；直系亲属和与本人关系密切的主要社会关系的政治情况。</p>
+<p>预备期满的三种处理：</p>
+<div class="tblwrap"><table><thead><tr><th>情形</th><th>处理</th></tr></thead><tbody>
+<tr><td>认真履行党员义务、具备党员条件的</td><td>应当按期转为正式党员</td></tr>
+<tr><td>需要继续考察和教育的</td><td>可以延长一次预备期，延长时间不能少于半年，最长不超过一年</td></tr>
+<tr><td>不履行党员义务、不具备党员条件的</td><td>应当取消其预备党员资格</td></tr>
+</tbody></table></div>
+<p>入党介绍人的四项任务：</p>
+<ol><li>向发展对象解释党的纲领、章程，说明党员的条件、义务和权利</li><li>认真了解发展对象的入党动机、政治觉悟、道德品质、工作经历、现实表现等，如实向党组织汇报</li><li>指导发展对象填写中国共产党入党志愿书，并认真填写自己的意见</li><li>向支部大会负责地介绍发展对象的情况</li></ol>
+<h3 id="sec40">责任追究</h3>
+<p>发展党员必须按照党章和细则规定，严格标准条件，严格发展程序，哪个环节出了问题，就追究哪个环节有关人员的责任。</p>
+<ul><li>对培养联系人和入党介绍人向党组织汇报发展对象情况失实的，追究培养联系人和入党介绍人的责任</li><li>对不经支部大会讨论、表决，或虽召开支部大会但不符合规定人数和程序，而接收预备党员和办理预备党员转正手续的，追究支部书记的责任</li><li>对组织员不认真履行职责、把关不严造成失误的，追究组织员的责任</li><li>对党支部违反规定程序操作的，按有关规定追究相关人员的责任</li><li>对发展党员工作中出现的不正之风要严肃查处，处理情况要在一定范围内通报</li></ul>
+<p>对违反规定吸收入党的，一律不予承认，并在支部大会上公布。</p>
+<h2 id="sec41">2.3 推优入党</h2>
+<p>推优是党赋予共青团组织的一项光荣任务，在校党委统一领导下进行，是党组织发展青年党员的主要渠道，共青团员是党组织发展青年党员的主要来源。</p>
+<h3 id="sec42">对象及条件</h3>
+<p><strong>基本资格。</strong> 凡团组织关系在我校的共青团员，年龄在28周岁以下，积极参加团内组织活动，完成团组织分配任务，并已递交入党申请书，经过培养教育，基本具备或接近党员条件的优秀团员。</p>
+<p><strong>五项推荐条件：</strong></p>
+<ol><li>政治立场坚定，入党动机端正。坚决拥护中国共产党领导，拥护四项基本原则，具有坚定的社会主义信念。</li><li>积极向党组织靠拢。自觉递交入党申请书和思想汇报材料，在工作、学习、生活和团的活动中自觉以党员标准要求自己。</li><li>当年团员教育评议等次为优秀。在校期间评议等次为基本合格、不合格的团组织不予推优。</li><li>学习成绩良好。综合测评位于团支部前50%，且本学年各科目考试无不及格现象。</li><li>积极参加团的各项活动，履行团员义务，热心社会工作，有强烈的集体主义精神和良好的群众基础。</li></ol>
+<p><strong>一票否决。</strong> 凡受到学校、学院通报批评、处分以及团内处分者，在校期间不予推优。凡已列为推优对象后受到上述处理的，取消推优资格。</p>
+<h3 id="sec43">程序</h3>
+<p>推优工作每学期进行一次，根据学院党员发展工作的安排分别向党支部推荐。</p>
+<ol><li><strong>团支部提名与团员大会。</strong> 团支部对当年度申请入党的团员青年，在广泛听取群众意见的基础上提名。召开团员大会，到会团员人数含党员、预备党员，须占本支部团员总人数的五分之四及以上。团支部委员会介绍推荐对象基本情况，团员本人具体介绍自己的思想、学习、生活及工作情况。全体成员民主评议，以举手表决或无记名投票方式进行，获得超过到会人数半数以上同意，方可成为推荐对象。</li><li><strong>团支部委员会</strong>根据投票结果初步确定推荐对象，写出书面推荐意见，连同个人总结、民主评议意见，上报学院团委。</li><li><strong>学院团委</strong>进一步考察审核后，全面审核、讨论确定向党组织推荐发展对象，并在校内公示7天。</li><li>被推荐人详细填写云南大学推荐优秀团员作为入党积极分子人选登记表，学院团委向党支部推荐，并报校团委备案。</li></ol>
+<p><strong>学生干部通道。</strong> 校团委副书记、委员，校学生会主席、副主席、部长，可由校团委向所在学院党组织推荐。院团委书记、副书记，院学生会主席、副主席，可由院团委向所在单位党组织推荐。拟确定推优入党人员须召开推荐大会通过，得票数超过半数者可作为推优对象候选人。</p>
+<h3 id="sec44">培养与纪律</h3>
+<p>对申请入党的团员，以党校、至公团校、青马学院、青马学堂、青马小组为阵地组织学习。</p>
+<p>在推优过程中严禁拉帮结派、徇私舞弊、弄虚作假。若出现违纪问题，取消被推荐人在校期间的推优资格，并视情节轻重给予相关责任人团内处分。</p>
+<h2 id="sec45">2.4 三会两制一课</h2>
+<p>三会两制一课即支部大会、支部委员会、团小组会、团员教育评议制度、团员年度团籍注册制度、团课。</p>
+<h3 id="sec46">三会</h3>
+<div class="tblwrap"><table><thead><tr><th>会议</th><th>召开频次</th><th>法定人数</th></tr></thead><tbody>
+<tr><td>支部大会</td><td>一般每季度召开一次，根据工作需要可随时召开</td><td>一般参加会议团员应超过支部团员总数的二分之一；表决时到会有表决权团员须超过应到会团员总数的三分之二方可表决；赞成票超过到会有表决权团员数的二分之一即为通过</td></tr>
+<tr><td>支部委员会</td><td>一般每月召开一次，可随时召开</td><td>到会委员超过支部委员总数的二分之一方可召开；表决时参加表决委员须超过应到委员总数的三分之二</td></tr>
+<tr><td>团小组会</td><td>可根据工作需要随时召开</td><td>团小组长负责召集</td></tr>
+</tbody></table></div>
+<p>支部大会是团支部的最高领导机构，享有最高决策权、选举权和监督权，任务包括推荐优秀团员作入党积极分子、讨论接收新团员、开展团员教育评议、讨论通过对团员的处分等。支部大会选举和讨论接收新团员采用无记名投票，其他表决可举手或无记名投票。会议记录须长期保存，支部大会结束后应及时向上级团组织和同级党组织书面报告。</p>
+<p>团小组长不需经选举产生，可由支部委员会指定或本小组团员推选。</p>
+<h3 id="sec47">团员教育评议制度</h3>
+<p>对象为全体团员。保留团籍的共产党员应积极参加党的组织生活，可不参加团员教育评议和年度团籍注册。</p>
+<p>一般每年进行一次，与团员年度团籍注册工作相结合。到会团员超过应到会团员总数的三分之二方可进行评议。流程为学习教育、每名团员撰写自我评价材料、支部大会或团小组会议自我评价加团员互评、测评投票、支部委员会综合自评互评投票结果及日常表现提出建议评议等次，报上级委员会批准。</p>
+<p>评议等次分优秀、合格、基本合格、不合格四个等次，其中优秀等次团员数量应控制在参加评议团员人数的30%以内。</p>
+<div class="tblwrap"><table><thead><tr><th>等次</th><th>处理</th></tr></thead><tbody>
+<tr><td>优秀</td><td>可在一定范围内公示，团组织应结合实际予以奖励；每年评选表彰的优秀团员一般应从上一年度评议为优秀的团员中产生；表现突出并积极要求入党的，团支部应及时按推优规定向上级委员会推荐</td></tr>
+<tr><td>基本合格</td><td>由支部书记进行谈话，予以教育帮助</td></tr>
+<tr><td>不合格</td><td>教育帮助、限期改正，3至6个月后复评；对不接受教育帮助或仍不改进的，劝其退团，劝而不退的由支部大会决定除名，并报上级委员会批准</td></tr>
+</tbody></table></div>
+<h3 id="sec48">团员年度团籍注册制度</h3>
+<p>注册是对团员团籍的连续认定。以团支部为单位进行，一般应在每年1月份办理，学校团组织一般应在秋季开学后的一个月内完成团员注册工作。超过规定注册时间一年未注册的团员证，即为失效。</p>
+<p>注册结合团员教育评议工作进行，根据评议结果给予注册、暂缓注册或不予注册：</p>
+<ul><li>评议等次基本合格以上的，在团员证团籍注册栏内填写注册时间、评议等次，并加盖注册印章</li><li>评议等次不合格的，暂缓注册三至六个月；暂缓注册期后再次评议合格的，及时给予注册；仍不合格的，不予注册</li><li>受警告、严重警告、撤销团内职务处分但能正常参加活动、按时交纳团费的，一般可予以注册</li><li>受留团察看处分的，察看期间团员证由团组织收回；期满恢复团员权利的，将团员证发还本人并及时注册</li><li>受开除团籍处分的，不再注册，团员证由团组织收回，并将有关情况书面报上级委员会备案</li></ul>
+<p>团员年满28周岁，没有担任团内职务，应当办理离团手续。团员加入共产党以后仍保留团籍；年满28周岁、没有在团内担任职务的，不再保留团籍。</p>
+<h3 id="sec49">团课</h3>
+<p>基层团组织每个季度应安排上一次团课。入团积极分子被确定为发展对象之前参加集中团课学习应不少于8学时。基层团委主要负责人每年至少要为团员青年讲授一次团课。团课教育分团前教育和团员教育两个阶段。</p>
+<p>团员没有正当理由，连续六个月不参加团的组织生活，严格按照有关规定处理。</p>
+<h2 id="sec50">2.5 其他党团文件</h2>
+<div class="tblwrap"><table><thead><tr><th>文件名称</th><th>位置</th></tr></thead><tbody>
+<tr><td>中国共产主义青年团普通高等学校基层组织工作条例</td><td>下册印刷页113</td></tr>
+<tr><td>共青团云南大学委员会工作规则（试行）</td><td>下册印刷页125</td></tr>
+<tr><td>关于进一步加强校级学生组织成员和活动管理的意见</td><td>下册印刷页140</td></tr>
+<tr><td>关于推进班团一体化建设的实施意见</td><td>下册印刷页150</td></tr>
+<tr><td>关于新形势下推进从严治团的规定</td><td>下册印刷页155</td></tr>
+<tr><td>中国共产主义青年团团旗、团徽、团歌制作使用管理规定</td><td>下册印刷页161</td></tr>
+<tr><td>云南大学第二课堂成绩单制度实施细则（暂行）</td><td>下册印刷页165</td></tr>
+<tr><td>云南大学关于开展第二课堂成绩单工作的实施意见</td><td>下册印刷页172</td></tr>
+<tr><td>关于推动云南大学学生会（研究生会）深化改革的若干意见</td><td>下册印刷页179</td></tr>
+<tr><td>云南大学学生社团管理实施细则（试行）</td><td>下册印刷页184</td></tr>
+</tbody></table></div>
+<p>下册第三部分党团工作中没有专门的研究生党建或党员管理文件。党员发展相关内容见党支部发展党员工作制度，团员推优与三会两制一课见中国共产主义青年团基层组织三会两制一课实施细则（试行）和关于推荐优秀团员作为党的发展对象工作的实施办法。</p>
+<h1 id="sec51">三、学籍与课程</h1>
+<h2 id="sec52">3.1 学习年限</h2>
+<div class="tblwrap"><table><thead><tr><th>类型</th><th>基本学习年限</th><th>最长学习年限</th></tr></thead><tbody>
+<tr><td>全日制硕士</td><td>一般2年或3年</td><td>5年，不含休学时间</td></tr>
+<tr><td>非全日制硕士</td><td>一般3年</td><td>—</td></tr>
+<tr><td>普博生</td><td>一般4年</td><td>6年</td></tr>
+<tr><td>直博生</td><td>一般5年</td><td>7年</td></tr>
+<tr><td>硕博连读</td><td>一般6年，含硕士加博士阶段</td><td>8年</td></tr>
+</tbody></table></div>
+<p>具体以入学时的学习年限为准。经批准休学的时间不计入在校学习时间。经批准公派出国、跨校联合培养或执行合作科研任务的，在境外的学习时间计入在校学习年限。</p>
+<h2 id="sec53">3.2 注册</h2>
+<p>每学期开学时按学校规定时间到培养单位办理报到和注册手续。不符合注册条件或未按规定缴纳学费的不予注册。</p>
+<p>未请假而超过学校规定的注册期限，或请假逾期不注册的，除因不可抗力等正当事由外，视为放弃学籍，按退学处理。</p>
+<p>家庭经济困难的研究生可以申请贷款或者其他形式资助，办理有关手续后注册。</p>
+<h2 id="sec54">3.3 纪律与考勤</h2>
+<h3 id="sec55">旷课处分阶梯</h3>
+<p>对一学期内旷课累计达到或超过10学时的，分别给予下列处分：</p>
+<div class="tblwrap"><table><thead><tr><th>旷课学时</th><th>处分</th></tr></thead><tbody>
+<tr><td>10至19学时</td><td>警告</td></tr>
+<tr><td>20至29学时</td><td>严重警告</td></tr>
+<tr><td>30至39学时</td><td>记过</td></tr>
+<tr><td>40至49学时</td><td>留校察看</td></tr>
+<tr><td>50学时以上，含50学时</td><td>开除学籍</td></tr>
+</tbody></table></div>
+<h3 id="sec56">请假审批层级</h3>
+<div class="tblwrap"><table><thead><tr><th>请假时长</th><th>审批人</th></tr></thead><tbody>
+<tr><td>3天以内，含3天</td><td>研究生辅导员</td></tr>
+<tr><td>3天以上至2周以内，含2周</td><td>培养单位分管领导</td></tr>
+<tr><td>2周以上</td><td>培养单位分管领导审核同意后，报所在单位负责人批准，并报研究生院培养办公室备案</td></tr>
+</tbody></table></div>
+<h3 id="sec57">请假类型与销假</h3>
+<div class="tblwrap"><table><thead><tr><th>情形</th><th>要求</th></tr></thead><tbody>
+<tr><td>病假</td><td>因病短期内不能参加教学活动，须有校医院证明</td></tr>
+<tr><td>事假</td><td>因个人事务不能参加教学活动，须办理请假手续并说明具体原由，经批准方有效</td></tr>
+<tr><td>延期返校</td><td>由学校组织或假期在外遇特殊情况需延期返校的，须告知导师及辅导员，补办请假手续并提交必要的证明</td></tr>
+<tr><td>销假</td><td>请假期满必须办理销假手续，未办理销假的，超假时间按旷课处理</td></tr>
+<tr><td>上限</td><td>一学期累计最长不得超过一个月，请假条留存所在培养单位</td></tr>
+</tbody></table></div>
+<h3 id="sec58">出国与出境</h3>
+<div class="tblwrap"><table><thead><tr><th>情形</th><th>办理方式</th></tr></thead><tbody>
+<tr><td>参加国家或学校各类公派项目出国（境），或培养环节要求出国（境）参加学术活动</td><td>必须按学校相关部门要求办理因公出国（境）手续</td></tr>
+<tr><td>因私出国（境）</td><td>应安排在校历规定的寒暑假及法定节假日期间，并须办理相关报备手续</td></tr>
+<tr><td>因私自费出国（境）攻读学位</td><td>应办理退学手续，申请获批后不再具有本校学籍</td></tr>
+<tr><td>未按学校规定办理手续擅自出国（境）</td><td>一经查实，由学校按退学处理</td></tr>
+</tbody></table></div>
+<h2 id="sec59">3.4 课程考核与成绩记载</h2>
+<p>课程考核分为考试和考查两种。考试按百分制评定成绩，60分以上为及格；考查按合格、不合格二级制评定成绩。</p>
+<div class="tblwrap"><table><thead><tr><th>情形</th><th>处理</th></tr></thead><tbody>
+<tr><td>不及格</td><td>学位必修课考试成绩不及格者，须补考或重修该门课程；登记补考或重修后的考试成绩时，注以补考或重修字样</td></tr>
+<tr><td>缓考</td><td>一般在一学年内只能申请一次，或两门课程；经批准缓考的研究生参加该门课程补考后，成绩按正常考试成绩记载；请假理由失实者，一经发现所缺考课程按旷考处理</td></tr>
+<tr><td>旷考</td><td>无正当理由不参加规定课程考试的按旷考处理，成绩按零分记录；不能参加旷考课程的补考，只能重新选修该门课程</td></tr>
+<tr><td>作弊</td><td>作弊课程成绩按零分记载并注明作弊字样，记入学籍档案，并给予相应的纪律处分</td></tr>
+</tbody></table></div>
+<h3 id="sec60">成绩管理</h3>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>规则</th></tr></thead><tbody>
+<tr><td>提交</td><td>任课教师须于考核结束后两周内在研究生管理信息系统中登录、复核无误后提交；培养单位须将每学期考试成绩打印成册，由任课教师签字并加盖培养单位公章后存档备查</td></tr>
+<tr><td>更改</td><td>成绩登记后，任何个人包括任课教师不得更改；特殊情况确需纠正评错或录错成绩的，应由改动人签字，并在改动部分加盖培养单位公章</td></tr>
+<tr><td>出具成绩单</td><td>需加盖研究生院公章的本人书面成绩，在读研究生经所在培养单位研究生秘书审核，已毕业研究生到学校档案馆办理</td></tr>
+</tbody></table></div>
+<h2 id="sec61">3.5 选课与课程请假</h2>
+<div class="tblwrap"><table><thead><tr><th>事项</th><th>规则</th></tr></thead><tbody>
+<tr><td>课程学习计划</td><td>入学后在导师指导下，根据所在学科或专业培养方案制订个人课程学习计划，并按培养计划要求完成选课</td></tr>
+<tr><td>选退课</td><td>研究生院每学期下发选课通知，须在规定时间内于选课系统选课或退课；选课结束后不能再进行选课、退课；选课结果如实记入个人成绩单，不得参加未在系统中选课课程的学习和考试</td></tr>
+<tr><td>旁听</td><td>本校学生须经任课教师同意；校外学生须办理相关旁听课程手续</td></tr>
+<tr><td>退选</td><td>选课结束后，因休学、突遇变故等无法继续课程学习并已通过审批的，经任课教师和开课院系同意可退选，成绩不予记录</td></tr>
+<tr><td>课程请假</td><td>不能按时参加须向任课教师请假，经同意后报开课院系备案；未经任课教师批准无故缺课的，按旷课处理</td></tr>
+<tr><td>请假上限</td><td>一门课程请假学时累计不得超过该课程总学时数的三分之一，超过者不得参加该课程考核，成绩按0分或不合格记录</td></tr>
+</tbody></table></div>
+<h2 id="sec62">3.6 缓考、补考与重修</h2>
+<h3 id="sec63">可以申请缓考的三种情形</h3>
+<ol><li>在考核期间突发疾病，不能参加或不能坚持完成考核</li><li>遭遇意外事故或家庭突发重大变故，不能到校参加考核</li><li>代表学校参加交流、比赛等重大活动，经学校批准不能按时参加考核</li></ol>
+<h3 id="sec64">缓考申请与规则</h3>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>规则</th></tr></thead><tbody>
+<tr><td>申请时间</td><td>考核开始前一周提出申请并提供相关证明材料，经任课教师、开课院系审批通过</td></tr>
+<tr><td>校级公共课</td><td>缓考不单独安排补考，缓考学生参加该门课程下一次考核，成绩按正常考核学生计算</td></tr>
+<tr><td>未办手续或未获批准缺考</td><td>该门课程成绩按缺考记录，不得参加缓考或补考，必修重修</td></tr>
+<tr><td>门数上限</td><td>每学期申请缓考的课程一般不得超过三门</td></tr>
+</tbody></table></div>
+<h3 id="sec65">补考与重修</h3>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>规则</th></tr></thead><tbody>
+<tr><td>谁来决定</td><td>课程考核成绩不合格的学生，由院系或任课教师确定是否补考或重修</td></tr>
+<tr><td>合格条件</td><td>补考或重修成绩合格后，方能获得相应学分</td></tr>
+<tr><td>不得申请的情形</td><td>课程考试成绩合格者，不得以成绩不理想为由参加补考或重修</td></tr>
+<tr><td>成绩登记</td><td>补考、重修均按实际成绩登记，并分别在成绩后注明补考、重修</td></tr>
+<tr><td>重修手续</td><td>课程开课前至开课单位办理，并参加该门课程的全程学习</td></tr>
+<tr><td>公共课</td><td>校级研究生公共课程不设补考，不合格者只能重修；专业课程由所在院系自行决定是否设补考</td></tr>
+<tr><td>课程已取消</td><td>由所在院系确定重修的替代性课程</td></tr>
+<tr><td>作弊与学术不端</td><td>相关课程成绩计为0分或不合格，不得补考，只能重修</td></tr>
+</tbody></table></div>
+<h2 id="sec66">3.7 英语免修</h2>
+<div class="tblwrap"><table><thead><tr><th>事项</th><th>规则</th></tr></thead><tbody>
+<tr><td>条件</td><td>达到学校关于研究生英语课程免修条件的研究生可以申请免修</td></tr>
+<tr><td>申请</td><td>入学报到之日起两周内，至研究生管理信息系统按云南大学关于研究生英语免修的相关规定要求申请</td></tr>
+<tr><td>结果</td><td>获得免修资格的学生，英语课免修免考，成绩计为免修</td></tr>
+<tr><td>成绩计算</td><td>在综合测评、平均成绩、绩点等成绩计算时，计为免修的课程成绩不参与计算</td></tr>
+</tbody></table></div>
+<h2 id="sec67">3.8 学分绩点换算</h2>
+<p>研究生课程考核成绩，考试一般采用百分制评定；考查一般采用通过制或等级制评定成绩，也可以采用百分制评定。通过制按合格或不合格记录成绩，通过制的成绩不计算绩点。百分制和等级制学分绩点的换算关系如下：</p>
+<div class="tblwrap"><table><thead><tr><th>分数下限</th><th>分数上限</th><th>等级</th><th>对应绩点值</th></tr></thead><tbody>
+<tr><td>90</td><td>100</td><td>A+</td><td>4</td></tr>
+<tr><td>85</td><td>89</td><td>A−</td><td>3.7</td></tr>
+<tr><td>82</td><td>84</td><td>B+</td><td>3.3</td></tr>
+<tr><td>78</td><td>81</td><td>B</td><td>3</td></tr>
+<tr><td>75</td><td>77</td><td>B−</td><td>2.7</td></tr>
+<tr><td>72</td><td>74</td><td>C+</td><td>2.3</td></tr>
+<tr><td>68</td><td>71</td><td>C</td><td>2</td></tr>
+<tr><td>64</td><td>67</td><td>C−</td><td>1.5</td></tr>
+<tr><td>60</td><td>63</td><td>D</td><td>1.0</td></tr>
+<tr><td>0</td><td>59</td><td>F</td><td>0</td></tr>
+</tbody></table></div>
+<p>原表没有单独的 A 档，90分直接进入 A+。</p>
+<p>中期考核要求平均学分绩点不得低于考核时学校规定的最低平均学分绩点，GPA 不达标是中期考核不合格的情形之一。</p>
+<h2 id="sec68">3.9 转专业、转学、转导师</h2>
+<p>研究生入学后一般不得转专业、转导师。</p>
+<h3 id="sec69">转专业</h3>
+<p>因专业调整、导师变动或其他特殊情况必须转专业的，须由研究生本人提出申请并说明理由，由转出、转入专业双方导师、学位点负责人及培养单位分管领导逐级签署意见，报研究生院审批。</p>
+<p>有下列情形之一者，不得转专业：</p>
+<ol><li>攻读专业学位拟转为攻读学术学位者</li><li>攻读非全日制学位拟转为攻读全日制学位者</li><li>以特殊招生形式录取的研究生，国家有相关规定或者录取前与学校或工作单位有明确约定的</li><li>硕士研究生入学满两年或博士研究生入学满三年的</li></ol>
+<p>研究生转专业后，必须按转入专业的培养要求修读课程及进行科研和学位论文工作。</p>
+<h3 id="sec70">转导师</h3>
+<p>研究生需转导师的，由本人提出申请并说明理由，经转出、转入双方导师同意，由培养单位分管领导批准，报研究生院备案。研究生由于特殊原因要求转导师而原导师不同意的，由所在培养单位进行调解；调解无效的，由所在培养单位党政联席会或专门会议讨论决定并提出处理意见。</p>
+<p>被批准转专业、转导师并已办理手续的，不得再申请转回原专业或原导师。</p>
+<h3 id="sec71">转学</h3>
+<p>我校研究生一般应当在我校完成学业。如患病或者确有特殊困难，无法继续在我校学习的，可以申请转学。</p>
+<p>有下列情形之一，不得转学：</p>
+<ol><li>入学未满一学期的或者毕业前一年的</li><li>由低学历层次转为高学历层次的</li><li>以定向就业招生录取的</li><li>拟转入学校、专业的录取控制标准高于其所在学校、专业的</li><li>应予退学的</li><li>无正当转学理由的</li></ol>
+<p>学生转学由本人提出申请并说明理由，经所在学校和拟转入学校同意，由转入学校负责审核转学条件及相关证明，认为符合本校培养要求且学校有培养能力的，经学校校长办公会或者专题会议研究决定，可以转入。研究生转学还应当经拟转入专业导师同意。</p>
+<p>跨省转学的，由转出地省级教育行政部门商转入地省级教育行政部门，按转学条件确认后办理转学手续。</p>
+<h3 id="sec72">硕博连读生、直博生转硕</h3>
+<p>符合下列条件之一，可以申请转为硕士：</p>
+<ol><li>因健康原因经校医院或学校指定的二级甲等以上医院诊断证明不能继续完成博士学业，或其他特殊原因无法继续博士学业的</li><li>因论文水平无法达到博士学位要求但能达到硕士学位要求，由所在培养单位和学位评定分委员会审核后建议转为硕士的</li></ol>
+<p>须填写申请表，经导师、所在培养单位、学位评定分委员会和研究生院审核批准后，办理相关手续。转为硕士后的学费及奖助学金事宜按学校相关的管理规定执行。</p>
+<h2 id="sec73">3.10 休学与复学</h2>
+<p>研究生休学一般按学期进行，最多可以申请两次，累计休学时间不得超过两年。达到最长学习年限的最后一学期不得申请休学。</p>
+<h3 id="sec74">应予休学的五种情形</h3>
+<ol><li>经校医院或学校指定的二级甲等以上医院诊断，因病停课治疗休养占一学期总学时三分之一以上的</li><li>经诊断为严重传染性疾病或其他疾病患者，医生建议应休学治疗的</li><li>在学期间怀孕生育的女性研究生</li><li>因家庭或其他特殊原因不能坚持正常学习的</li><li>学校规定应当休学的其他情形</li></ol>
+<h3 id="sec75">休学手续与期间待遇</h3>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>规则</th></tr></thead><tbody>
+<tr><td>申请</td><td>本人填写休学申请表；因重病和传染病住院治疗等特殊情况可委托他人代办，同时提交校医院或学校指定的二级甲等以上医院医疗诊断证明或其他证明材料</td></tr>
+<tr><td>审批</td><td>导师、培养单位分管领导签署意见并盖章，报研究生院审批</td></tr>
+<tr><td>离校</td><td>应当办理休学手续离校，路费自理，学校保留其学籍</td></tr>
+<tr><td>期间待遇</td><td>不享受在校学习研究生待遇；患病医疗费按本人所购医疗保险的有关规定处理；不得参加课程考试和评优评奖</td></tr>
+<tr><td>责任</td><td>学校不对休学期间发生的事故和违纪违法行为负责；有严重违纪违法的，开除学籍，不得复学</td></tr>
+</tbody></table></div>
+<h3 id="sec76">复学</h3>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>规则</th></tr></thead><tbody>
+<tr><td>时间</td><td>休学期满前一个月内由本人提出申请，填写复学申请表</td></tr>
+<tr><td>材料</td><td>因病休学：校医院或学校指定的二级甲等以上医院诊断恢复健康的证明，特殊病情需专科医院或专科门诊，以及所在地街道或乡等单位开具的行为表现证明；因其他原因休学：满足复学要求的相关证明材料</td></tr>
+<tr><td>审批</td><td>导师、培养单位分管领导签署意见后，报研究生院审批</td></tr>
+<tr><td>逾期</td><td>逾期未办理复学手续的，视为本人放弃复学，学校予以退学处理并注销其学籍</td></tr>
+</tbody></table></div>
+<h3 id="sec77">应征入伍</h3>
+<p>在校学生应征入伍参加中国人民解放军含中国人民武装警察部队的，应按规定办理休学手续，学校保留其学籍至退役后两年，期间不享受在校学习研究生待遇。</p>
+<p>在校研究生参加学校组织的跨校联合培养项目，在联合培养学校学习期间，学校同时为其保留学籍。</p>
+<h2 id="sec78">3.11 退学</h2>
+<p>研究生有下列情形之一，学校予以退学处理：</p>
+<ol><li>休学期满，在学校规定期限内未提出复学申请或者申请复学经复查不合格的</li><li>经校医院或学校指定的二级甲等以上医院诊断，患有疾病或者意外伤残不能继续在校学习的</li><li>未经批准连续两周未参加学校规定的教学活动的</li><li>超过学校规定期限未注册而又未履行暂缓注册手续的</li><li>公派出国，或出境进修、联合培养、参加国际会议的研究生，未经学校批准延期不归，逾期三个月以上的</li><li>学业成绩未达到学校要求或者在学校规定的最长学习年限内未完成学业的</li><li>中期考核不合格超过学校规定次数的</li><li>本人申请退学的</li><li>学校规定应当退学的其他情形</li></ol>
+<p>对研究生的退学处理，由校长办公会研究决定。对退学的研究生，由学校出具退学决定书并送交本人，对无法送交本人的在校内公告，同时报云南省教育厅备案。</p>
+<p>研究生退学的善后事宜：</p>
+<div class="tblwrap"><table><thead><tr><th>事项</th><th>规则</th></tr></thead><tbody>
+<tr><td>就业</td><td>按已有毕业学历和就业政策可以就业的，由学校报云南省教育厅毕业生就业有关部门办理相关手续；两周内没有聘用单位的，应当办理退学手续离校</td></tr>
+<tr><td>离校</td><td>必须在退学通知送达或公告之日起两周内办理退学手续离校</td></tr>
+<tr><td>逾期</td><td>逾期不办理离校手续的，由学校有关部门注销其在校各种关系</td></tr>
+<tr><td>复学</td><td>被取消学籍、退学、开除学籍的研究生，不得申请复学</td></tr>
+</tbody></table></div>
+<h2 id="sec79">3.12 奖励与处分</h2>
+<p>对在德、智、体、美、劳等方面全面发展或者在思想品德、学业成绩、科技创造、文体活动、社会公益服务等方面表现突出的研究生，依据云南大学研究生奖学金评定办法和学校其他的奖励办法给予表彰和奖励。</p>
+<p>研究生应遵守学校的各项规章制度，违反校纪校规者，依据云南大学学生违纪处分办法给予批评教育或者纪律处分。</p>
+<p>纪律处分的种类分为警告、严重警告、记过、留校察看、开除学籍。</p>
+<h3 id="sec80">开除学籍的八种情形</h3>
+<ol><li>违反宪法，反对四项基本原则、破坏安定团结、扰乱社会秩序的</li><li>触犯国家法律，构成刑事犯罪的</li><li>受到治安管理处罚，情节严重、性质恶劣的</li><li>代替他人或者让他人代替自己参加考试、组织作弊、使用通讯设备或其他器材作弊、向他人出售考试试题或答案牟取利益，以及其他严重作弊或扰乱考试秩序行为的</li><li>学位论文、公开发表的研究成果存在抄袭、篡改、伪造等学术不端行为，情节严重的，或者代写论文、买卖论文的</li><li>违反本规定和学校其他规定，严重影响学校教育教学秩序、生活秩序以及公共场所管理秩序的</li><li>侵害其他个人、组织合法权益，造成严重后果的</li><li>屡次违反学校规定受到纪律处分，经教育不改的</li></ol>
+<h3 id="sec81">程序保障</h3>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>规则</th></tr></thead><tbody>
+<tr><td>处分决定书</td><td>应当包括学生的基本信息、作出处分的事实和证据、处分的种类依据期限、申诉的途径和期限，以及其他必要内容</td></tr>
+<tr><td>陈述申辩</td><td>作出处分决定之前，学校将听取研究生或者其代理人的陈述和申辩</td></tr>
+<tr><td>送达</td><td>送交学生本人；拒绝签收的以留置方式送达，已离校的邮寄送达，难于联系的利用学校网站、新闻媒体等以公告方式送达</td></tr>
+<tr><td>重大利益决定</td><td>取消入学资格、取消学籍、退学、开除学籍或其他涉及学生重大利益的处理或处分决定，由校长办公会或校长授权的专门会议研究决定</td></tr>
+</tbody></table></div>
+<h3 id="sec82">处分期限与解除</h3>
+<p>除开除学籍处分以外，给予研究生处分一般设置6到12个月期限，到期按学校规定程序予以解除。解除处分后，学生获得表彰、奖励及其他权益，不再受原处分的影响。</p>
+<p>对研究生的奖励、处理、处分及解除处分材料，学校将真实完整地归入学校文书档案和本人档案。</p>
+<h2 id="sec83">3.13 申诉</h2>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>时限</th></tr></thead><tbody>
+<tr><td>对处理或者处分决定有异议，向学校学生申诉处理委员会提出书面申诉</td><td>接到决定书之日起10日内</td></tr>
+<tr><td>学生申诉处理委员会复查并做出复查结论</td><td>接到书面申诉之日起15个工作日内</td></tr>
+<tr><td>情况复杂不能在规定限期内作出结论，经学校负责人批准可延长</td><td>15日</td></tr>
+<tr><td>对复查决定有异议，向云南省教育厅提出书面申诉</td><td>接到复查决定书之日起15个工作日内</td></tr>
+<tr><td>在申诉期内未提出申诉</td><td>视为放弃申诉，学校或者省级教育行政部门不再受理</td></tr>
+</tbody></table></div>
+<p>学生申诉处理委员会认为必要的，可以建议学校暂缓执行有关决定。经复查认为做出处理或者处分的事实、依据、程序等存在不当的，可以作出建议撤销或变更的复查意见，要求相关职能部门予以研究，重新提交校长办公会或者专门会议作出决定。</p>
+<p>研究生对退学处理有异议的，参照上述程序办理。</p>
+<h2 id="sec84">3.14 毕业、结业与肄业</h2>
+<div class="tblwrap"><table><thead><tr><th>结果</th><th>条件</th><th>证书</th></tr></thead><tbody>
+<tr><td>毕业</td><td>在规定学习年限内完成培养计划规定的课程学习和必要培养环节，成绩合格，并完成毕业或学位论文并通过答辩</td><td>毕业证书；符合学位授予条件的另发学位证书</td></tr>
+<tr><td>结业</td><td>完成培养计划规定的课程学习和必要培养环节，成绩合格，但未能完成或通过毕业或学位论文答辩</td><td>本人申请、学校审核通过后发结业证书</td></tr>
+<tr><td>肄业</td><td>学满一年以上但未完成培养计划而中途退学，或在规定学习年限内未完成培养计划规定的课程学习和必要培养环节</td><td>本人申请、学校审核通过后发肄业证书</td></tr>
+</tbody></table></div>
+<p>毕业前，各培养单位要对预毕业研究生进行德、智、体全面考核鉴定。毕（结）业的研究生，应在学校规定的时间内办妥各项离校手续，方可领取毕（结）业证书。毕（结）业研究生的就业工作按照教育部、云南省和学校有关文件和规定执行。</p>
+<p>学校将执行高等教育学历证书电子注册管理制度，并按相关规定及时完成毕（结）业学生的学历电子注册。</p>
+<p>对违反国家招生规定取得入学资格或者学籍，以及因作弊、剽窃、抄袭等学术不端行为或者其他不正当手段获得学历证书、学位证书的，已发的学历证书、学位证书，学校将依法予以撤销并报教育行政部门宣布无效。</p>
+<p>学历证书和学位证书遗失或者损坏，经本人申请，学校核实后可出具相应的证明书，证明书与原证书具有同等效力。</p>
+<p>除相关部门另有规定外，对港澳台侨研究生、国际留学研究生的学籍管理参照本规定执行。</p>
+<h2 id="sec85">3.15 原文位置</h2>
+<div class="tblwrap"><table><thead><tr><th>内容</th><th>位置</th></tr></thead><tbody>
+<tr><td>云南大学研究生学籍管理规定，云大研〔2020〕10号</td><td>上册印刷页55–69</td></tr>
+<tr><td>云南大学研究生课程和教学管理规定，云大研院〔2022〕3号</td><td>上册印刷页86–93</td></tr>
+<tr><td>云南大学全日制研究生公共英语课程免修规定</td><td>上册印刷页142</td></tr>
+<tr><td>云南大学研究生转专业、转导师管理规定（试行）</td><td>上册印刷页158</td></tr>
+<tr><td>云南大学研究生提前毕业管理规定</td><td>上册印刷页144</td></tr>
+<tr><td>云南大学研究生毕业、结业、肄业及学历证书管理规定（试行）</td><td>上册印刷页107</td></tr>
+<tr><td>云南大学研究生国际交流与合作管理暂行规定</td><td>上册印刷页153</td></tr>
+</tbody></table></div>
+<h1 id="sec86">四、培养与学术考核</h1>
+<h2 id="sec87">4.1 学位论文开题</h2>
+<h3 id="sec88">时间要求</h3>
+<p>博士和硕士研究生的开题时间由各培养单位自行确定，应不晚于二年级下学期进行开题。各培养单位一年中可视情况组织多次开题答辩。</p>
+<h3 id="sec89">基本要求</h3>
+<ul><li>开题应在导师指导下进行</li><li>研究生须通过开题方能进入学位论文撰写阶段</li><li>须组织开题答辩，培养单位应提前告知时间安排，并在答辩会前对参加答辩学生的开题时间、题目等信息进行公示</li><li>开题未通过的，须在培养单位或学科规定时间内重新开题</li><li>开题后论文题目有重大调整和修改的，需要重新开题</li></ul>
+<h3 id="sec90">开题报告应包含的八项内容</h3>
+<ol><li>论文选题的背景、目的及意义</li><li>国内外相关研究现状综述</li><li>研究的主要内容</li><li>研究方案，含研究思路或技术路线、研究方法或技术措施、拟解决的关键问题、实施方案所需条件</li><li>论文可能的创新点及预期成果</li><li>论文前期已完成的研究工作和可能存在的困难</li><li>论文工作进度安排及经费预算</li><li>参考文献</li></ol>
+<p>字数要求：博士不少于2万字，硕士不少于1万字。</p>
+<h3 id="sec91">开题答辩评审成员</h3>
+<div class="tblwrap"><table><thead><tr><th>层次</th><th>人数要求</th><th>关键限制</th></tr></thead><tbody>
+<tr><td>博士</td><td>至少5名本学科副教授以上专家，含导师</td><td>导师不能担任评审组长；至少1名外单位高水平专家</td></tr>
+<tr><td>硕士</td><td>至少3名本学科硕士生导师，含导师</td><td>导师不能担任评审组长；专业学位硕士应有行业和企业专家</td></tr>
+</tbody></table></div>
+<h3 id="sec92">评审结果</h3>
+<p>结果分通过、修改后通过、不通过三档，由参会评审专家集体商议后给出明确结果。</p>
+<p>修改后通过的，须在1个月内向开题评审专家组提交修改后的开题报告；评审专家认定通过方能撰写学位论文；认定为不通过则需重新参加开题答辩。</p>
+<h3 id="sec93">结果上报</h3>
+<p>相关信息须录入研究生信息管理系统。开题报告电子版和云南大学研究生学位论文开题答辩评审表原件扫描后上传系统。评审表原件一式两份妥善保存，由培养单位收齐后统一交研究生院档案室归档。</p>
+<h2 id="sec94">4.2 中期考核与分流</h2>
+<h3 id="sec95">基本规则</h3>
+<p>凡取得我校学籍的研究生均须按期参加中期考核。</p>
+<p>时间一般安排在学位论文开题通过后的下一学期进行。由研究生院下发通知，各培养单位负责具体组织实施。</p>
+<p>因出国、休学等原因未能如期参加的，本人申请并经培养单位审核同意，可延期考核。未经批准而擅自不参加中期考核者，按考核不合格评定。</p>
+<h3 id="sec96">组织</h3>
+<p><strong>中期考核领导小组</strong>由学位评定分委会、学科委员会或专业学位教育指导委员会成员、研究生导师代表等组成，人数不少于5人。职责是制订本单位实施细则，确定专家小组成员名单，审定考核结果并上报研究生院备案，解释异议、处理争议。</p>
+<p><strong>中期考核专家小组：</strong></p>
+<div class="tblwrap"><table><thead><tr><th>层次</th><th>人数要求</th><th>关键限制</th></tr></thead><tbody>
+<tr><td>硕士</td><td>不少于3人，其中至少2人是研究生导师</td><td>同组有自己指导的学生参加考核时，导师可任组员但不能任组长</td></tr>
+<tr><td>博士</td><td>不少于5人，其中至少3人是博士研究生导师</td><td>同组有自己指导的学生参加考核时，导师可任组员但不能任组长</td></tr>
+</tbody></table></div>
+<h3 id="sec97">考核内容</h3>
+<div class="tblwrap"><table><thead><tr><th>考核项</th><th>内容</th></tr></thead><tbody>
+<tr><td>思想政治、道德品质及日常行为表现</td><td>政治素质、道德修养、治学态度、学术道德、组织纪律、日常操行</td></tr>
+<tr><td>课程学习情况</td><td>是否按培养方案和个人培养计划学习，学分完成情况和学分绩点是否达到要求；一般应完成所有应修课程并获得相应学分，平均学分绩点不得低于考核时学校规定的最低平均学分绩点；课程跨度大的学科可在方案中规定考核时需达到的课程学习进度要求</td></tr>
+<tr><td>科研工作开展情况</td><td>学术交流、文献阅读、学术论文发表等，以及学习能力、创新能力、参与科研的积极性和责任心</td></tr>
+<tr><td>学位论文工作开展情况</td><td>是否按开题报告的内容和计划按期开展；专业学位研究生还应着重考核专业实践的开展情况，即是否按培养方案完成规定时间的专业实践</td></tr>
+</tbody></table></div>
+<p>考核形式可为综合笔试、中期考核答辩、工作汇报等。</p>
+<h3 id="sec98">考核程序</h3>
+<ol><li>研究生填写云南大学研究生中期考核表，在规定时间内提交考核申请</li><li>导师综合评价并明确给出是否同意参加中期考核的意见</li><li>培养单位组织实施；对两次考核仍不合格的学生给出明确分流意见，将书面考核结果和分流意见报研究生院审定。培养单位须制定详细实施办法并提前向研究生公布，考核结果须公示不少于5个工作日</li><li>研究生院复核并备案，根据分流意见进行最终分流处理</li></ol>
+<p>对考核结果有异议的，可在公示期内向培养单位中期考核领导小组提出申诉。领导小组对考核过程等进行复查并给出处理意见。</p>
+<h3 id="sec99">考核结果等级</h3>
+<p>优秀、良好、合格、不合格四档，各等级评选条件和比例由培养单位自行确定。</p>
+<h3 id="sec100">考核不合格的七种情况</h3>
+<ol><li>思想政治、道德品质表现较差；不服从学校和培养单位合理学习安排、组织和学习纪律较差，经教育仍不悔改</li><li>有弄虚作假、抄袭或剽窃他人成果，被认定为违反学术道德</li><li>无特殊原因，未按培养方案和个人培养计划完成课程学习、修满学分，或 GPA 未达学校规定要求</li><li>开题通过后学位论文工作无明显进展</li><li>明显缺乏科研能力不适合继续开展论文工作</li><li>未经批准不参加中期考核</li><li>患有疾病经休学治疗后仍不能正常学习</li></ol>
+<h3 id="sec101">分流处理</h3>
+<p><strong>硕士研究生</strong></p>
+<ul><li>优秀、良好、合格的，可继续学位论文工作；考核优秀者优先作为硕博连读人选</li><li>不合格的，可在至少3个月后或基本学习年限内申请再次参加中期考核</li><li>第二次仍不合格，或已达基本学习年限而中期考核仍未完成的，终止学习。已完成培养计划规定课程并修满学分的，本人申请准予结业并发结业证书；未完成培养计划、未修满学分的，本人申请准予肄业并发肄业证书</li></ul>
+<p><strong>博士研究生</strong></p>
+<ul><li>优秀、良好、合格的，可继续学位论文工作，含普通博士生、硕博连读生、直博生</li><li>不合格的，可在至少3个月后或基本学习年限内申请再次考核</li><li>第二次仍不合格或已达基本学习年限仍未完成的：普通博士生终止学习，修满学分可申请结业，未修满可申请肄业；硕博连读生、直博生由培养单位根据平时表现给出终止学习或退回硕士阶段培养的意见，报学校审批后执行</li></ul>
+<h2 id="sec102">4.3 学术道德规范及违规处理</h2>
+<h3 id="sec103">适用范围</h3>
+<p>云南大学在编在册的所有从事教学、科研及其他有关工作的教师、研究人员、博士后和学生，以及以云南大学名义发表作品的其他人员，含访问学者、进修教师、兼职人员。</p>
+<h3 id="sec104">学术道德基本规范</h3>
+<div class="tblwrap"><table><thead><tr><th>规范</th><th>要求</th></tr></thead><tbody>
+<tr><td>遵守法律法规</td><td>宪法、民法通则、著作权法、专利法、计算机软件保护条例、国家通用语言文字法、高等学校哲学社会科学研究学术规范等</td></tr>
+<tr><td>尊重知识产权</td><td>引用他人成果如实注明出处；所引用部分不能构成引用人作品的主要部分或实质部分；转引第三人成果须如实注明转引出处</td></tr>
+<tr><td>实事求是署名</td><td>署名者承担学术、道义、法律责任；合作成果按贡献大小顺序署名；发表前须所有署名人审阅并签字认可；不准未参加实际研究或写作而署名；不准未经原作者同意在别人作品中署名</td></tr>
+<tr><td>规范发表、发布</td><td>重大成果须完成论证鉴定并经主管部门批准后方可公布；未经合作者同意不得将合作成果仅以个人署名发表；不得重复发表，另有约定再次发表须注明出处；保证实验记录和数据的完整、真实、安全；已发表成果中的错误应以适当方式公开承认</td></tr>
+<tr><td>如实登记填报</td><td>不准弄虚作假、不准据他人成果为己有、不准改动署名排序、不准擅自改变成果性质、不准夸大业绩</td></tr>
+<tr><td>维护学术评价客观公正</td><td>在推荐、评审、论证、鉴定、答辩、评奖等活动中坚持客观公正，按章办事，不徇私情</td></tr>
+<tr><td>维护国家安全等</td><td>严格遵守和维护国家安全、信息安全、生态安全、健康安全等方面的规定</td></tr>
+<tr><td>不得谋取不正当利益</td><td>不得利用科研活动谋取不正当利益</td></tr>
+<tr><td>其他</td><td>遵守学术界公认的其他学术道德规范</td></tr>
+</tbody></table></div>
+<h3 id="sec105">违反学术道德规范的八类行为</h3>
+<div class="tblwrap"><table><thead><tr><th>类别</th><th>具体行为</th></tr></thead><tbody>
+<tr><td>抄袭剽窃</td><td>抄袭、剽窃、侵吞、篡改他人学术成果，含观点、思想、实验数据、调查结果</td></tr>
+<tr><td>伪造学术经历</td><td>在评奖、评优、奖助学金评定等申报材料中不如实报告简历、学术经历、成果，伪造专家鉴定、证书及其他学术能力证明材料</td></tr>
+<tr><td>虚报科研成果</td><td>随意提高学术档次，故意夸大成果的学术价值、经济与社会效益</td></tr>
+<tr><td>不当署名</td><td>未参加研究或写作而署名；未经被署名人同意署其名；署名位次高于实际贡献；随意代签、冒签；损害他人著作权、侵犯署名权；将做出创造性贡献的人排除在作者名单外</td></tr>
+<tr><td>干扰他人研究</td><td>采用不正当手段干扰和妨碍他人研究活动，故意毁坏或扣压他人必需的仪器设备、文献资料等；对竞争项目实施不正当竞争</td></tr>
+<tr><td>一稿多投</td><td>一稿多投</td></tr>
+<tr><td>违反保密规定</td><td>违反保密法律法规或学校保密规定，将应保密学术事项对外泄露</td></tr>
+<tr><td>其他</td><td>其他违背学术道德规范的行为</td></tr>
+</tbody></table></div>
+<h3 id="sec106">调查与处理程序</h3>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>要求</th><th>时限</th></tr></thead><tbody>
+<tr><td>举报</td><td>任何人都有义务向校学术委员会举报，校学术委员会下设人文社科与自然科学两个分委员会；匿名举报不予受理，实名举报尊重举报人意愿对其姓名公开或保密</td><td>—</td></tr>
+<tr><td>决定是否立项</td><td>会同被举报人所在学院学术委员会委员、院长、系主任共同讨论，听取被举报人申辩、解释后决定</td><td>接到实名举报后10个工作日内</td></tr>
+<tr><td>事实认定</td><td>责成相关学院学术委员会在有校学术委员会成员在场的情况下认定有关事实和结论，院学术委员会须提交书面报告</td><td>30个工作日内</td></tr>
+<tr><td>审议裁决</td><td>校学术委员会审议院学术委员会意见，确认存在学术道德问题的做出调查仲裁结论</td><td>—</td></tr>
+<tr><td>结论通知</td><td>通知举报人和被举报人，有异议可要求校学术委员会重新审议</td><td>—</td></tr>
+<tr><td>处理</td><td>无异议的向学校提出处理意见，学校按程序给予纪律或组织处分；侵犯其他个人或单位权益的，可责令公开赔礼道歉、补偿损失</td><td>—</td></tr>
+</tbody></table></div>
+<p><strong>回避制度。</strong> 校院学术委员会委员涉及学术道德问题，或与当事人有近亲属关系的，应主动回避，退出调查。当事人有充分理由证明有关人员与自己有特殊利益关系的，经学术委员会主任批准，可要求相关人士回避。调查对象涉及院负责人或学术委员会成员的，校学术委员会主任可指定专门工作小组进行认定。</p>
+<p><strong>保密。</strong> 学校做出处理决定以前，一切程序和资料均在保密范围之内，所有涉及人员不得泄露。</p>
+<h3 id="sec107">惩处</h3>
+<p>处理方式可单独或合并适用：诫勉谈话、通报批评、暂缓职务晋升、撤销获得的有关奖励和资格、给予行政处分，以及学校相关规范性文件规定的其他措施。</p>
+<p>对学生，视情节轻重给予批评教育、警告、严重警告、留校察看、开除学籍。</p>
+<p>对教师，在人事录用、职称晋升、学位授予、项目审批、考核评估、科研奖励等之前须调查学术道德情况；有较明显违反学术道德行为的教师实行一票否决，所获学术职称或荣誉予以取消或建议取消。</p>
+<p>触犯国家法律进入法律程序的，学校配合相关部门调查处理。解释权归校学术委员会。</p>
+<h2 id="sec108">4.4 学位论文作假与评阅</h2>
+<div class="tblwrap"><table><thead><tr><th>文件</th><th>要点</th></tr></thead><tbody>
+<tr><td>学位论文作假行为处理办法</td><td>学位论文出现购买、他人代写、剽窃、伪造数据等作假情形，将面临取消学位申请资格、撤销学位、开除学籍等处理；已获学位的可撤销学位证书</td></tr>
+<tr><td>学位论文评阅办法</td><td>学位论文送校外专家匿名评阅，评阅结果直接影响能否答辩；评阅意见分档次，出现不合格意见将触发增送评阅或延期答辩</td></tr>
+</tbody></table></div>
+<h2 id="sec109">4.5 其他培养相关规定</h2>
+<div class="tblwrap"><table><thead><tr><th>规定名称</th><th>位置</th></tr></thead><tbody>
+<tr><td>云南大学学术学位研究生培养工作规定</td><td>上册印刷页70</td></tr>
+<tr><td>云南大学专业学位研究生培养工作规定</td><td>上册印刷页78</td></tr>
+<tr><td>云南大学专业学位研究生专业实践管理办法</td><td>上册印刷页102</td></tr>
+<tr><td>云南大学研究生学位论文写作规范</td><td>上册印刷页112</td></tr>
+<tr><td>云南大学申请博士学位学术创新能力审查办法（修订）</td><td>上册印刷页123</td></tr>
+<tr><td>云南大学研究生涉密学位论文管理暂行办法</td><td>上册印刷页133</td></tr>
+<tr><td>云南大学研究生暂缓公开学位论文管理办法（试行）</td><td>上册印刷页141</td></tr>
+<tr><td>云南大学关于硕博连读、直博研究生培养工作的若干规定</td><td>上册印刷页147</td></tr>
+<tr><td>云南大学研究生联合培养管理办法</td><td>上册印刷页151</td></tr>
+<tr><td>云南大学博士研究生毕业与学位授予分离管理办法（试行）</td><td>上册印刷页162</td></tr>
+</tbody></table></div>
+<h1 id="sec110">五、医疗保障</h1>
+<h2 id="sec111">5.1 基本规则</h2>
+<ul><li>大学生医保属于城乡居民基本医疗保险范畴，是财政补助与个人缴费相结合</li><li>我校注册学籍的全日制本科生、研究生必须参加居民基本医疗保险</li><li>个人缴费标准执行云南省城乡居民缴费标准，2027年度缴费标准待云南省医保局通知</li><li>大学生不另行缴纳大病保险费</li><li>政策解释权属云南省医疗保障局，电话 0871-63886166</li></ul>
+<h2 id="sec112">5.2 参保与缴费</h2>
+<h3 id="sec113">时间与渠道</h3>
+<ol><li>学生入学后9月至次年2月，自行通过云南医保小程序，选择省属在昆高校大学生参保，完成参保登记</li><li>登记成功后，在云南省电子税务局支付宝或微信公众号，选择省属大学生医保缴费，完成自主缴费</li><li>具体参保缴费流程详见云南大学校医院服务号通知</li></ol>
+<h3 id="sec114">参保范围</h3>
+<p>2026年新入学含本年度退役、转学等特殊原因入学的注册学籍学生，包含港澳台籍学生，以及往届在籍学生。</p>
+<h3 id="sec115">特殊身份学生</h3>
+<p>属于生源地政策资助参保的大学生，主要包括动态监测人员、低保、残疾、特困、失地农民等特殊身份认定，可以自愿选择参加大学生医保，也可选择在身份认定地参加城乡居民基本医疗保险。</p>
+<h3 id="sec116">待遇等待期</h3>
+<p>自2025年起，居民医保含省属在昆高校大学生医保，在非集中缴费期参保缴费，或未连续参保缴费的，将会有3个月以上的待遇等待期。待遇等待期内参保人员不得享受居民医保待遇，发生的医疗费用不予报销。</p>
+<p>职工医保断保后有两种续保方式：</p>
+<ol><li>以灵活就业人员身份缴纳该年度职工医保</li><li>断保3个月内及时转为居民医保并缴纳当前年度居民医保费</li></ol>
+<p>务必在集中缴费期即9月至次年2月内完成缴费，且每年连续缴费。中断一年，至少有3个月看病全部自费。</p>
+<h2 id="sec117">5.3 医保待遇</h2>
+<h3 id="sec118">待遇享受期</h3>
+<ul><li>入学当年9月至12月，继续享受入学前参保地即生源地的城乡居民基本医疗保险待遇</li><li>参加大学生医保且缴费成功后，待遇享受期为次年1月1日至12月31日</li></ul>
+<p>例如2026年10月参保缴费成功，待遇期为2027年1月1日至12月31日。</p>
+<p>按省本级居民医保个人缴费标准足额缴费后，享受省本级居民医保和城乡居民大病保险待遇。</p>
+<h3 id="sec119">待遇项目</h3>
+<ol><li>普通门诊待遇</li><li>慢性病门诊待遇</li><li>特殊病门诊待遇</li><li>协议期内国家谈判药门诊保障待遇</li><li>日间手术待遇</li><li>门诊急诊抢救待遇</li><li>住院医疗待遇</li><li>住院分娩待遇</li></ol>
+<p>详细政策内容见云南大学校医院服务号医保宣传的学生医保栏目。</p>
+<h3 id="sec120">大病保险待遇标准</h3>
+<p>居民医保统筹基金支付政策范围内费用后的部分，纳入大病保险资金支付范围。</p>
+<div class="tblwrap"><table><thead><tr><th>项目</th><th>标准</th></tr></thead><tbody>
+<tr><td>起付线</td><td>每年2000元，累计计算</td></tr>
+<tr><td>支付比例</td><td>统一90%</td></tr>
+<tr><td>年度最高支付限额</td><td>30万元，自2025年6月1日起按此结算</td></tr>
+<tr><td>兜底</td><td>符合规范转诊转院的，政策范围内费用经居民医保、大病保险报销后，支付比例达不到90%的，由居民医保统筹基金报销到90%</td></tr>
+</tbody></table></div>
+<h2 id="sec121">5.4 社会保障卡</h2>
+<p>学生就医可使用医保码或社会保障卡在开通大学生医保的各医疗机构刷码或刷卡进入系统直接结算。</p>
+<ul><li>社会保障卡学校不统一制作，参保学生根据自己实际情况自行申请制作</li><li>首次制卡不收取制卡费</li><li>实体社保卡初始密码为 000000</li><li>云南省内户籍学生一个身份证只能拥有一张社保卡</li><li>参保人社保卡被封锁或不能刷，可用医保电子码支付</li><li>具体请关注校医院公众号</li></ul>
+<h2 id="sec122">5.5 联系方式与原文位置</h2>
+<div class="tblwrap"><table><thead><tr><th>单位</th><th>电话</th></tr></thead><tbody>
+<tr><td>云南省医疗保障局</td><td>0871-63886166</td></tr>
+<tr><td>云南大学校医院医保办 呈贡校区</td><td>0871-65034279</td></tr>
+<tr><td>云南大学校医院医保办 东陆校区</td><td>0871-65033807</td></tr>
+</tbody></table></div>
+<p>云南大学学生医疗保险实施细则位于下册印刷页343至345。该细则源自国家医疗保障局、云南省医疗保障局相关政策文件，云南省省级城乡居民医疗保障筹资及待遇政策由省医保局会同相关部门适时调整，以往与本细则不一致的按本细则执行。</p>
+<h1 id="sec123">六、纪律红线与权益救济</h1>
+<h2 id="sec124">6.1 处分种类与期限</h2>
+<p>处分种类由轻到重为：警告、严重警告、记过、留校察看、开除学籍。</p>
+<ul><li>处分期间不得参评各类奖学金及评先评优等各类荣誉称号</li><li>在处分期间表现良好没有再次违纪的，解除处分后，学生获得表彰、奖励及其他权益，不再受原处分的影响</li><li>留校察看期限为一年，从处分决定书发布之日起计算。受留校察看处分期间，学生坚持错误或者另有违纪行为的，给予开除学籍处分</li><li>学生受处分文件及材料应当一并如实、完整地归入学生本人档案和学校文书档案</li></ul>
+<h3 id="sec125">可以从轻或减轻处分的三种情形</h3>
+<ol><li>能主动承认错误，如实陈述错误事实，认识深刻，有悔改表现的</li><li>确系他人威胁、胁迫或者诱骗，并能主动揭发、认错态度好的</li><li>其它根据违纪事实、情节、后果等可以从轻处分的</li></ol>
+<h3 id="sec126">从重或加重处分的八种情形</h3>
+<ol><li>群体违纪事件的策划者、组织者或者骨干</li><li>违纪后仍不承认错误的</li><li>对证人、举报人、知情人，或者履行职责的工作人员进行威胁恫吓或者打击报复的</li><li>有两种以上违纪行为，或者同时实施本办法规定的两条以上规定行为的</li><li>屡次违纪的</li><li>酒后违纪的</li><li>勾结校外人员违纪的</li><li>其它根据违纪事实、情节、后果等可以从重处分的</li></ol>
+<p>情节轻微、不足以给予纪律处分的，应由学生所在学院给予通报批评，督促其改正错误。</p>
+<p>通报批评扣思想道德素质分0.5分。警告以上处分则直接导致当年无奖学金申请资格。</p>
+<h2 id="sec127">6.2 违纪行为红线</h2>
+<div class="tblwrap"><table><thead><tr><th>行为</th><th>处分</th></tr></thead><tbody>
+<tr><td>违反宪法、法律、法规被处以治安警告或者治安罚款</td><td>严重警告以上，情节严重者留校察看</td></tr>
+<tr><td>被处以治安拘留</td><td>记过以上，情节严重者开除学籍</td></tr>
+<tr><td>被司法机关处以罚金</td><td>记过以上，情节严重者留校察看</td></tr>
+<tr><td>构成犯罪，司法机关依法不追究刑事责任的</td><td>留校察看以上</td></tr>
+<tr><td>被剥夺政治权利、判处管制以上刑罚</td><td>开除学籍</td></tr>
+<tr><td>言语挑衅、侮辱他人引发打架</td><td>严重警告以上</td></tr>
+<tr><td>殴打他人</td><td>记过；致人轻伤留校察看；致人重伤开除学籍</td></tr>
+<tr><td>打架终止后报复打人</td><td>留校察看以上</td></tr>
+<tr><td>持械斗殴</td><td>留校察看；动用刀具斗殴开除学籍</td></tr>
+<tr><td>策划、组织、纠集打群架</td><td>留校察看以上</td></tr>
+<tr><td>参与打群架</td><td>记过以上</td></tr>
+<tr><td>为他人打架提供凶器，未造成伤害</td><td>记过</td></tr>
+<tr><td>为他人打架提供凶器，造成伤害</td><td>留校察看以上</td></tr>
+<tr><td>盗窃等既遂，金额500元以下</td><td>严重警告</td></tr>
+<tr><td>盗窃等既遂，金额500元以上800元以下</td><td>记过</td></tr>
+<tr><td>盗窃等既遂，金额800元以上</td><td>留校察看直至开除学籍</td></tr>
+<tr><td>盗窃或者损坏公章、保密文件、试卷或者档案等物品</td><td>留校察看以上</td></tr>
+<tr><td>故意违反实验、实习操作规程造成损失</td><td>严重警告以上</td></tr>
+<tr><td>损毁校园建筑物、重要形象标志、公共设施或者文物</td><td>记过以上</td></tr>
+<tr><td>损毁校园通信、信息网络设施，私自搭接电缆、安装交换机或路由器</td><td>留校察看以上</td></tr>
+<tr><td>组织、煽动学生罢课</td><td>记过以上</td></tr>
+<tr><td>故意撕毁学校重要通知、通告、文件</td><td>严重警告以上</td></tr>
+</tbody></table></div>
+<p>完整的违法行为与处分对应表见下册印刷页219至230。考试作弊与学术不端相关红线见第三章开除学籍的八种情形和第四章学术道德规范。</p>
+<h2 id="sec128">6.3 申诉</h2>
+<div class="tblwrap"><table><thead><tr><th>项目</th><th>内容</th></tr></thead><tbody>
+<tr><td>机构</td><td>学生申诉处理委员会，挂靠监察处，负责受理并审查学生申诉，向校长办公会议负责并报告工作</td></tr>
+<tr><td>主任</td><td>分管学生工作的校领导</td></tr>
+<tr><td>常任委员</td><td>学校监察处、党委本科生工作部、党委研究生工作部、教务处、研究生院、法律事务办公室、公安处、校团委等部门负责人</td></tr>
+<tr><td>临时委员</td><td>两名教师代表和两名学生代表；申诉人为研究生的，学生临时委员由校研究生会推举；不能由申诉人所在院系的师生担任</td></tr>
+<tr><td>回避</td><td>委员与案件有特殊关系、可能影响案件公正处理的，应予以回避</td></tr>
+</tbody></table></div>
+<h3 id="sec129">时间表</h3>
+<div class="tblwrap"><table><thead><tr><th>环节</th><th>时限</th></tr></thead><tbody>
+<tr><td>提出书面申诉</td><td>接到处理或者处分决定书之日起10日内</td></tr>
+<tr><td>申诉处理委员会作出复查结论</td><td>申诉受理决定之日起15个工作日内</td></tr>
+<tr><td>情况复杂，经学校负责人批准可延长</td><td>15日</td></tr>
+<tr><td>对复查决定有异议，向云南省教育行政部门提出书面申诉</td><td>接到复查决定书之日起15日内</td></tr>
+<tr><td>在申诉期内未提出申诉</td><td>视为放弃申诉，学校不再受理</td></tr>
+</tbody></table></div>
+<p>处理、处分或者复查决定书未告知学生申诉期限的，申诉期限自学生知道或者应当知道处理或者处分决定之日起计算，但最长不得超过6个月。</p>
+<p>申诉期间，学校处理决定不停止执行。</p>
+<h3 id="sec130">申诉书要求</h3>
+<p>应当字迹工整、表达清楚，并由申诉人亲笔签名，载明下列内容：</p>
+<ol><li>申诉人的学号、姓名、性别、出生年月、所在学院、班级、住址、联系方式</li><li>申诉的事项、理由、申诉请求</li><li>提出申诉的日期</li><li>相关的证据材料</li><li>学校处理决定的复印件</li></ol>
+<h3 id="sec131">复查</h3>
+<p>复查一般以书面审查为主。必要时可采用向申诉人和有关部门及人员询问、要求作进一步的书面说明或提交证据材料，自行组织调查，以及其他必要的方式。</p>
+<p>复查结论分两种：</p>
+<ol><li>原处理或处分决定认定事实清楚、适用规章制度正确、程序合理的，作出维持原处理或处分决定的复查结论</li><li>申诉处理委员会认为原处理或处分的事实、依据、程序存在不当的，可以作出建议撤销或变更的复查意见，要求有关职能部门予以研究，重新提交校长办公会或者专门会议作出决定</li></ol>
+<p>申诉处理委员会认为必要的，可以建议学校暂缓执行有关处理或决定。</p>
+<h2 id="sec132">6.4 处分解除</h2>
+<p>适用于警告、严重警告、记过、留校察看四种处分，开除学籍不适用。</p>
+<h3 id="sec133">不予解除处分的三种情形</h3>
+<ol><li>触犯国家刑事法律或严重违反治安管理处罚法</li><li>毕业学年最后一学期受纪律处分者，和毕业前留校察看不满一年者</li><li>在校期间累计受到两次及以上纪律处分</li></ol>
+<h3 id="sec134">申请条件</h3>
+<p><strong>基本条件</strong></p>
+<ol><li>受警告、严重警告、记过处分的学生，从处分决定书下发之日起至少经过不少于半年的考核；受留校察看处分的学生，从处分决定书下发之日起不少于一年的考核</li><li>接受教育态度诚恳，主动向学院主管学生工作的负责人或辅导员汇报思想，每学期认真撰写思想汇报，并上交所在学院</li><li>在考核期内未受到其他纪律处分或者通报批评</li><li>考核期内积极参加学校、学院组织的各项活动</li></ol>
+<p><strong>具体条件</strong></p>
+<div class="tblwrap"><table><thead><tr><th>申请解除</th><th>要求</th></tr></thead><tbody>
+<tr><td>警告、严重警告</td><td>自受处分以来，研究生学习成绩良好</td></tr>
+<tr><td>记过、留校察看</td><td>自受处分以来，研究生学习成绩良好，有一定科研成果</td></tr>
+</tbody></table></div>
+<p>有特别重大先进事迹受到省、市级以上表彰，且符合基本条件、考核时间已达到三个月以上者，可以申请提前解除原纪律处分。</p>
+<h3 id="sec135">工作程序</h3>
+<ol><li><strong>个人申请。</strong> 填写云南大学学生纪律处分解除申请审批表，交辅导员审核</li><li><strong>班级评议。</strong> 辅导员组织班委会、团支部干部、学生代表或者全体学生听取申请解除处分学生陈述意见，组织民主评议，向学院学生工作领导小组提出是否同意解除处分的意见</li><li><strong>学院审核。</strong> 学院召开学生工作领导小组会议，讨论并形成审核意见，经公示后，及时将受处分学生的考核档案及审批表、考核期间的获奖证书原件、班级民主评议结果、学院意见等材料，按处分的类别上报相关职能部门</li><li><strong>学校审批。</strong> 相关职能部门审查后提出解除处分的处理建议，并在全校范围内公示一周</li><li>公示一周无异议后，报请分管校领导审批决定</li><li>对解除处分的学生，应当出具决定书，由学院负责送达学生本人</li></ol>
+<p>学院应在收到解除处分申请表后的五个工作日内决定是否受理。学院无故拒绝受理，或者收到申请后不予以答复的，申请人可以在学院受理时间届满后，直接向学校相关职能部门提出书面申请。</p>
+<p>申请解除纪律处分的学生在申请期间又有违纪行为的，取消其申请解除纪律处分的资格。</p>
+<h3 id="sec136">归口部门</h3>
+<div class="tblwrap"><table><thead><tr><th>情形</th><th>负责部门</th></tr></thead><tbody>
+<tr><td>研究生因违反学籍管理规定而受到纪律处分</td><td>研究生院</td></tr>
+<tr><td>研究生因违反日常行为规范而受到纪律处分</td><td>党委研究生工作部</td></tr>
+<tr><td>本科生因违反考试纪律或者学习纪律规定而受到纪律处分</td><td>教务处</td></tr>
+<tr><td>本科生因违反日常行为规范而受到纪律处分</td><td>党委本科生工作部</td></tr>
+</tbody></table></div>
+<h2 id="sec137">6.5 住宿管理</h2>
+<p>学生公寓实行先缴费后入住的制度，学校按物价主管部门批准的收费标准收费。学校按照全日制学生正常学制年限，给予住宿资格。</p>
+<h3 id="sec138">寝室内严禁的行为</h3>
+<div class="tblwrap"><table><thead><tr><th>类别</th><th>严禁行为</th></tr></thead><tbody>
+<tr><td>作息与秩序</td><td>寝室卫生检查不合格；大声喧哗或熄灯后打电话、洗澡、洗衣服等影响他人休息；晚归，晚归后填报假名；不配合学校相关检查工作，如安全检查、零报告查宿等</td></tr>
+<tr><td>危险物品</td><td>存放管制刀具、枪弹含仿真枪、易燃、易爆、有毒等危险物品</td></tr>
+<tr><td>违规电器</td><td>存放和使用除饮水机外通过电阻式发热进行工作的电器，包括热得快、电饭煲、电炒锅、电炉、电熨斗、大功率电吹风、烫发电夹板、电烙铁等</td></tr>
+<tr><td>明火</td><td>使用明火，如在寝室点蜡烛、焚烧纸张，用纸垫点蚊香，在床上使用热源台灯</td></tr>
+<tr><td>线路</td><td>私拉乱接电源线、网络线、电话线、电视线等</td></tr>
+<tr><td>床位与住宿</td><td>未办理退宿手续私自搬离寝室，或在寝室内留有床位又在外住宿；未经请假夜不归宿；留宿他人或留宿异性；出租、出借自己床位给他人；擅闯异性宿舍区、在他人寝室住宿；私自转让或调换床位，私配或转借寝室钥匙或更换门锁</td></tr>
+<tr><td>公共设施与卫生</td><td>饮酒、斗殴、砸瓶摔物、破坏卫生和公物；随意停放存放自行车、堆放杂物，阻塞疏散通道或出口；擅自拆除、损毁、搬用消防、水电等公共设施；在住宿区内高声喧哗、拍球、踢球及乱贴、乱画、乱刻、乱扔、乱吐、乱倒；攀爬楼道、门、窗、护栏、管道等</td></tr>
+<tr><td>其他</td><td>存放、观看、传播淫秽品或进行迷信活动；任何形式的赌博；饲养宠物；擅自在公寓内发放广告宣传材料或开展经营性活动；其他可能危害自身或他人安全的活动</td></tr>
+</tbody></table></div>
+<h3 id="sec139">违纪记分</h3>
+<p>学生在公寓内有上述行为的，管理人员应当给予批评教育，态度恶劣且屡教不改者，进行违纪登记记分。每学年违纪记分累计达1分以上者，学生公寓管理中心按规定通报学院给予纪律处分。</p>
+<div class="tblwrap"><table><thead><tr><th>程度</th><th>记分</th></tr></thead><tbody>
+<tr><td>轻微违规</td><td>0.1至0.3分</td></tr>
+<tr><td>一般违规</td><td>0.3至0.6分</td></tr>
+<tr><td>较重违纪、违规</td><td>0.6至1分</td></tr>
+<tr><td>严重违规</td><td>按云南大学学生违纪处分办法给予处分</td></tr>
+</tbody></table></div>
+<h3 id="sec140">卫生检查与综合测评挂钩</h3>
+<p>卫生成绩以百分制评定，60分以下为卫生不合格宿舍。学生公寓管理中心每周检查一次，公布检查结果。</p>
+<ul><li>一月内卫生检查2次不合格的宿舍，学生公寓管理中心将通报学院</li><li>一学年内卫生检查10次不合格的宿舍，扣舍长综合测评成绩0.5分，寝室成员0.3分</li></ul>
+<h3 id="sec141">公寓文化建设加分</h3>
+<p>综合测评加分每学年不超过1.5分。</p>
+<div class="tblwrap"><table><thead><tr><th>项目</th><th>加分</th></tr></thead><tbody>
+<tr><td>参与公寓文化建设等相关活动</td><td>每次0.2分</td></tr>
+<tr><td>参与公寓义务志愿活动</td><td>每次0.2分</td></tr>
+<tr><td>获得各种公寓荣誉，如三文明、两优秀、示范宿舍等</td><td>寝室成员0.5分，舍长1分</td></tr>
+</tbody></table></div>
+<p>三文明指文明宿舍、文明区幢、文明片区，两优秀指优秀舍长、优秀学生干部，评选比例不超过参评人数的30%，原则上每学年进行一次。</p>
+<h3 id="sec142">住退宿要点</h3>
+<ul><li>寝室和床位一经分配，不得擅自调整，入住学生应当按指定的房间和床号住宿。因特殊原因需要调整的，应填写云南大学学生公寓调宿申请表，批准后方可调整</li><li>住宿费按学年收取，学年以10个月计算。确因贷款未到位不能按时缴纳住宿费的，由本人提出缓交申请明确缓交时间及原因，并附贷款证明办理缓交手续。未经学校批准恶意欠费的，学校将采取相应措施督促补交</li><li>退费公式：住宿费退费额 = 每学年住宿标准 ÷ 10 ×（10 − 学生实际住宿月数），未满一个月的按一个月计</li><li>转学、校际交流、休学、退学或被开除学籍的学生，应在三个工作日内到学生公寓管理中心办理退宿手续，并搬离学生公寓</li><li>退宿后一周内个人物品未搬离宿舍的，遗留物品按无主物品处理</li><li>寒、暑假期间，学生原则上不得滞留学校，因特殊情况确需在校滞留的，应当按照个人申请、报学院审批的程序办理相关留校住宿手续，并按学校规定集中住宿</li></ul>
+<h2 id="sec143">6.6 权益速查</h2>
+<div class="tblwrap"><table><thead><tr><th>遇到什么</th><th>找谁</th><th>时限</th></tr></thead><tbody>
+<tr><td>奖学金评定有异议</td><td>先找培养单位研究生奖助学金初评委员会；仍有异议找学校研究生奖学金评审委员会</td><td>单位公示5个工作日，学校公示5个工作日</td></tr>
+<tr><td>中期考核结果有异议</td><td>公示期内向培养单位中期考核领导小组申诉</td><td>公示不少于5个工作日</td></tr>
+<tr><td>学术道德问题举报</td><td>校学术委员会，分人文社科与自然科学两个分委员会</td><td>须实名举报，匿名不予受理；10个工作日内决定是否立项</td></tr>
+<tr><td>对处分或处理决定不服</td><td>学校学生申诉处理委员会</td><td>10日内</td></tr>
+<tr><td>对复查决定不服</td><td>云南省教育厅</td><td>15个工作日内</td></tr>
+<tr><td>医保问题</td><td>校医院医保办 0871-65034279 或 0871-65033807；省医保局 0871-63886166</td><td>—</td></tr>
+<tr><td>宿舍问题</td><td>东陆 0871-65033262；呈贡 0871-65931983</td><td>—</td></tr>
+<tr><td>安全问题或报警</td><td>保卫处 呈贡 0871-65930110；东陆 0871-65034110</td><td>—</td></tr>
+</tbody></table></div>
+<h2 id="sec144">6.7 原文位置</h2>
+<div class="tblwrap"><table><thead><tr><th>内容</th><th>位置</th></tr></thead><tbody>
+<tr><td>云南大学学生违纪处分办法，云大学〔2017〕6号</td><td>下册印刷页219</td></tr>
+<tr><td>云南大学学生申诉处理办法</td><td>下册印刷页231</td></tr>
+<tr><td>云南大学学生违纪处分解除办法，云大学〔2017〕5号</td><td>下册印刷页235</td></tr>
+<tr><td>云南大学学生住宿管理办法，云大学〔2017〕4号</td><td>下册印刷页246</td></tr>
+<tr><td>云南大学学生外出安全管理办法（试行）</td><td>下册印刷页239</td></tr>
+<tr><td>云南大学假期学生安全管理暂行规定</td><td>下册印刷页255</td></tr>
+</tbody></table></div>
+<h1 id="sec145">附录</h1>
+<h2 id="sec146">附录一 重要时间节点</h2>
+<p>只列与奖助学金、医保、党团注册直接相关的事项，均为每年循环发生。</p>
+<div class="tblwrap"><table><thead><tr><th>时间</th><th>事项</th></tr></thead><tbody>
+<tr><td>每年1月</td><td>团员年度团籍注册，学校一般在秋季开学后一个月内完成</td></tr>
+<tr><td>每年4月</td><td>张文勋奖学金申报，一等1万，二等0.5万</td></tr>
+<tr><td>每年5月</td><td>校友励志银杏奖学金申报，0.3万</td></tr>
+<tr><td>每年6月</td><td>宝钢奖学金申报，优秀学生1万，特等奖2万</td></tr>
+<tr><td>每年9月至次年2月</td><td>大学生医保参保登记与缴费，务必连续缴纳</td></tr>
+<tr><td>每年9月底前</td><td>综合素质测评</td></tr>
+<tr><td>每年9、10月</td><td>研究生学业奖学金申报</td></tr>
+<tr><td>每年10月</td><td>熊庆来奖学金、方国瑜奖学金申报</td></tr>
+<tr><td>每年11月</td><td>岳虹研究生奖学金、比亚迪奖学金、富滇银行奖学金申报</td></tr>
+<tr><td>每年12月底前</td><td>学业奖学金、优秀研究生干部奖学金发放</td></tr>
+<tr><td>每年12月31日前</td><td>国家奖学金、省政府奖学金发放</td></tr>
+<tr><td>按教育厅通知</td><td>国家奖学金、省政府奖学金申报</td></tr>
+</tbody></table></div>
+<h2 id="sec147">附录二 常用电话</h2>
+<div class="tblwrap"><table><thead><tr><th>事项</th><th>电话</th></tr></thead><tbody>
+<tr><td>奖学金</td><td>0871-65033981</td></tr>
+<tr><td>助学金</td><td>0871-65033853</td></tr>
+<tr><td>学籍</td><td>0871-65033265</td></tr>
+<tr><td>档案</td><td>0871-65033328</td></tr>
+<tr><td>医保 呈贡校区</td><td>0871-65034279</td></tr>
+<tr><td>医保 东陆校区</td><td>0871-65033807</td></tr>
+<tr><td>云南省医疗保障局</td><td>0871-63886166</td></tr>
+<tr><td>学费</td><td>0871-65032387</td></tr>
+<tr><td>学生公寓 东陆校区</td><td>0871-65033262</td></tr>
+<tr><td>学生公寓 呈贡校区</td><td>0871-65931983</td></tr>
+<tr><td>保卫处 呈贡校区</td><td>0871-65930110</td></tr>
+<tr><td>保卫处 东陆校区</td><td>0871-65034110</td></tr>
+</tbody></table></div>
+<h2 id="sec148">附录三 常用网址</h2>
+<div class="tblwrap"><table><thead><tr><th>名称</th><th>网址</th></tr></thead><tbody>
+<tr><td>研究生教育数字服务平台</td><td><a href="https://yjs-grs.ynu.edu.cn/">https://yjs-grs.ynu.edu.cn/</a></td></tr>
+<tr><td>研究生院</td><td>www.grs.ynu.edu.cn</td></tr>
+<tr><td>智慧团建</td><td><a href="https://zhtj.youth.cn/zhtj">https://zhtj.youth.cn/zhtj</a></td></tr>
+<tr><td>中国研究生创新实践系列大赛</td><td><a href="https://cpipc.acge.org.cn/">https://cpipc.acge.org.cn/</a></td></tr>
+<tr><td>校园网自服务</td><td><a href="https://selfsrv.ynu.edu.cn">https://selfsrv.ynu.edu.cn</a></td></tr>
+<tr><td>信息技术中心</td><td><a href="http://www.itc.ynu.edu.cn/">http://www.itc.ynu.edu.cn/</a></td></tr>
+</tbody></table></div>
+<h2 id="sec149">附录四 未收入本手册的其他文件</h2>
+<p>以下文件与在读期间的直接利益关联较弱，仅列出位置备查。</p>
+<div class="tblwrap"><table><thead><tr><th>文件名称</th><th>位置</th></tr></thead><tbody>
+<tr><td>云南大学心理健康教育咨询中心简介</td><td>下册印刷页269</td></tr>
+<tr><td>云南大学班级心理委员管理办法（试行）</td><td>下册印刷页271</td></tr>
+<tr><td>云南大学上网行为管理规定</td><td>下册印刷页274</td></tr>
+<tr><td>云南大学师生借阅图书文献管理规则</td><td>下册印刷页328</td></tr>
+<tr><td>云南大学行政事业性收费管理办法</td><td>下册印刷页330</td></tr>
+<tr><td>云南大学毕业生就业指导与服务指南</td><td>下册印刷页338</td></tr>
+<tr><td>云南大学作息时间表</td><td>下册印刷页346</td></tr>
+<tr><td>云南省高校大学生征兵工作措施</td><td>下册印刷页263</td></tr>
+<tr><td>云南大学学术学位研究生培养工作规定</td><td>上册印刷页70</td></tr>
+<tr><td>云南大学专业学位研究生培养工作规定</td><td>上册印刷页78</td></tr>
+</tbody></table></div>
+<h2 id="sec150">附录五 说明</h2>
+<p>本手册依据以下文件整理：</p>
+<ol><li>云南大学2026级全日制研究生入学须知</li><li>云南大学研究生手册上册</li><li>云南大学研究生手册下册</li><li>云南大学研究生奖学金管理办法，云大学〔2021〕4号</li><li>党支部发展党员工作制度</li></ol>
+<p>本手册为个人整理版本，用于快速检索与理解。所有条款的最终解释权归云南大学各归口部门，包括研究生院、学生工作部、党委研究生工作部、校医院医保办等。遇有与官方文件不一致之处，一律以学校最新官方文件为准。</p>
+  </div>
+</div>
+
+<script>(function () {
+  var body = document.body;
+  var side = document.querySelector('.side');
+  var btn = document.getElementById('navbtn');
+  var backdrop = document.getElementById('backdrop');
+  var MOBILE = 900;
+
+  function isMobile() { return window.innerWidth <= MOBILE; }
+  function closeNav() { body.classList.remove('nav-open'); }
+
+  btn.addEventListener('click', function () { body.classList.toggle('nav-open'); });
+  backdrop.addEventListener('click', closeNav);
+
+  // every link in the tree, keyed by target id
+  var links = {};
+  Array.prototype.forEach.call(document.querySelectorAll('.tree a'), function (a) {
+    links[a.getAttribute('href').slice(1)] = a;
+  });
+
+  // expand / collapse — only level-2 rows carry a toggle, chapters stay open
+  Array.prototype.forEach.call(document.querySelectorAll('.tw'), function (t) {
+    t.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var li = t.parentNode.parentNode;
+      var closed = li.classList.toggle('closed');
+      t.setAttribute('aria-expanded', closed ? 'false' : 'true');
+      t.textContent = closed ? '▸' : '▾';
+    });
+    t.textContent = '▾';
+    t.setAttribute('aria-expanded', 'true');
+  });
+
+  // clicking a link on mobile dismisses the drawer
+  Array.prototype.forEach.call(document.querySelectorAll('.tree a'), function (a) {
+    a.addEventListener('click', function () { if (isMobile()) closeNav(); });
+  });
+
+  var heads = Array.prototype.slice.call(document.querySelectorAll('h1[id], h2[id], h3[id]'));
+  var tops = [];
+  function measure() {
+    tops = heads.map(function (h) { return h.getBoundingClientRect().top + window.scrollY; });
+  }
+  measure();
+  window.addEventListener('resize', function () { measure(); spy(); });
+  window.addEventListener('load', measure);
+
+  var current = null;
+  function activate(id) {
+    if (current === id) return;
+    if (current && links[current]) links[current].parentNode.classList.remove('on');
+    current = id;
+    var a = links[id];
+    if (!a) return;
+    a.parentNode.classList.add('on');          // the .row wrapper carries the highlight
+    // make sure every ancestor list is expanded
+    var li = a.closest('li');
+    while (li) {
+      li.classList.remove('closed');
+      var tw = li.querySelector(':scope > .row > .tw');
+      if (tw) { tw.textContent = '▾'; tw.setAttribute('aria-expanded', 'true'); }
+      li = li.parentNode.closest('li');
+    }
+    // keep the active row visible inside the sidebar's own scroll area
+    var r = a.getBoundingClientRect();
+    var sr = side.getBoundingClientRect();
+    if (r.top < sr.top + 74 || r.bottom > sr.bottom - 24) {
+      side.scrollTop += (r.top - sr.top) - side.clientHeight / 2 + r.height / 2;
+    }
+  }
+
+  var ticking = false;
+  function spy() {
+    ticking = false;
+    if (!tops.length) return;
+    var y = window.scrollY + (isMobile() ? 100 : 130);
+    var best = heads[0].id;
+    for (var i = 0; i < heads.length; i++) {
+      if (tops[i] <= y) best = heads[i].id; else break;
+    }
+    activate(best);
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(spy); }
+  }, { passive: true });
+
+  // deep link on first load
+  if (location.hash) {
+    var t = document.getElementById(location.hash.slice(1));
+    if (t) setTimeout(function () { t.scrollIntoView(); }, 60);
+  }
+  spy();
+})();
+</script>
+</body></html>
