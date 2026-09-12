@@ -154,11 +154,45 @@ tbody tr:hover{background:#f0eeea}
   @page{size:A4; margin:15mm 15mm 13mm 15mm}
 }
 </style>
+
+<style>
+/* ---------- 搜索 ---------- */
+.qbox{position:relative; margin-top:10px}
+.qbox input{
+  width:100%; font-family:inherit; font-size:13.5px; padding:7px 30px 7px 11px;
+  border:1px solid var(--line); border-radius:5px; background:#fff; color:var(--ink);
+  outline:none; -webkit-appearance:none; appearance:none;
+}
+.qbox input::-webkit-search-cancel-button{-webkit-appearance:none; display:none}
+.qbox input::placeholder{color:#9a9a9a}
+.qbox input:focus{border-color:var(--red)}
+.qbox button{
+  position:absolute; right:4px; top:50%; transform:translateY(-50%);
+  border:0; background:none; cursor:pointer; color:var(--muted);
+  font-size:14px; line-height:1; padding:4px 6px; font-family:inherit;
+}
+.qbox button:hover{color:var(--red)}
+
+.results{padding:6px 0 60px}
+.results .cnt{font-size:12px; color:var(--muted); padding:8px 18px 6px}
+.results .none{font-size:13px; color:var(--muted); padding:14px 18px}
+.hit{display:block; padding:9px 18px; border-left:3px solid transparent; color:inherit; text-decoration:none}
+.hit:hover{background:#f0f0f0; border-left-color:var(--red)}
+.hit .hp{display:block; font-size:11.5px; color:var(--muted); margin-bottom:3px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.hit .hs{display:block; font-size:13px; line-height:1.55; color:#222}
+.hit mark{background:rgba(192,32,28,.14); color:var(--red); font-weight:700; padding:0 1px}
+.topbar span{flex:1; min-width:0}
+.flash{animation:flashbg 1.6s ease}
+@keyframes flashbg{0%{background:rgba(192,32,28,.13)} 100%{background:transparent}}
+@media (max-width:900px){ p,li,td,th{scroll-margin-top:72px} }
+</style>
 </head><body>
 
 <aside class="side">
-  <div class="side-head"><b>云南大学</b><i>2026级研究生自用手册</i></div>
+  <div class="side-head"><b>云南大学</b><i>2026级研究生自用手册</i><div class="qbox"><input id="q" type="search" placeholder="搜索：医保、转专业、奖学金" autocomplete="off" aria-label="搜索手册内容"><button id="qclear" type="button" aria-label="清空" hidden>✕</button></div></div>
   <nav class="tree"><ul><li><div class="row lv1row"><a href="#sec1">一、奖助学金</a></div><ul><li><div class="row lv2row"><a href="#sec2">1.1 我能拿到多少钱</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec3">1.2 学业奖学金</a></div><ul><li><div class="row lv3row"><a href="#sec4">等级、标准及覆盖面</a></div></li><li><div class="row lv3row"><a href="#sec5">新生直接定级</a></div></li><li><div class="row lv3row"><a href="#sec6">二、三年级评定</a></div></li><li><div class="row lv3row"><a href="#sec7">发放的三种特殊状态</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec8">1.3 国家奖学金、省政府奖学金与优秀研究生干部</a></div><ul><li><div class="row lv3row"><a href="#sec9">取消荣誉与追回</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec10">1.4 国家助学金</a></div></li><li><div class="row lv2row"><a href="#sec11">1.5 奖学金一览表</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec12">1.6 各奖学金申请条件一览表</a></div><ul><li><div class="row lv3row"><a href="#sec13">兼得规则</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec14">1.7 身份认定与无申请资格情形</a></div><ul><li><div class="row lv3row"><a href="#sec15">身份认定</a></div></li><li><div class="row lv3row"><a href="#sec16">无申请资格的九种情况</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec17">1.8 综合素质测评办法</a></div><ul><li><div class="row lv3row"><a href="#sec18">成绩构成</a></div></li><li><div class="row lv3row"><a href="#sec19">思想道德素质</a></div></li><li><div class="row lv3row"><a href="#sec20">学业水平与专业素质</a></div></li><li><div class="row lv3row"><a href="#sec21">综合素质拓展</a></div></li><li><div class="row lv3row"><a href="#sec22">组织实施与公示</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec23">1.9 评审程序与申诉</a></div><ul><li><div class="row lv3row"><a href="#sec24">评审组织</a></div></li><li><div class="row lv3row"><a href="#sec25">评审原则</a></div></li><li><div class="row lv3row"><a href="#sec26">评审程序</a></div></li><li><div class="row lv3row"><a href="#sec27">异议与申诉</a></div></li><li><div class="row lv3row"><a href="#sec28">发放时间</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec29">1.10 其他资助与荣誉</a></div></li><li><div class="row lv2row"><a href="#sec30">1.11 竞赛与创新实践资助</a></div></li><li><div class="row lv2row"><a href="#sec31">1.12 原文位置</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec32">二、党团发展</a></div><ul><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec33">2.1 组织关系转接</a></div><ul><li><div class="row lv3row"><a href="#sec34">党员</a></div></li><li><div class="row lv3row"><a href="#sec35">团员</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec36">2.2 发展党员全流程</a></div><ul><li><div class="row lv3row"><a href="#sec37">时间轴</a></div></li><li><div class="row lv3row"><a href="#sec38">指导方针</a></div></li><li><div class="row lv3row"><a href="#sec39">分阶段操作要点</a></div></li><li><div class="row lv3row"><a href="#sec40">责任追究</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec41">2.3 推优入党</a></div><ul><li><div class="row lv3row"><a href="#sec42">对象及条件</a></div></li><li><div class="row lv3row"><a href="#sec43">程序</a></div></li><li><div class="row lv3row"><a href="#sec44">培养与纪律</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec45">2.4 三会两制一课</a></div><ul><li><div class="row lv3row"><a href="#sec46">三会</a></div></li><li><div class="row lv3row"><a href="#sec47">团员教育评议制度</a></div></li><li><div class="row lv3row"><a href="#sec48">团员年度团籍注册制度</a></div></li><li><div class="row lv3row"><a href="#sec49">团课</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec50">2.5 其他党团文件</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec51">三、学籍与课程</a></div><ul><li><div class="row lv2row"><a href="#sec52">3.1 学习年限</a></div></li><li><div class="row lv2row"><a href="#sec53">3.2 注册</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec54">3.3 纪律与考勤</a></div><ul><li><div class="row lv3row"><a href="#sec55">旷课处分阶梯</a></div></li><li><div class="row lv3row"><a href="#sec56">请假审批层级</a></div></li><li><div class="row lv3row"><a href="#sec57">请假类型与销假</a></div></li><li><div class="row lv3row"><a href="#sec58">出国与出境</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec59">3.4 课程考核与成绩记载</a></div><ul><li><div class="row lv3row"><a href="#sec60">成绩管理</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec61">3.5 选课与课程请假</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec62">3.6 缓考、补考与重修</a></div><ul><li><div class="row lv3row"><a href="#sec63">可以申请缓考的三种情形</a></div></li><li><div class="row lv3row"><a href="#sec64">缓考申请与规则</a></div></li><li><div class="row lv3row"><a href="#sec65">补考与重修</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec66">3.7 英语免修</a></div></li><li><div class="row lv2row"><a href="#sec67">3.8 学分绩点换算</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec68">3.9 转专业、转学、转导师</a></div><ul><li><div class="row lv3row"><a href="#sec69">转专业</a></div></li><li><div class="row lv3row"><a href="#sec70">转导师</a></div></li><li><div class="row lv3row"><a href="#sec71">审批程序</a></div></li><li><div class="row lv3row"><a href="#sec72">时间要求</a></div></li><li><div class="row lv3row"><a href="#sec73">转专业、转导师后的学籍与培养</a></div></li><li><div class="row lv3row"><a href="#sec74">复核与申诉</a></div></li><li><div class="row lv3row"><a href="#sec75">转学</a></div></li><li><div class="row lv3row"><a href="#sec76">硕博连读生、直博生转硕</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec77">3.10 休学与复学</a></div><ul><li><div class="row lv3row"><a href="#sec78">应予休学的五种情形</a></div></li><li><div class="row lv3row"><a href="#sec79">休学手续与期间待遇</a></div></li><li><div class="row lv3row"><a href="#sec80">复学</a></div></li><li><div class="row lv3row"><a href="#sec81">应征入伍</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec82">3.11 退学</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec83">3.12 奖励与处分</a></div><ul><li><div class="row lv3row"><a href="#sec84">开除学籍的八种情形</a></div></li><li><div class="row lv3row"><a href="#sec85">程序保障</a></div></li><li><div class="row lv3row"><a href="#sec86">处分期限与解除</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec87">3.13 申诉</a></div></li><li><div class="row lv2row"><a href="#sec88">3.14 毕业、结业与肄业</a></div></li><li><div class="row lv2row"><a href="#sec89">3.15 原文位置</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec90">四、培养与学术考核</a></div><ul><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec91">4.1 学位论文开题</a></div><ul><li><div class="row lv3row"><a href="#sec92">时间要求</a></div></li><li><div class="row lv3row"><a href="#sec93">基本要求</a></div></li><li><div class="row lv3row"><a href="#sec94">开题报告应包含的八项内容</a></div></li><li><div class="row lv3row"><a href="#sec95">开题答辩评审成员</a></div></li><li><div class="row lv3row"><a href="#sec96">评审结果</a></div></li><li><div class="row lv3row"><a href="#sec97">结果上报</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec98">4.2 中期考核与分流</a></div><ul><li><div class="row lv3row"><a href="#sec99">基本规则</a></div></li><li><div class="row lv3row"><a href="#sec100">组织</a></div></li><li><div class="row lv3row"><a href="#sec101">考核内容</a></div></li><li><div class="row lv3row"><a href="#sec102">考核程序</a></div></li><li><div class="row lv3row"><a href="#sec103">考核结果等级</a></div></li><li><div class="row lv3row"><a href="#sec104">考核不合格的七种情况</a></div></li><li><div class="row lv3row"><a href="#sec105">分流处理</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec106">4.3 学术道德规范及违规处理</a></div><ul><li><div class="row lv3row"><a href="#sec107">适用范围</a></div></li><li><div class="row lv3row"><a href="#sec108">学术道德基本规范</a></div></li><li><div class="row lv3row"><a href="#sec109">违反学术道德规范的八类行为</a></div></li><li><div class="row lv3row"><a href="#sec110">调查与处理程序</a></div></li><li><div class="row lv3row"><a href="#sec111">惩处</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec112">4.4 学位论文评阅</a></div><ul><li><div class="row lv3row"><a href="#sec113">盲审组织与评阅人</a></div></li><li><div class="row lv3row"><a href="#sec114">评阅结果与处理</a></div></li><li><div class="row lv3row"><a href="#sec115">提前毕业的评阅门槛</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec116">4.5 学位论文作假</a></div></li><li><div class="row lv2row"><a href="#sec117">4.6 其他培养相关规定</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec118">五、医疗保障</a></div><ul><li><div class="row lv2row"><a href="#sec119">5.1 基本规则</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec120">5.2 参保与缴费</a></div><ul><li><div class="row lv3row"><a href="#sec121">时间与渠道</a></div></li><li><div class="row lv3row"><a href="#sec122">参保范围</a></div></li><li><div class="row lv3row"><a href="#sec123">特殊身份学生</a></div></li><li><div class="row lv3row"><a href="#sec124">待遇等待期</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec125">5.3 医保待遇</a></div><ul><li><div class="row lv3row"><a href="#sec126">待遇享受期</a></div></li><li><div class="row lv3row"><a href="#sec127">待遇项目</a></div></li><li><div class="row lv3row"><a href="#sec128">大病保险待遇标准</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec129">5.4 社会保障卡</a></div></li><li><div class="row lv2row"><a href="#sec130">5.5 联系方式与原文位置</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec131">六、纪律红线与权益救济</a></div><ul><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec132">6.1 处分种类与期限</a></div><ul><li><div class="row lv3row"><a href="#sec133">可以从轻或减轻处分的三种情形</a></div></li><li><div class="row lv3row"><a href="#sec134">从重或加重处分的八种情形</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec135">6.2 违纪行为红线</a></div></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec136">6.3 申诉</a></div><ul><li><div class="row lv3row"><a href="#sec137">时间表</a></div></li><li><div class="row lv3row"><a href="#sec138">申诉书要求</a></div></li><li><div class="row lv3row"><a href="#sec139">复查</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec140">6.4 处分解除</a></div><ul><li><div class="row lv3row"><a href="#sec141">不予解除处分的三种情形</a></div></li><li><div class="row lv3row"><a href="#sec142">申请条件</a></div></li><li><div class="row lv3row"><a href="#sec143">工作程序</a></div></li><li><div class="row lv3row"><a href="#sec144">归口部门</a></div></li></ul></li><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec145">6.5 住宿管理</a></div><ul><li><div class="row lv3row"><a href="#sec146">寝室内严禁的行为</a></div></li><li><div class="row lv3row"><a href="#sec147">违纪记分</a></div></li><li><div class="row lv3row"><a href="#sec148">卫生检查与综合测评挂钩</a></div></li><li><div class="row lv3row"><a href="#sec149">公寓文化建设加分</a></div></li><li><div class="row lv3row"><a href="#sec150">住退宿要点</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec151">6.6 权益速查</a></div></li><li><div class="row lv2row"><a href="#sec152">6.7 原文位置</a></div></li></ul></li><li><div class="row lv1row"><a href="#sec153">附录</a></div><ul><li><div class="row lv2row"><button class="tw" type="button" aria-label="展开或收起"></button><a href="#sec154">附录一 重要时间节点</a></div><ul><li><div class="row lv3row"><a href="#sec155">每年循环事项</a></div></li><li><div class="row lv3row"><a href="#sec156">培养与学位节点</a></div></li></ul></li><li><div class="row lv2row"><a href="#sec157">附录二 常用电话</a></div></li><li><div class="row lv2row"><a href="#sec158">附录三 常用网址</a></div></li><li><div class="row lv2row"><a href="#sec159">附录四 未收入本手册的其他文件</a></div></li><li><div class="row lv2row"><a href="#sec160">附录五 说明</a></div></li></ul></li></ul></nav>
+<div class="results" id="results" hidden></div>
 </aside>
 
 <div class="backdrop" id="backdrop"></div>
@@ -167,6 +201,7 @@ tbody tr:hover{background:#f0eeea}
   <div class="topbar">
     <button id="navbtn" type="button">☰ 目录</button>
     <span>云南大学2026级研究生自用手册</span>
+    <button id="searchbtn" type="button">搜索</button>
   </div>
   <div class="wrap">
     <section class="intro"><h1>使用说明</h1><p>本手册只收录在读期间长期有效的规则：奖助学金、党团发展、学籍与课程、培养考核、医疗保障、纪律与权益救济。报到、选宿、户口、体检等一次性入学事务不在收录范围。</p>
@@ -1207,6 +1242,124 @@ tbody tr:hover{background:#f0eeea}
     if (t) setTimeout(function () { t.scrollIntoView(); }, 60);
   }
   spy();
+})();
+</script>
+
+<script>(function () {
+  var wrap = document.querySelector('.wrap');
+  var box = document.getElementById('q');
+  var clearBtn = document.getElementById('qclear');
+  var results = document.getElementById('results');
+  var tree = document.querySelector('.tree');
+  var searchBtn = document.getElementById('searchbtn');
+  if (!wrap || !box || !results || !tree) return;
+
+  var norm = function (s) { return (s || '').replace(/\s+/g, ' ').trim(); };
+  var esc = function (s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  };
+
+  // 建索引：按文档顺序走一遍，记下每个内容块所属的章节路径
+  var index = [];
+  (function () {
+    var SEL = 'h1[id],h2[id],h3[id],p,li,td,th,blockquote';
+    var nodes = wrap.querySelectorAll(SEL);
+    var stack = [];
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      var tag = el.tagName.toLowerCase();
+      var text = norm(el.textContent);
+      if (!text) continue;
+      var lv = tag === 'h1' ? 1 : tag === 'h2' ? 2 : tag === 'h3' ? 3 : 0;
+      var path = [], k;
+      if (lv) {
+        stack.length = lv - 1;
+        stack[lv - 1] = { t: text, id: el.id };
+        for (k = 0; k < lv; k++) if (stack[k]) path.push(stack[k].t);
+        index.push({ text: text, id: el.id, crumb: path.slice(0, -1).join(' › ') });
+        continue;
+      }
+      // 块里还套着块的话，文字会重复计入，跳过让子元素自己进索引
+      if (el.querySelector('p,ul,ol,li,table,div')) continue;
+      var cur = null;
+      for (k = stack.length - 1; k >= 0; k--) if (stack[k]) { cur = stack[k]; break; }
+      if (!cur) continue;
+      for (k = 0; k < stack.length; k++) if (stack[k]) path.push(stack[k].t);
+      index.push({ text: text, id: cur.id, crumb: path.join(' › ') });
+    }
+  })();
+
+  var MAX = 60;
+  function render(q) {
+    var qq = q.toLowerCase(), out = [], n = 0, i;
+    for (i = 0; i < index.length; i++) {
+      var at = index[i].text.toLowerCase().indexOf(qq);
+      if (at < 0) continue;
+      if (n < MAX) out.push({ it: index[i], at: at });
+      n++;
+    }
+    if (!n) { results.innerHTML = '<div class="none">没有匹配「' + esc(q) + '」的内容</div>'; return; }
+    var html = '<div class="cnt">找到 ' + n + ' 处'
+             + (n > MAX ? '，显示前 ' + MAX + ' 处' : '') + '</div>';
+    for (i = 0; i < out.length; i++) {
+      var t = out[i].it.text, a = out[i].at, b = a + qq.length;
+      var from = Math.max(0, a - 18), to = Math.min(t.length, b + 34);
+      var snip = (from > 0 ? '…' : '') + esc(t.slice(from, a))
+               + '<mark>' + esc(t.slice(a, b)) + '</mark>'
+               + esc(t.slice(b, to)) + (to < t.length ? '…' : '');
+      html += '<a class="hit" href="#' + out[i].it.id + '">'
+            + (out[i].it.crumb ? '<span class="hp">' + esc(out[i].it.crumb) + '</span>' : '')
+            + '<span class="hs">' + snip + '</span></a>';
+    }
+    results.innerHTML = html;
+  }
+
+  function update() {
+    var q = norm(box.value);
+    clearBtn.hidden = !q;
+    if (!q) {
+      results.hidden = true; results.innerHTML = ''; tree.hidden = false; return;
+    }
+    tree.hidden = true; results.hidden = false; render(q);
+  }
+
+  box.addEventListener('input', update);
+  box.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { box.value = ''; update(); box.blur(); }
+    else if (e.key === 'Enter') { var f = results.querySelector('a.hit'); if (f) f.click(); }
+  });
+  clearBtn.addEventListener('click', function () { box.value = ''; update(); box.focus(); });
+
+  results.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a.hit') : null;
+    if (!a) return;
+    e.preventDefault();
+    var t = document.getElementById(a.getAttribute('href').slice(1));
+    if (!t) return;
+    if (window.innerWidth <= 900) document.body.classList.remove('nav-open');
+    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    t.classList.remove('flash');
+    void t.offsetWidth;
+    t.classList.add('flash');
+    setTimeout(function () { t.classList.remove('flash'); }, 1700);
+  });
+
+  // 手机端顶部栏的「搜索」按钮：拉开抽屉并聚焦输入框
+  if (searchBtn) searchBtn.addEventListener('click', function () {
+    document.body.classList.add('nav-open');
+    setTimeout(function () { box.focus(); }, 260);
+  });
+
+  // Ctrl/Cmd + K 直接跳到搜索
+  document.addEventListener('keydown', function (e) {
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return;
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      document.body.classList.add('nav-open');
+      box.focus();
+    }
+  });
 })();
 </script>
 </body></html>
