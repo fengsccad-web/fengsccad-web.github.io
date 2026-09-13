@@ -183,8 +183,17 @@ tbody tr:hover{background:#f0eeea}
 .hit .hs{display:block; font-size:13px; line-height:1.55; color:#222}
 .hit mark{background:rgba(192,32,28,.14); color:var(--red); font-weight:700; padding:0 1px}
 .topbar span{flex:1; min-width:0}
-.flash{animation:flashbg 1.6s ease}
-@keyframes flashbg{0%{background:rgba(192,32,28,.13)} 100%{background:transparent}}
+
+/* 正文里被定位到的那一个关键词。跟结果列表里的 .hit mark 分开命名，
+   两者样式不同：这里是落点标记，要够醒目，并且落地时有一下扩散动画 */
+mark.qhit{background:rgba(192,32,28,.16); color:var(--red); font-weight:700;
+  padding:1px 2px; border-radius:2px; box-shadow:0 0 0 2px rgba(192,32,28,.25);
+  animation:qhitshow 1.7s ease}
+@keyframes qhitshow{
+  0%{background:rgba(192,32,28,.60); box-shadow:0 0 0 9px rgba(192,32,28,.30)}
+  55%{background:rgba(192,32,28,.24); box-shadow:0 0 0 4px rgba(192,32,28,.22)}
+  100%{background:rgba(192,32,28,.16); box-shadow:0 0 0 2px rgba(192,32,28,.25)}
+}
 @media (max-width:900px){ p,li,td,th{scroll-margin-top:72px} }
 </style>
 </head><body>
@@ -1125,12 +1134,13 @@ tbody tr:hover{background:#f0eeea}
 <h2 id="sec158">附录三 常用网址</h2>
 <div class="tblwrap"><table><thead><tr><th>名称</th><th>网址</th></tr></thead><tbody>
 <tr><td>研究生教育数字服务平台</td><td><a href="https://yjs-grs.ynu.edu.cn/">https://yjs-grs.ynu.edu.cn/</a></td></tr>
-<tr><td>研究生院</td><td>www.grs.ynu.edu.cn</td></tr>
+<tr><td>研究生院</td><td><a href="http://www.grs.ynu.edu.cn/">http://www.grs.ynu.edu.cn/</a></td></tr>
 <tr><td>智慧团建</td><td><a href="https://zhtj.youth.cn/zhtj">https://zhtj.youth.cn/zhtj</a></td></tr>
 <tr><td>中国研究生创新实践系列大赛</td><td><a href="https://cpipc.acge.org.cn/">https://cpipc.acge.org.cn/</a></td></tr>
 <tr><td>校园网自服务</td><td><a href="https://selfsrv.ynu.edu.cn">https://selfsrv.ynu.edu.cn</a></td></tr>
 <tr><td>信息技术中心</td><td><a href="http://www.itc.ynu.edu.cn/">http://www.itc.ynu.edu.cn/</a></td></tr>
 </tbody></table></div>
+<p>研究生院网站目前仅支持 http 访问，若浏览器自动把地址升级成 https 会打不开，手动改回 http 即可。</p>
 <h2 id="sec159">附录四 未收入本手册的其他文件</h2>
 <p>以下文件与在读期间的直接利益关联较弱，仅列出位置备查。</p>
 <div class="tblwrap"><table><thead><tr><th>文件名称</th><th>位置</th></tr></thead><tbody>
@@ -1259,7 +1269,9 @@ tbody tr:hover{background:#f0eeea}
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   };
 
-  // 建索引：按文档顺序走一遍，记下每个内容块所属的章节路径
+  // 建索引：按文档顺序走一遍，记下每个内容块所属的章节路径。
+  // el 必须存元素本身——早先只存了所属标题的 id，点击就只能滚到标题，
+  // 关键词在段落/表格里的具体位置全丢了（用户反馈「只跳到大概位置」）。
   var index = [];
   (function () {
     var SEL = 'h1[id],h2[id],h3[id],p,li,td,th,blockquote';
@@ -1276,7 +1288,7 @@ tbody tr:hover{background:#f0eeea}
         stack.length = lv - 1;
         stack[lv - 1] = { t: text, id: el.id };
         for (k = 0; k < lv; k++) if (stack[k]) path.push(stack[k].t);
-        index.push({ text: text, id: el.id, crumb: path.slice(0, -1).join(' › ') });
+        index.push({ text: text, el: el, id: el.id, crumb: path.slice(0, -1).join(' › ') });
         continue;
       }
       // 块里还套着块的话，文字会重复计入，跳过让子元素自己进索引
@@ -1285,11 +1297,62 @@ tbody tr:hover{background:#f0eeea}
       for (k = stack.length - 1; k >= 0; k--) if (stack[k]) { cur = stack[k]; break; }
       if (!cur) continue;
       for (k = 0; k < stack.length; k++) if (stack[k]) path.push(stack[k].t);
-      index.push({ text: text, id: cur.id, crumb: path.join(' › ') });
+      index.push({ text: text, el: el, id: cur.id, crumb: path.join(' › ') });
     }
   })();
 
+  // ---- 命中词高亮：把正文里那一次出现包进 <mark class="qhit"> ----
+  function clearMarks() {
+    var ms = wrap.querySelectorAll('mark.qhit'), i;
+    for (i = 0; i < ms.length; i++) {
+      var m = ms[i], p = m.parentNode;
+      p.replaceChild(document.createTextNode(m.textContent), m);
+      p.normalize();
+    }
+  }
+
+  // 在 el 内部找到 q 的第一次出现并包成 mark；找不到返回 null
+  function markIn(el, q) {
+    if (!q || !el) return null;
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    var parts = [], full = '', n;
+    while ((n = walker.nextNode())) { parts.push({ node: n, start: full.length }); full += n.nodeValue; }
+    if (!parts.length || !full) return null;
+
+    // 关键词各字之间允许夹空白：正文里的换行/缩进会让纯字符串匹配落空
+    // 注意：字符类里不要出现美元符号紧跟左花括号。String.raw 只挡转义、不挡模板插值，
+    // 那种写法会在构建期就被当成插值、直接报语法错（注释里同样不能写）。下面这版等价且安全。
+    var pat = q.split('').map(function (c) {
+      return c.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+    }).join('\\s*');
+    var m = new RegExp(pat).exec(full);
+    if (!m) return null;
+
+    // 拼接串上的偏移 → 具体文本节点上的偏移
+    var loc = function (off, isEnd) {
+      for (var i = parts.length - 1; i >= 0; i--) {
+        if (isEnd ? off > parts[i].start : off >= parts[i].start) {
+          return { node: parts[i].node, off: off - parts[i].start };
+        }
+      }
+      return { node: parts[0].node, off: 0 };
+    };
+    var a = loc(m.index, false), b = loc(m.index + m[0].length, true);
+
+    try {
+      var rng = document.createRange();
+      rng.setStart(a.node, a.off);
+      rng.setEnd(b.node, b.off);
+      var mk = document.createElement('mark');
+      mk.className = 'qhit';
+      rng.surroundContents(mk);
+      return mk;
+    } catch (err) { return null; }
+  }
+
   var MAX = 60;
+  var current = [];   // 本次列出的结果，点击时按 data-i 取回对应元素
+
   function render(q) {
     var qq = q.toLowerCase(), out = [], n = 0, i;
     for (i = 0; i < index.length; i++) {
@@ -1298,6 +1361,7 @@ tbody tr:hover{background:#f0eeea}
       if (n < MAX) out.push({ it: index[i], at: at });
       n++;
     }
+    current = out;
     if (!n) { results.innerHTML = '<div class="none">没有匹配「' + esc(q) + '」的内容</div>'; return; }
     var html = '<div class="cnt">找到 ' + n + ' 处'
              + (n > MAX ? '，显示前 ' + MAX + ' 处' : '') + '</div>';
@@ -1307,7 +1371,7 @@ tbody tr:hover{background:#f0eeea}
       var snip = (from > 0 ? '…' : '') + esc(t.slice(from, a))
                + '<mark>' + esc(t.slice(a, b)) + '</mark>'
                + esc(t.slice(b, to)) + (to < t.length ? '…' : '');
-      html += '<a class="hit" href="#' + out[i].it.id + '">'
+      html += '<a class="hit" href="#' + out[i].it.id + '" data-i="' + i + '">'
             + (out[i].it.crumb ? '<span class="hp">' + esc(out[i].it.crumb) + '</span>' : '')
             + '<span class="hs">' + snip + '</span></a>';
     }
@@ -1317,8 +1381,9 @@ tbody tr:hover{background:#f0eeea}
   function update() {
     var q = norm(box.value);
     clearBtn.hidden = !q;
+    clearMarks();   // 查询一变，上一次的落点标记就作废
     if (!q) {
-      results.hidden = true; results.innerHTML = ''; tree.hidden = false; return;
+      results.hidden = true; results.innerHTML = ''; tree.hidden = false; current = []; return;
     }
     tree.hidden = true; results.hidden = false; render(q);
   }
@@ -1334,14 +1399,16 @@ tbody tr:hover{background:#f0eeea}
     var a = e.target.closest ? e.target.closest('a.hit') : null;
     if (!a) return;
     e.preventDefault();
-    var t = document.getElementById(a.getAttribute('href').slice(1));
-    if (!t) return;
+    // 列表项的结构是 { it: 索引条目, at: 命中偏移 }，元素在 it.el 上，
+    // 别写成 rec.el（那是 undefined，createTreeWalker 会抛错且被吞掉，表现就是点了没反应）
+    var rec = current[+a.getAttribute('data-i')];
+    if (!rec || !rec.it || !rec.it.el) return;
     if (window.innerWidth <= 900) document.body.classList.remove('nav-open');
-    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    t.classList.remove('flash');
-    void t.offsetWidth;
-    t.classList.add('flash');
-    setTimeout(function () { t.classList.remove('flash'); }, 1700);
+    clearMarks();
+    // 直接定位到命中词本身；用 center 让它落在视口正中，
+    // 用 start 的话会被固定顶部栏压住，看起来还是「没对准」
+    var mk = markIn(rec.it.el, norm(box.value));
+    (mk || rec.it.el).scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   // 手机端顶部栏的「搜索」按钮：拉开抽屉并聚焦输入框
