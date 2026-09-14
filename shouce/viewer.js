@@ -318,11 +318,24 @@
   /* 在 coords 里找到关键词对应的那几个字，按它们的包围盒画红框。
      rec.L 是「每行一组 word」，word 是 [x,y,w,h]（图片像素坐标），
      顺序和页面文字层里的 span 一一对应。 */
+  var hlPage = null;    // 当前挂着红框的那一页
+  var hlTimer = 0;
+
   function highlight(vol, pageName, kw, el) {
     var all = window.__COORD__ || {};
     var rec = all[vol + ':' + pageName];
     var hl = el.querySelector('.hl');
     if (!hl) return;
+
+    // 换页跳转：把上一页的红框连同它的定时器一起清掉。
+    // 记住当前页，免得同一页里再点一次时把自己刚画的清没了。
+    if (hlPage && hlPage !== el) {
+      var old = hlPage.querySelector('.hl');
+      if (old) old.innerHTML = '';
+      clearTimeout(hlTimer);
+      hlTimer = 0;
+    }
+
     hl.innerHTML = '';
     if (!rec) return;
 
@@ -365,7 +378,14 @@
       var targetY = el.getBoundingClientRect().top + window.scrollY + (boxes[0][1] / rec.h) * el.offsetHeight;
       window.scrollTo({ top: Math.max(0, targetY - window.innerHeight * 0.35), behavior: 'auto' });
     }
-    setTimeout(function () { if (hl) hl.innerHTML = ''; }, 6000);
+
+    /* 定时清空只负责「这一处」。
+       别让每个页面各留一个 6 秒定时器——那样连点几条结果，前一页的定时器
+       还没到点，红框就一直挂在上面，一路累加，整本书点过的地方全在标红。
+       每次跳转先把上一个页面的清掉，并撤掉它那个还没到点的定时器。 */
+    hlPage = el;
+    clearTimeout(hlTimer);
+    hlTimer = setTimeout(function () { if (hl) hl.innerHTML = ''; }, 6000);
   }
 
   if (location.hash) {
