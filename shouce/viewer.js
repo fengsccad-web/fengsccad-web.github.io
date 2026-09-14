@@ -339,8 +339,11 @@
     hl.innerHTML = '';
     if (!rec) return;
 
-    var boxes = [];
-    for (var li = 0; li < rec.L.length && boxes.length < 3; li++) {
+    /* 一条搜索结果只标一个框 —— 就标这一页从上往下第一处命中。
+       coords 存的是整页坐标，同一个词在一页里可能出现很多次；早先这里是
+       「最多 3 个框」，点一条结果却冒出两三个红框，对不上。 */
+    var box = null;
+    for (var li = 0; li < rec.L.length && !box; li++) {
       var line = rec.L[li];
       // 把这一行的文本按 word 拼起来，同时记下每个字符属于哪个 word
       var text = '', owner = [];
@@ -350,7 +353,7 @@
         text += t;
       }
       var pos = text.indexOf(kw);
-      while (pos >= 0 && boxes.length < 3) {
+      while (pos >= 0) {
         var a = owner[pos], b = owner[pos + kw.length - 1];
         if (a === undefined || b === undefined) { pos = text.indexOf(kw, pos + 1); continue; }
         // 命中横跨 word a..b，合并它们的包围盒
@@ -360,10 +363,11 @@
           x0 = Math.min(x0, w[0]); y0 = Math.min(y0, w[1]);
           x1 = Math.max(x1, w[0] + w[2]); y1 = Math.max(y1, w[1] + w[3]);
         }
-        boxes.push([x0, y0, x1 - x0, y1 - y0]);
-        pos = text.indexOf(kw, pos + kw.length);
+        box = [x0, y0, x1 - x0, y1 - y0];
+        break;
       }
     }
+    var boxes = box ? [box] : [];
 
     boxes.forEach(function (b) {
       var d = document.createElement('b');
