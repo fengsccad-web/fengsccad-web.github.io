@@ -179,12 +179,36 @@ tbody tr:hover{background:#f0eeea}
 
 /* ---------- 搜索结果 ---------- */
 .results{padding:6px 0 60px}
-.results .cnt{font-size:12px; color:var(--muted); padding:8px 18px 6px}
-.results .none{font-size:13px; color:var(--muted); padding:14px 18px}
-.results .vol{
-  font-size:12px; font-weight:700; color:#fff; background:#111;
-  padding:4px 18px; position:sticky; top:0; z-index:1;
+.results .cnt{
+  font-size:12px; color:var(--muted); padding:8px 18px 6px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
 }
+.results .none{font-size:13px; color:var(--muted); padding:14px 18px}
+
+/* 按册分组，组头整条可点，点了收起/展开这一册的结果 */
+.volgrp{margin-bottom:2px}
+.results .vol{
+  width:100%; display:flex; align-items:center; gap:7px; cursor:pointer;
+  font-family:inherit; text-align:left; border:0;
+  font-size:12px; font-weight:700; color:#fff; background:#111;
+  padding:7px 14px 7px 12px; position:sticky; top:0; z-index:1;
+}
+.volgrp + .volgrp .vol{top:30px}   /* 两个组头同时吸顶时错开，别叠在一起 */
+.results .vol:hover{background:#2a2a2a}
+.vol .vt{min-width:0}
+.vol .vn{margin-left:auto; padding-left:10px; opacity:.62; font-weight:400; white-space:nowrap}
+/* 和目录树同一套：字符固定 ▾，方向只靠 rotate */
+.vol .arw{display:inline-block; font-size:10px; line-height:1; transform-origin:50% 50%; transition:transform .18s ease}
+.volgrp.closed .vol .arw{transform:rotate(-90deg)}
+.volgrp.closed .hits{display:none}
+
+.expandall{
+  border:1px solid var(--line); background:#fff; border-radius:4px;
+  font-family:inherit; font-size:11.5px; color:var(--muted);
+  padding:2px 8px; cursor:pointer; white-space:nowrap;
+}
+.expandall:hover{color:var(--red); border-color:var(--red)}
+
 .hit{display:block; padding:9px 18px; border-left:3px solid transparent; color:inherit; text-decoration:none}
 .hit:hover{background:#f0f0f0; border-left-color:var(--red)}
 .hit .hp{display:block; font-size:11.5px; color:var(--muted); margin-bottom:3px;

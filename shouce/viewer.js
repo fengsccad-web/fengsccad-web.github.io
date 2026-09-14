@@ -176,6 +176,11 @@
 
   var VOLNAME = { shang: '上册', xia: '下册' };
 
+  /* 记住上一次的结果长什么样，好让点了「全展开」之后还能原样还原。
+     每次重新渲染都是从零建 DOM，不留悔棋的话，用户点一条命中再回来
+     展开状态就没了。 */
+  var lastView = null;   // { kw, open: {shang:bool, xia:bool}, allOpen:bool }
+
   function render(list, kw, capped) {
     if (!list.length) {
       results.hidden = false;
@@ -186,25 +191,82 @@
     var byVol = { shang: [], xia: [] };
     list.forEach(function (r) { (byVol[r.vol] || (byVol[r.vol] = [])).push(r); });
 
-    var html = '<div class="cnt">共 ' + list.length + ' 处' + (capped ? '（已截断）' : '') + '</div>';
+    // 默认两册都收起 —— 先让用户看到「上册 N 处 / 下册 M 处」的量级，
+    // 再决定先看哪一册。和目录树一样是收起优先。
+    var prev = (lastView && lastView.kw === kw) ? lastView.open : null;
+    var isOpen = { shang: !!(prev && prev.shang), xia: !!(prev && prev.xia) };
+
+    var html = '<div class="cnt"><span>共 ' + list.length + ' 处' +
+      (capped ? '（已截断）' : '') + '</span>' +
+      '<button class="expandall" type="button">全展开</button></div>';
     ['shang', 'xia'].forEach(function (v) {
       var arr = byVol[v];
       if (!arr || !arr.length) return;
-      html += '<div class="vol">' + VOLNAME[v] + '（' + arr.length + '）</div>';
+      // 组头整条可点：收起后只剩「上册 N 处」这一行，两册的结果不会互相淹没
+      html += '<div class="volgrp' + (isOpen[v] ? '' : ' closed') + '" data-vol="' + v + '">' +
+        '<button class="vol" type="button" aria-expanded="' + (isOpen[v] ? 'true' : 'false') + '">' +
+        '<span class="arw" aria-hidden="true">▾</span>' +
+        '<span class="vt">' + VOLNAME[v] + '</span>' +
+        '<span class="vn">' + arr.length + ' 处</span></button>' +
+        '<div class="hits">';
       arr.forEach(function (r) {
         html += '<a class="hit" href="#' + (v === 'shang' ? 's' : 'x') + r.page + '" data-vol="' + v + '" data-page="' + r.page + '">' +
           '<span class="hp">' + VOLNAME[v] + ' · 第 ' + r.local + ' 页</span>' +
           '<span class="hs">' + esc(r.before) + '<mark>' + esc(kw) + '</mark>' + esc(r.after) + '</span>' +
           '</a>';
       });
+      html += '</div></div>';
     });
     results.hidden = false;
     results.innerHTML = html;
     tree.style.display = 'none';
 
+    var grps = Array.prototype.slice.call(results.querySelectorAll('.volgrp'));
+    var expandBtn = results.querySelector('.expandall');
+
+    /* 只有一册有结果时「全展开」纯属多余（一个组头点了就开），收掉。
+       注意这里数的是实际渲染出来的组数，不是 byVol 里非空的册数。 */
+    if (expandBtn && results.querySelectorAll('.volgrp').length < 2) expandBtn.hidden = true;
+
+    function setGrp(g, open) {
+      g.classList.toggle('closed', !open);
+      var b = g.querySelector('.vol');
+      if (b) b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      // 记下来，同一个关键词重渲染时照着还原（按 data-vol 取，别按位置——
+      // 只有一册有结果时 grps 只有一个元素，按位置会把下册记错）
+      var snap = { shang: false, xia: false };
+      grps.forEach(function (x) {
+        snap[x.getAttribute('data-vol')] = !x.classList.contains('closed');
+      });
+      lastView = { kw: kw, open: snap };
+    }
+    function syncBtn() {
+      if (!expandBtn || expandBtn.hidden) return;
+      var allOpen = grps.every(function (g) { return !g.classList.contains('closed'); });
+      expandBtn.textContent = allOpen ? '全收起' : '全展开';
+    }
+
+    if (expandBtn) {
+      expandBtn.addEventListener('click', function () {
+        var allOpen = grps.every(function (g) { return !g.classList.contains('closed'); });
+        grps.forEach(function (g) { setGrp(g, !allOpen); });
+        syncBtn();
+      });
+    }
+    grps.forEach(function (g) {
+      g.querySelector('.vol').addEventListener('click', function () {
+        setGrp(g, g.classList.contains('closed'));
+        syncBtn();
+      });
+    });
+    syncBtn();   // 还原出来的状态也要让按钮文字对得上
+
     Array.prototype.forEach.call(results.querySelectorAll('.hit'), function (a) {
       a.addEventListener('click', function (e) {
         e.preventDefault();
+        // 从收起的那一册点进去，先把这一册摊开，免得回来一看啥都没有
+        var g = a.closest('.volgrp');
+        if (g && g.classList.contains('closed')) { setGrp(g, true); syncBtn(); }
         gotoHit(a.getAttribute('data-vol'), a.getAttribute('data-page'), kw);
         if (isMobile()) closeNav();
       });
