@@ -146,6 +146,46 @@ details.distbox[open] summary::before{content:"▾ "}
 .warnbox .wline{margin-top:5px;color:#555}
 .warnbox .wline b{color:var(--red)}
 
+/* ================= 深挖分析 ================= */
+.morebar{margin:20px 0 6px;text-align:center}
+.morebar button{width:100%;max-width:520px;padding:14px 18px;font-size:15px;font-weight:700;
+  color:#fff;background:linear-gradient(180deg,#3b7ade,#2b5fae);border:0;border-radius:10px;
+  cursor:pointer;letter-spacing:.3px;box-shadow:0 6px 16px -8px rgba(43,95,174,.9)}
+.morebar button:hover{filter:brightness(1.08)}
+.morebar button:disabled{opacity:.65;cursor:default;filter:none}
+.morebar .morehint{display:block;margin-top:8px;font-size:12px;color:#999}
+
+.card.deep{border:1px solid #cfd8e6;border-left:4px solid #2f6fd0;background:#f7faff}
+.card.deep .card-hd{background:#eef4fd}
+.badge.deepp{background:#2f6fd0}
+.badge.dwarn{background:#c07800}
+.deepwarn{background:#fff8e6;border-left:3px solid #e0a800;padding:9px 13px;
+  border-radius:0 6px 6px 0;font-size:12.5px;line-height:1.75;color:#6b4d00;margin:0 0 14px}
+.deepwarn b{color:#8a5a00}
+.deepfix{margin:12px 0 0;font-size:12.5px;color:#666;line-height:1.75}
+ul.issues{margin:6px 0 0;padding-left:20px;font-size:13px;line-height:1.85;color:#444}
+ul.issues li{margin-bottom:5px}
+ul.issues b{color:var(--red)}
+.hbx.clause{font-size:13.5px;line-height:1.9;color:#2b2b2b;background:#fff;
+  border:1px solid #dfe6f0;border-radius:6px;padding:11px 14px}
+ul.corr.guess li{background:#eef4fd;border-color:#cfd8e6}
+.dtable{border:1px solid #dfe6f0;border-radius:6px;overflow:hidden;background:#fff}
+.drow{display:flex;align-items:center;gap:12px;padding:8px 14px;font-size:13px;
+  border-bottom:1px solid #eef2f7}
+.drow:last-child{border-bottom:0}
+.drow .dr{min-width:112px;color:#555}
+.drow b{color:#2b2b2b;font-weight:700}
+.drow.hit{background:#e6f4ea}
+.drow.hit b{color:#1b7a2f}
+.drow .dtag{margin-left:auto;font-size:11.5px;font-weight:700;color:#1b7a2f}
+.hbitem2{padding:11px 0;border-bottom:1px dashed #e2e8f0}
+.hbitem2:last-child{border-bottom:0}
+.deeacts{margin-top:15px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.cpai{padding:9px 16px;font-size:13.5px;font-weight:700;color:#2f6fd0;background:#fff;
+  border:1.5px solid #2f6fd0;border-radius:8px;cursor:pointer}
+.cpai:hover{background:#eef4fd}
+.cpai.done{color:#1b7a2f;border-color:#1b7a2f;background:#e6f4ea;cursor:default}
+
 .none{text-align:center;padding:44px 20px;color:var(--muted)}
 .none b{display:block;font-size:17px;color:var(--ink);margin-bottom:8px}
 .none .tips{font-size:13px;line-height:2;margin-top:14px}
@@ -486,6 +526,309 @@ var SHOUCE = 'https://fengsccad-web.github.io/shouce/#';
   }
 
   /* ================= 渲染答案卡 ================= */
+  /* ================= 深挖分析 =================
+     题库没有原题、手册却有条款时，不该只回一句"没查到"。这一块做两件事：
+       1) 检查题干是否残缺（"这期间"这类指代没有先行词），残缺就让用户补全
+       2) 深搜手册 → 定位最相关的条款 → 从条款原文里提取答案要点
+     所有推断结果都标「非题库原题 · 仅供参考」，绝不冒充原题标准答案。 */
+
+  /* 指代词：题干里出现、用户却没交代指的是什么，检索就无从判断 */
+  var REFS = ['这期间', '该期间', '此期间', '上述', '前述', '该规定', '本办法',
+              '本条例', '本规定', '这条', '该校', '本院', '本系'];
+
+  function stemIssues(text){
+    var raw = (text || '').trim();
+    var q = norm(cleanQuery(raw));
+    var out = [];
+    if (q.length < 8)
+      out.push(['题干太短', '只有 ' + q.length + ' 个字，没有可匹配的特征，请多贴一句。']);
+    if (/^[A-E][ .、．)）]/m.test(raw))
+      out.push(['带上了选项', '选项内容会稀释匹配。删掉 A/B/C/D 那几行，只留题干。']);
+    if (!/[（(][ ]*[）)]|什么|哪些|正确的是|错误的是|不包括|包括|属于|多少|几年|几个|如何|怎么|说法|是指/.test(q))
+      out.push(['看不出在问什么', '题干里没有「（ ）」「哪些」「正确的是」这类问句标志，'
+               + '程序不知道要拿哪一句去对。']);
+    var hit = REFS.filter(function(r){ return q.indexOf(r) !== -1; });
+    if (hit.length && q.length < 45)
+      out.push(['指代不明', '题干里的「' + hit.join('、') + '」没有交代指什么。'
+               + '考卷上通常还有前半句，请把完整题干补上。']);
+    return out;
+  }
+
+  /* 和 searchHB 同一套打分，但门槛放低很多：宁可多给几页，也好过一句"没查到" */
+  function searchHBDeep(text, topN){
+    buildHB();
+    var q = norm(cleanQuery(text));
+    if (!q) return [];
+    var qbg = bigrams(q), qn = bgSize(qbg);
+    if (qn < 3) return [];                 // 查询太短，任何一页都能蹭上几个二元组
+    var ranked = [];
+    for (var i = 0; i < HIDX.length; i++){
+      var sec = HIDX[i].p[2];
+      if (!sec || sec === '目录' || sec === '封面') continue;
+      var inter = bgInter(qbg, HIDX[i].bg), ratio = inter / qn;
+      /* 相关性下限用「命中二元组的**绝对个数**」，不用比例。
+         比例在短查询上会骗人：问「云南大学食堂几点开饭」，《校园网使用指南》
+         只因为「云南大学」四个字就能凑到 44%。实测十道题——
+         真命中的有 6~20 个二元组，不相干的只有 1~5 个，所以门槛卡在 6。
+         另外 lcsHit 在这里没用：手册被 OCR 打散、用户又是转述，
+         8 字以上的连续串几乎永远对不上，实测全是 0。 */
+      if (inter < 6 || ratio < 0.28) continue;
+      ranked.push([ratio, inter, HIDX[i]]);
+    }
+    ranked.sort(function(a, b){ return b[0] - a[0] || b[1] - a[1]; });
+    var seen = Object.create(null), out = [];
+    for (var j = 0; j < ranked.length && out.length < (topN || 4); j++){
+      if (seen[ranked[j][2].p[0]]) continue;
+      seen[ranked[j][2].p[0]] = 1;
+      var t = ranked[j][2].n, st = densest(t, qbg);
+      out.push({ page: ranked[j][2].p, ratio: ranked[j][0], inter: ranked[j][1],
+                 window: t.slice(st, st + HBW + 300) });
+    }
+    return out;
+  }
+
+  /* 命中窗口里挑「与查询共有二元组最多」的一句——多半就是本题依据的条款。
+     同分时偏爱完整长句（太短的往往是残句）。 */
+  function bestClause(win, qbg){
+    var parts = win.split(/[。；]/), best = '', sc = -1;
+    for (var i = 0; i < parts.length; i++){
+      if (parts[i].length < 6) continue;
+      var m = 0, k;
+      for (k in qbg) if (parts[i].indexOf(k) !== -1) m++;
+      var v = m + Math.min(parts[i].length, 80) / 300;
+      if (v > sc){ sc = v; best = parts[i]; }
+    }
+    return best;
+  }
+
+  /* 条款里的分项：（一）… / 1.… / ①… —— 多选题多半就考这些分项 */
+  var ENUM = /[（(][一二三四五六七八九十][）)]|[0-9]+[.、]|[①②③④⑤⑥⑦⑧⑨⑩]/g;
+  var ENUM_STRIP = /[（(][一二三四五六七八九十][）)]|[0-9]+[.、]|[①②③④⑤⑥⑦⑧⑨⑩]/g;
+  function enumItems(win, limit){
+    var marks = [], m;
+    ENUM.lastIndex = 0;
+    while ((m = ENUM.exec(win)) !== null) marks.push(m.index);
+    var out = [];
+    for (var i = 0; i < marks.length && out.length < (limit || 8); i++){
+      var end = i + 1 < marks.length ? marks[i + 1] : win.length;
+      var seg = win.slice(marks[i], Math.min(end, marks[i] + 70)).replace(ENUM_STRIP, '').trim();
+      if (seg.length >= 4) out.push(seg);
+    }
+    return out;
+  }
+
+  var LEVELS = ['开除学籍', '留校察看', '记过', '严重警告', '警告'];
+  var NUMRE = /[0-9]+[—–~～-][0-9]+(?:年|个月|月|日|天|周|学时|学分|次|名|人|页|字|元)|[0-9]+(?:[.][0-9]+)?(?:年|个月|月|日|天|周|学时|学分|次|名|人|页|字|元)|[一二三四五六七八九十]+(?:个月|月|日|天|周|学时|学分|次|名|人|篇|年)/g;
+
+  /* OCR 把区间的连接号吃掉了：「旷课10—19学时」在文字层里是「旷课1019学时」，
+     直接抠数字会得到 1019 这种假数。还原规则卡得很死——前两位是整十、后两位恰好
+     等于前两位 +9 才当区间，否则「2025」会被误拆成「20—25」。年份单位直接排除。 */
+  var RANGE_RE = /([0-9]{2})([0-9]{2})(学时|学分|个月|月|日|天|周|次|名|人|页|字|元)/g;
+  function fixRanges(s){
+    return s.replace(RANGE_RE, function(m, a, b, u){
+      var lo = +a, hi = +b;
+      return (hi === lo + 9 && lo % 10 === 0) ? (lo + '—' + hi + u) : m;
+    });
+  }
+
+  /* 处分题是题库里最大的一类，条款格式高度固定：
+     「旷课10—19学时的给予警告处分；旷课20—29学时的给予严重警告处分……」
+     把「区间 → 档次」这张对应表抠出来——「XX 学时给什么处分」的答案就在表里。 */
+  var DISC_RE = /([0-9]{2,4})[^，。；0-9]{0,4}?(学时|学分|次|名|人|页|元)[^，。；]{0,14}?给予([一-龥]{2,6})处分/g;
+  /* 「给予下列处分」「给予以上处分」这种也会被 DISC_RE 抓到，档次位会是"下列"之类的词，
+     用已知档次白名单滤掉。 */
+  var LEVEL_WORDS = ['警告', '严重警告', '记过', '留校察看', '开除学籍'];
+  function isLevel(s){
+    return LEVEL_WORDS.some(function(w){
+      return s.indexOf(w) !== -1 || w.indexOf(s) !== -1;
+    });
+  }
+  function parseDiscipline(clause){
+    var rows = [], seen = Object.create(null), m;
+    DISC_RE.lastIndex = 0;
+    while ((m = DISC_RE.exec(clause)) !== null){
+      var n = m[1], u = m[2], lv = m[3];
+      if (!isLevel(lv)) continue;
+      var key = n + u + '|' + lv;
+      if (seen[key]) continue;
+      seen[key] = 1;
+      var lo = +n.slice(0, 2), hi = +n.slice(2);
+      var isRange = (n.length === 4 && hi === lo + 9 && lo % 10 === 0);
+      rows.push([isRange ? (lo + '—' + hi + u) : (n + u), lv, isRange ? lo : +n]);
+      if (rows.length >= 12) break;
+    }
+    rows.sort(function(a, b){ return a[2] - b[2]; });   // 按区间下界排，读起来顺
+    return rows;
+  }
+
+  /* 用户问题里的数字落在这张表的哪一行——那一行就是答案，单独标出来 */
+  function rowHit(range, qtext){
+    var nums = qtext.match(/[0-9]+/g) || [];
+    var rng = range.match(/^([0-9]+)[—–~～-]([0-9]+)/);
+    var one = range.match(/^([0-9]+)/);
+    for (var i = 0; i < nums.length; i++){
+      var v = +nums[i];
+      if (rng && v >= +rng[1] && v <= +rng[2]) return true;
+      if (!rng && one && v === +one[1]) return true;
+    }
+    return false;
+  }
+
+  /* 从条款原文里抠出可用的要点。只做"提取"，不做"编造"——提不出来就返回空。 */
+  function guessPoints(clause){
+    var pts = [];
+    var lv = LEVELS.filter(function(x){ return clause.indexOf(x) !== -1; });
+    if (lv.length) pts.push(['条款涉及的处分档次', lv.join(' ＞ ') + '（由重到轻）']);
+    var nums = fixRanges(clause).match(NUMRE);
+    if (nums){
+      var uniq = [], seen = Object.create(null);
+      nums.forEach(function(x){ if (!seen[x]){ seen[x] = 1; uniq.push(x); } });
+      pts.push(['数量', uniq.slice(0, 6).join('、')]);
+    }
+    return pts;
+  }
+
+  /* 整页正文是一堵墙，按「数字+单位」切开，一条一款看着舒服。
+     不能直接用带前瞻的 split——那会在数字串**内部**也切一刀（1019学时 被劈成 10 / 19）。
+     这里手工扫描，每命中一次就跳过整个「数字+单位」，只在其前面断行。 */
+  var BRK = /[0-9]{2,4}(?:学时|学分|个月|月|日|天|周|次|名|人|页|字|元)/g;
+  function readable(s){
+    var out = [], last = 0, m;
+    BRK.lastIndex = 0;
+    while ((m = BRK.exec(s)) !== null){
+      if (m.index > last){
+        out.push(s.slice(last, m.index));
+        last = m.index;
+      }
+      BRK.lastIndex = m.index + m[0].length;
+    }
+    if (last < s.length) out.push(s.slice(last));
+    return out.filter(function(x){ return x.length > 1; });
+  }
+
+  var lastDeep = null;   // 「复制给 AI」要用，避免再跑一遍 521 页
+
+  function renderDeep(text){
+    var h = '';
+    var issues = stemIssues(text);
+    if (issues.length){
+      h += '<div class="card deep"><div class="card-hd">'
+        + '<span class="badge deepp">题干待补全</span>'
+        + '<span>补全后能挖得更准</span></div><div class="card-bd">'
+        + '<p class="alabel">检索时发现这些问题</p><ul class="issues">'
+        + issues.map(function(it){
+            return '<li><b>' + esc(it[0]) + '</b>：' + esc(it[1]) + '</li>';
+          }).join('')
+        + '</ul><p class="deepfix">把完整题干贴回上面的搜索框、再点一次「查答案」即可。'
+        + '照着考卷打字的话，把括号前面的整句话都带上。</p></div></div>';
+    }
+
+    var deep = searchHBDeep(text, 4);
+    lastDeep = deep;
+    if (!deep.length){
+      h += '<div class="card deep"><div class="card-bd">'
+        + '<p class="deepwarn">手册里也没搜到相关条款——这道题超出了现有资料的范围，'
+        + '不猜。<b>下面这些做法更靠谱：</b></p>'
+        + '<div class="tips">· 换成规定里的原词再搜，比如「旷课」「缓交」「学位论文答辩」<br>'
+        + '· 只留题干里最独特的一小段，删掉「以下关于…的说法」这种套话<br>'
+        + '· 直接翻手册原站，用浏览器自带的查找功能定位</div></div></div>';
+      return h;
+    }
+
+    var qbg = bigrams(norm(cleanQuery(text)));
+    var top = deep[0];
+    var clause = bestClause(top.window, qbg);
+    var rows = parseDiscipline(clause);
+    // 有对应表时「数量」就是重复信息，去掉
+    var pts = guessPoints(clause).filter(function(p){
+      return !(rows.length >= 2 && p[0] === '数量');
+    });
+    var items = enumItems(top.window, 8);
+    // 匹配度按「命中二元组个数 / 覆盖率」判定。不用最长公共子串——手册 OCR 打散过，
+    // 实测 lcs 恒为 0，拿它判强弱等于瞎猜。
+    var strength = (top.inter >= 12 || top.ratio >= 0.70) ? '强'
+                 : (top.inter >= 8 || top.ratio >= 0.50) ? '中' : '弱';
+
+    h += '<div class="card deep"><div class="card-hd">'
+      + '<span class="badge deepp">推理分析</span>'
+      + '<span class="badge dwarn">非题库原题 · 仅供参考</span>'
+      + '<span>手册匹配度 ' + strength + ' · 命中 ' + top.inter + ' 处</span>'
+      + '</div><div class="card-bd">'
+      + '<p class="deepwarn">题库里没有这道题。下面是程序从<b>手册条款原文</b>里推出来的，'
+      + '不是原题标准答案——考试时请自己再对一遍。</p>';
+
+    if (clause){
+      h += '<p class="alabel">最可能的依据条款</p><div class="hbx clause">';
+      readable(clause).forEach(function(seg, i){
+        h += (i ? '<br>' : '') + markHB(seg, text);
+      });
+      h += '</div>';
+    }
+
+    if (rows.length >= 2)
+      h += '<p class="alabel">条款里的对应表</p><div class="dtable">'
+        + rows.map(function(r){
+            var hit = rowHit(r[0], text);
+            return '<div class="drow' + (hit ? ' hit' : '') + '">'
+              + '<span class="dr">' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b>'
+              + (hit ? '<span class="dtag">← 你问的那档</span>' : '') + '</div>';
+          }).join('') + '</div>';
+
+    if (pts.length)
+      h += '<p class="alabel">从条款里提取的要点</p><ul class="corr guess">'
+        + pts.map(function(p){
+            return '<li><b>' + esc(p[0]) + '</b>：' + esc(p[1]) + '</li>';
+          }).join('') + '</ul>';
+
+    if (items.length)
+      h += '<details class="distbox" open><summary>条款里的 ' + items.length
+        + ' 个分项（多选题常考这些）</summary><ul class="dist">'
+        + items.map(function(t){ return '<li>' + esc(t) + '</li>'; }).join('')
+        + '</ul></details>';
+
+    if (deep.length > 1){
+      h += '<details class="distbox"><summary>另外 ' + (deep.length - 1) + ' 页相关手册内容</summary>';
+      deep.slice(1).forEach(function(x){
+        h += '<div class="hbitem2"><div class="hbt">《' + esc(x.page[2] || '云南大学研究生手册')
+          + '》 · ' + (x.page[1] === 'shang' ? '上册' : '下册') + ' ' + esc(x.page[0]) + '</div>'
+          + '<div class="hbx">' + markHB(x.window, text) + '…</div>'
+          + '<a class="hba" target="_blank" rel="noopener" href="' + SHOUCE + x.page[0]
+          + '">查看手册原页 →</a></div>';
+      });
+      h += '</details>';
+    }
+
+    h += '<div class="deeacts">'
+      + '<button type="button" class="cpai" id="cpai">📋 复制给 AI 深挖</button>'
+      + '<a class="hba" target="_blank" rel="noopener" href="' + SHOUCE + top.page[0]
+      + '">查看手册原页 →</a></div></div></div>';
+    return h;
+  }
+
+  /* 站内推理只能做提取，真正"总结分析"还是得靠大模型。
+     这里把题目 + 检索到的手册原文拼成一段现成的提示词，复制走贴给任意 AI 即可。 */
+  function aiPrompt(text, deep){
+    var NL = String.fromCharCode(10);
+    var L = [];
+    L.push('我在准备云南大学研究生校规校纪考试。下面这道题题库里没有，请依据我给的手册原文帮我分析。');
+    L.push('');
+    L.push('【题目】' + cleanQuery(text).trim());
+    L.push('');
+    L.push('【云南大学研究生手册原文（检索片段）】');
+    deep.slice(0, 3).forEach(function(x, i){
+      L.push('（' + (i + 1) + '）《' + (x.page[2] || '云南大学研究生手册') + '》'
+        + (x.page[1] === 'shang' ? '上册' : '下册') + ' ' + x.page[0]);
+      L.push(x.window);
+      L.push('');
+    });
+    L.push('【要求】');
+    L.push('1. 先在原文里定位最相关的条款，逐字引用，标出页码；');
+    L.push('2. 判断题干有没有指代缺失或表述不完整，有就指出来；');
+    L.push('3. 如果是选择题，给出正确选项并说明依据；');
+    L.push('4. 原文没覆盖到的部分明确说"手册未涉及"，不要编造。');
+    return L.join(NL);
+  }
+
   function render(text){
     var qs = searchQuestions(text, 6);
     var top = qs.length ? qs[0] : null;
@@ -496,12 +839,17 @@ var SHOUCE = 'https://fengsccad-web.github.io/shouce/#';
     if (!hb.length && top && top[0] >= 0.30) hb = searchHB(top[1][6].join(' '), 2);
     if (top && top[1][9]) hb = pinPage(hb, text, top[1][9]);
 
+    // 结果下方的「没找到我要的答案」入口，两条出口都要挂
+    var moreBar = '<div id="deepbox"></div><div class="morebar" id="morebar">'
+      + '<button type="button" id="moreBtn">没有我要的答案？点这里深挖分析 →</button>'
+      + '<span class="morehint">题库没有原题时，退回手册原文做推理</span></div>';
+
     if (!top && !hb.length){
       ansEl.innerHTML = '<div class="none"><b>题库和手册里都没有找到相关的题</b>'
         + '换个关键词再试，或者：<div class="tips">'
         + '· 只输入题干里最有特征的一小段（如"旷课50学时"）<br>'
         + '· 去掉题号、括号、A/B/C/D 选项<br>'
-        + '· 也可以直接在下方题库全文里翻</div></div>';
+        + '· 也可以直接在下方题库全文里翻</div></div>' + moreBar;
       showAnswer(); return;
     }
 
@@ -593,7 +941,7 @@ var SHOUCE = 'https://fengsccad-web.github.io/shouce/#';
       h += '</div></div></div>';
     }
 
-    ansEl.innerHTML = h;
+    ansEl.innerHTML = h + moreBar;
     showAnswer();
   }
 
@@ -631,6 +979,32 @@ var SHOUCE = 'https://fengsccad-web.github.io/shouce/#';
   document.getElementById('selfTest').onclick = function(e){
     e.preventDefault(); showBrowse(); toggleAns();
   };
+
+  /* 深挖：点一下才跑（要通扫 521 页），跑完把按钮收掉 */
+  document.addEventListener('click', function(e){
+    var more = e.target.closest('#moreBtn');
+    if (more){
+      more.disabled = true;
+      more.textContent = '正在通读手册…';
+      var box = $('#deepbox');
+      box.innerHTML = renderDeep(askEl.value);
+      $('#morebar').style.display = 'none';
+      box.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      return;
+    }
+    var cp = e.target.closest('#cpai');
+    if (cp && lastDeep){
+      var txt = aiPrompt(askEl.value, lastDeep);
+      var done = function(){
+        cp.classList.add('done');
+        cp.textContent = '✓ 已复制，贴给任意 AI 即可';
+        toast('已复制题目和手册原文');
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(txt).then(done, function(){ fallback(txt, done); });
+      } else fallback(txt, done);
+    }
+  });
 
   function toast(msg){
     var t = $('#toast'); t.textContent = msg; t.classList.add('show');
