@@ -184,7 +184,9 @@ mark{background:#ffe9a8;color:inherit;padding:0 2px;border-radius:2px}
   .wrap{padding:0 18px 100px}
   .hero{padding-top:24px}
   .hero h1{font-size:22px}
-  .ask textarea{font-size:16px}          /* iOS 上 <16px 会触发缩放 */
+  /* iOS 上 <16px 会触发缩放；窄屏把「查答案」放成整行，免得跟换行文字挤在一起 */
+  .ask textarea{font-size:16px;padding:14px 16px}
+  .ask .go{position:static;width:100%;margin-top:8px;padding:12px;font-size:15px}
   ul.corr li{font-size:15.5px}
 }
 </style></head>
