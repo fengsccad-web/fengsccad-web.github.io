@@ -538,13 +538,16 @@ var SHOUCE = 'https://fengsccad-web.github.io/shouce/#';
 
   function stemIssues(text){
     var raw = (text || '').trim();
-    var q = norm(cleanQuery(raw));
+    /* 问句标志要在**带标点**的版本上找。norm() 会把「（ ）」也删掉，
+       拿归一化后的串去匹配等于自断线索——题干里明明有括号却报"看不出在问什么"。 */
+    var cleaned = cleanQuery(raw).trim();
+    var q = norm(cleaned);
     var out = [];
     if (q.length < 8)
       out.push(['题干太短', '只有 ' + q.length + ' 个字，没有可匹配的特征，请多贴一句。']);
     if (/^[A-E][ .、．)）]/m.test(raw))
       out.push(['带上了选项', '选项内容会稀释匹配。删掉 A/B/C/D 那几行，只留题干。']);
-    if (!/[（(][ ]*[）)]|什么|哪些|正确的是|错误的是|不包括|包括|属于|多少|几年|几个|如何|怎么|说法|是指/.test(q))
+    if (!/[（(][ ]*[）)]|什么|哪些|由谁|谁|正确的是|错误的是|不包括|包括|属于|多少|几年|几个|如何|怎么|说法|是指/.test(cleaned))
       out.push(['看不出在问什么', '题干里没有「（ ）」「哪些」「正确的是」这类问句标志，'
                + '程序不知道要拿哪一句去对。']);
     var hit = REFS.filter(function(r){ return q.indexOf(r) !== -1; });
@@ -587,18 +590,55 @@ var SHOUCE = 'https://fengsccad-web.github.io/shouce/#';
     return out;
   }
 
-  /* 命中窗口里挑「与查询共有二元组最多」的一句——多半就是本题依据的条款。
+  /* 命中窗口里挑出依据句。
+     不能按「共有二元组个数」打分——「研究生」「请假」这类词整页都是，会把隔壁
+     不相干的条款顶上来（实测：问请假审批，顶上来的却是旁边的旷课处分）。
+     改成按二元组的**稀缺度**加权：在这个窗口里出现得越少，区分度越高。
      同分时偏爱完整长句（太短的往往是残句）。 */
   function bestClause(win, qbg){
-    var parts = win.split(/[。；]/), best = '', sc = -1;
-    for (var i = 0; i < parts.length; i++){
-      if (parts[i].length < 6) continue;
-      var m = 0, k;
-      for (k in qbg) if (parts[i].indexOf(k) !== -1) m++;
-      var v = m + Math.min(parts[i].length, 80) / 300;
-      if (v > sc){ sc = v; best = parts[i]; }
+    var freq = Object.create(null), k, i, c;
+    for (k in qbg){
+      c = 0; i = win.indexOf(k);
+      while (i !== -1){ c++; i = win.indexOf(k, i + 1); }
+      freq[k] = c || 1;
     }
-    return best;
+    var parts = win.split(/[。；]/), best = '', sc = -1;
+    for (var j = 0; j < parts.length; j++){
+      if (parts[j].length < 6) continue;
+      var s = 0;
+      for (k in qbg) if (parts[j].indexOf(k) !== -1) s += 1 / freq[k];
+      s += Math.min(parts[j].length, 80) / 400;
+      if (s > sc){ sc = s; best = parts[j]; }
+    }
+    return best || win;
+  }
+
+  /* 手册是扫描件，标点**错位**（「未请假或请假未，。获批准」），按 。； 切句会切出
+     一大坨——那一坨同时压着相邻条款，长度本身就把分数堆上去，于是永远选中它
+     （实测：问请假审批，选中的是从旷课一路拖到请假的巨型片段）。
+     所以主展示改用滑窗定位：找「稀缺二元组命中最密」的一段，不依赖标点。 */
+  function bestSpan(win, qbg, span){
+    var L = span || 200;
+    if (win.length <= L) return win;
+    var freq = Object.create(null), k, i, c;
+    for (k in qbg){
+      c = 0; i = win.indexOf(k);
+      while (i !== -1){ c++; i = win.indexOf(k, i + 1); }
+      freq[k] = c || 1;
+    }
+    /* 窗口定长 200，只要**盖住**相关文字得分就一样，所以最高分是一整段位置区间，
+       端点怎么取都是错的：取最早就把窗口前半截留给隔壁条款（问请假由谁批，窗口从
+       「警告处分一三旷课」开始，请假条文被挤到尾巴上）；取最右又反过来只剩后半句。
+       取区间中点，窗口才是骑在相关文字上的。 */
+    var bs = -1, pFirst = 0, pLast = 0;
+    for (var p = 0; p < win.length; p += 10){
+      var seg = win.slice(p, p + L), s = 0;
+      for (k in qbg) if (seg.indexOf(k) !== -1) s += 1 / freq[k];
+      if (s > bs){ bs = s; pFirst = pLast = p; }
+      else if (s === bs){ pLast = p; }
+    }
+    var best = Math.round((pFirst + pLast) / 2 / 10) * 10;
+    return win.slice(best, best + L);
   }
 
   /* 条款里的分项：（一）… / 1.… / ①… —— 多选题多半就考这些分项 */
@@ -737,8 +777,12 @@ var SHOUCE = 'https://fengsccad-web.github.io/shouce/#';
 
     var qbg = bigrams(norm(cleanQuery(text)));
     var top = deep[0];
-    var clause = bestClause(top.window, qbg);
-    var rows = parseDiscipline(clause);
+    // 展示用条款走滑窗定位（见 bestSpan 注释：OCR 标点错位，按句切会切出一大坨）。
+    var clause = bestSpan(top.window, qbg, 200);
+    /* 处分对应表只在这道题**问的是处分**时才出。
+       不然问「请假由谁批准」，窗口里隔壁的旷课表格会被当成答案抖出来。 */
+    var aboutDisc = /处分|给予|违纪|警告|记过|留校察看|开除学籍/.test(norm(text));
+    var rows = aboutDisc ? parseDiscipline(top.window) : [];
     // 有对应表时「数量」就是重复信息，去掉
     var pts = guessPoints(clause).filter(function(p){
       return !(rows.length >= 2 && p[0] === '数量');
