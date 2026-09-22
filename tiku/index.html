@@ -63,9 +63,13 @@ article.q.supp .qhead .meta{color:#a35b00}
 .topbar span{font-size:14px;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ---------------- 搜索区 ---------------- */
-.hero{padding:40px 0 8px;text-align:center}
+.hero{padding:40px 0 14px;text-align:center}
 .hero h1{margin:0 0 6px;font-size:27px;letter-spacing:.5px}
-.hero p.sub{margin:0 0 22px;color:var(--muted);font-size:13.5px}
+.hero p.sub{margin:0 0 0;color:var(--muted);font-size:13.5px}
+/* 置顶搜索框：往下翻也一直看得到 */
+.askbar{position:sticky;top:0;z-index:20;background:#fff;padding:2px 0 14px;
+  transition:box-shadow .16s}
+.askbar.stuck{box-shadow:0 10px 20px -16px rgba(0,0,0,.55)}
 .ask{position:relative;max-width:660px;margin:0 auto}
 .ask textarea{width:100%;min-height:58px;max-height:200px;resize:none;overflow:hidden;
   padding:15px 96px 15px 18px;border:2px solid var(--ink);border-radius:12px;
@@ -75,7 +79,7 @@ article.q.supp .qhead .meta{color:#a35b00}
   color:#fff;font-family:inherit;font-size:14px;padding:8px 18px;cursor:pointer}
 .ask .go:hover{background:var(--red)}
 .ask .go:disabled{background:#ccc;cursor:default}
-.hint{max-width:660px;margin:14px auto 0;font-size:12.5px;color:#999}
+.hint{max-width:660px;margin:14px auto 0;font-size:12.5px;color:#999;text-align:center}
 .hint b{color:var(--muted);font-weight:400}
 .chip{display:inline-block;border:1px solid var(--line);background:#fff;border-radius:14px;
   padding:2px 11px;margin:3px 2px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit}
@@ -155,11 +159,11 @@ details.distbox[open] summary::before{content:"▾ "}
 .browse-head button:hover{border-color:var(--red);color:var(--red)}
 .browse-head button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 
-.cat{padding-top:30px}
+.cat{padding-top:30px;scroll-margin-top:108px}
 .cat h2{font-size:19px;margin:0 0 4px;padding-bottom:8px;border-bottom:1px solid var(--line);
   display:flex;align-items:baseline;gap:10px}
 .cat h2 .n{font-size:12px;color:var(--muted);font-weight:400}
-.q{border-bottom:1px solid #ececec;padding:20px 0 18px;scroll-margin-top:16px}
+.q{border-bottom:1px solid #ececec;padding:20px 0 18px;scroll-margin-top:108px}
 .qhead{display:flex;align-items:center;gap:9px;margin-bottom:7px}
 .tag{font-size:11.5px;border:1px solid var(--line);border-radius:4px;padding:1px 7px;
   color:var(--muted);white-space:nowrap}
@@ -200,6 +204,14 @@ mark{background:#ffe9a8;color:inherit;padding:0 2px;border-radius:2px}
   /* iOS 上 <16px 会触发缩放；窄屏把「查答案」放成整行，免得跟换行文字挤在一起 */
   .ask textarea{font-size:16px;padding:14px 16px}
   .ask .go{position:static;width:100%;margin-top:8px;padding:12px;font-size:15px}
+  /* 让开吸顶的 topbar。吸住之后收成细条：手机上大按钮一直杵着要占掉五分之一屏 */
+  .askbar{top:50px;padding:8px 0 12px}
+  .askbar.stuck{padding:6px 0 10px}
+  .askbar.stuck .ask textarea{min-height:44px;padding:10px 88px 10px 14px}
+  /* 细条放不下这句长提示，换行会溢出框外，吸顶时隐掉（右侧按钮已经说明了用途） */
+  .askbar.stuck .ask textarea::placeholder{color:transparent}
+  .askbar.stuck .ask .go{position:absolute;right:8px;bottom:8px;width:auto;margin:0;padding:8px 15px}
+  .q,.cat{scroll-margin-top:132px}
   ul.corr li{font-size:15.5px}
 }
 </style></head>
@@ -228,20 +240,27 @@ mark{background:#ffe9a8;color:inherit;padding:0 2px;border-radius:2px}
   <header class="hero">
     <h1>云大校规校纪考试助手</h1>
     <p class="sub">粘贴或输入考题，自动给出<b>题库标准答案</b>＋<b>手册出处原文</b>｜已收录 173 道题 · 手册 521 页</p>
+  </header>
+
+  <!-- 搜索框必须挂在 .wrap 下（不能塞进 .hero）：sticky 只在父元素高度内生效，
+       放进 hero 里往下翻就会跟着滚走 -->
+  <div id="askSentinel" aria-hidden="true"></div>
+  <div class="askbar" id="askbar">
     <div class="ask">
       <textarea id="ask" rows="1" placeholder="例：在读研究生旷课累计达到 50 学时，给予什么处分？" aria-label="输入考题"></textarea>
       <button class="go" id="go" type="button">查答案</button>
     </div>
-    <div class="hint">
-      <b>试试：</b>
-      <button class="chip" type="button">研究生休学期间待遇</button>
-      <button class="chip" type="button">旷课50学时</button>
-      <button class="chip" type="button">国家奖学金金额</button>
-      <button class="chip" type="button">三文明指的是</button>
-      <button class="chip" type="button">考试作弊认定</button>
-      <button class="chip" type="button">解除处分条件</button>
-    </div>
-  </header>
+  </div>
+
+  <div class="hint">
+    <b>试试：</b>
+    <button class="chip" type="button">研究生休学期间待遇</button>
+    <button class="chip" type="button">旷课50学时</button>
+    <button class="chip" type="button">国家奖学金金额</button>
+    <button class="chip" type="button">三文明指的是</button>
+    <button class="chip" type="button">考试作弊认定</button>
+    <button class="chip" type="button">解除处分条件</button>
+  </div>
 
   <div id="answer" class="hidden"></div>
 
@@ -669,6 +688,22 @@ var SHOUCE = 'https://fengsccad-web.github.io/shouce/#';
     var b = $('#toggleAns'); b.textContent = hideOn ? '显示答案' : '隐藏答案'; b.classList.toggle('on', hideOn);
   }
   $('#toggleAns').onclick = toggleAns;
+
+  /* 搜索框吸顶后才加投影，避免没滚时下方多一条阴影。
+     手机上吸顶会收成细条，那句长 placeholder 放不下（换行会溢出框外），换短的。 */
+  var PH_FULL = askEl.getAttribute('placeholder'), PH_SHORT = '输入考题关键词…';
+  function syncBar(){
+    var stuck = $('#askbar').classList.contains('stuck');
+    askEl.setAttribute('placeholder',
+      (stuck && window.innerWidth <= 900) ? PH_SHORT : PH_FULL);
+  }
+  if (window.IntersectionObserver){
+    new IntersectionObserver(function(en){
+      $('#askbar').classList.toggle('stuck', !en[0].isIntersecting);
+      syncBar();
+    }, { threshold: 0 }).observe($('#askSentinel'));
+  }
+  window.addEventListener('resize', syncBar);
 
   $('#navbtn').onclick = function(){ document.body.classList.toggle('nav'); };
   $('#backdrop').onclick = function(){ document.body.classList.remove('nav'); };
