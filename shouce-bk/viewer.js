@@ -125,13 +125,18 @@
   }, { passive: true });
 
   /* ---------- 搜索 ---------- */
-  var idxReady = false, coordReady = false, pending = null;
+  /* 搜索只等索引。coords.js 有 5.5 MB，而它唯一的用处是「点开一条结果之后
+     画那个红框」；早先 whenReady 要求索引和坐标都就绪才肯渲染，
+     于是冷缓存下进来打字，5.5 MB 没下来之前一条结果都不出，
+     看着就是「搜索点不了」「卡」。手机上冷加载要下 2.3 MB 页面 +
+     742 KB 索引 + 5.5 MB 坐标，砍掉最后这一截，能用的时间点提前一大截。 */
+  var idxReady = false, pending = null;
   function whenReady(fn) {
-    if (idxReady && coordReady) return fn();
+    if (idxReady) return fn();
     pending = fn;
   }
   function check() {
-    if (idxReady && coordReady && pending) { var f = pending; pending = null; f(); }
+    if (idxReady && pending) { var f = pending; pending = null; f(); }
   }
   function loadIndex() {
     if (window.__IDX__) { idxReady = true; return check(); }
@@ -140,11 +145,22 @@
     s.onload = function () { idxReady = true; check(); };
     document.head.appendChild(s);
   }
-  function loadCoords() {
-    if (window.__COORD__) { coordReady = true; return check(); }
+
+  /* 坐标按需加载：跳转不等它，红框等它到了再补画。
+     同一时刻只发一次请求，先来的回调排队等这份数据。 */
+  var coordLoading = false, coordQueue = [];
+  function loadCoords(cb) {
+    if (window.__COORD__) { if (cb) cb(); return; }
+    if (cb) coordQueue.push(cb);
+    if (coordLoading) return;
+    coordLoading = true;
     var s = document.createElement('script');
     s.src = 'coords.js';
-    s.onload = function () { coordReady = true; check(); };
+    s.onload = function () {
+      var q = coordQueue;
+      coordQueue = [];
+      q.forEach(function (f) { f(); });
+    };
     document.head.appendChild(s);
   }
 
@@ -306,14 +322,23 @@
   });
   // 索引是懒加载的，先把脚本拿下来，用户一输入就能立刻出结果
   loadIndex();
-  loadCoords();
+  /* 坐标文件不挡搜索也不挡跳转，等页面闲下来再后台预取：
+     用户点结果时红框通常已经能立刻画出来，最差也只是退化成按需加载。 */
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(function () { loadCoords(); });
+  } else {
+    window.addEventListener('load', function () { setTimeout(function () { loadCoords(); }, 300); });
+  }
 
   /* ---------- 跳到命中的那一处并标出来 ---------- */
   function gotoHit(vol, pageName, kw) {
     var p = pageById[(vol === 'shang' ? 's' : 'x') + pageName];
     if (!p) return;
     p.el.scrollIntoView({ block: 'start', behavior: 'auto' });
-    highlight(vol, pageName, kw, p.el);
+    /* 跳转本身不等坐标——先落到页面上，红框等坐标到了再补画。
+       这是「点一下就过去」的关键：坐标没就绪不该拖住跳转。 */
+    if (window.__COORD__) highlight(vol, pageName, kw, p.el);
+    else loadCoords(function () { highlight(vol, pageName, kw, p.el); });
   }
 
   /* 在 coords 里找到关键词对应的那几个字，按它们的包围盒画红框。
